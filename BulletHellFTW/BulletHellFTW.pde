@@ -37,9 +37,6 @@ abstract class Ship
   }
   void move()
   {
-    image(img, mouseX-30, mouseY-80);
-    locX = mouseX-30;
-    locY = mouseY-80;
   }
 }
 
@@ -47,5 +44,12 @@ class PlayerShip extends Ship{
   PlayerShip(String imageName)
   {
     super(imageName);
+  }
+  
+    void move()
+  {
+    image(img, mouseX-30, mouseY-80);
+    locX = mouseX-30;
+    locY = mouseY-80;
   }
 }
