@@ -337,7 +337,7 @@ class PlayerShip extends Ship{
   }
   void shoot()
   {
-     playerBullets.add( new Bullet(locX, locY, dir , "bullet.png") );
+     playerBullets.add( new Bullet(locX, locY, dir , "playerbullet.png") );
   }
   void blowUp()
   {
