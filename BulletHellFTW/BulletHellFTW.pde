@@ -3,6 +3,8 @@ import java.util.Random;
 PlayerShip player;
 Ship enemy;
 
+PFont f;
+
 ArrayList enemyShips = new ArrayList<Ship>();//the player is not included
 ArrayList enemyBullets = new ArrayList<Projectile>();
 ArrayList playerBullets = new ArrayList<Projectile>();
@@ -22,6 +24,11 @@ void setup() {
     player = new PlayerShip("spaceship.png",600,240);
     enemy = new Drone("Enemy1.png", 200, 200, 4);
     enemyShips.add(enemy);
+    
+    
+    f =  createFont("Impact",24,true);
+    textFont(f,24);
+    fill(255);
 }
  
  
@@ -66,13 +73,13 @@ void draw() {
           p.move();
         }
      
-        
+       
         collisionDetection();
+        
+        text("Score: " + player.getScore(),10,20);
         
      
      spawner(1,tick);
-  
-   
    tick++;
    if(tick == 100000)
      tick = 0;
@@ -311,7 +318,7 @@ class Drone extends Ship
   
   void blowUp()
   {
-   int w = gen.nextInt(20);
+   int w = gen.nextInt(20)+1;
    new Money( locX, locY,  w);
    super.blowUp();
   }
@@ -347,6 +354,11 @@ class PlayerShip extends Ship{
   void addMoney(int p)
   {
     points+=p;
+  }
+  
+  int getScore()
+  {
+    return points;
   }
 }
 
