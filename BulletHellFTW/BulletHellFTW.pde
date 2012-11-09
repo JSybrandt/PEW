@@ -3,10 +3,13 @@ import java.util.Random;
 Ship player;
 Ship enemy;
 
-ArrayList level = new ArrayList<Ship>();
-ArrayList bullets = new ArrayList<Projectile>();
+ArrayList enemyShips = new ArrayList<Ship>();//the player is not included
+ArrayList enemyBullets = new ArrayList<Projectile>();
+ArrayList playerBullets = new ArrayList<Projectile>();
 
 Random gen = new Random();
+
+boolean psychedelicMode = false;
 
 void setup() {
    size(480,800);
@@ -15,13 +18,16 @@ void setup() {
    noStroke();
    fill(255);
    rectMode(CENTER);     //This sets all rectangles to draw from the center point
-    player = new PlayerShip("spaceship.png");
+    player = new PlayerShip("spaceship.png",600,240);
     enemy = new Drone("Enemy1.png", 200, 200, 4);
+    enemyShips.add(enemy);
 }
  
  
- int tick = 0;
+ int tick = 1;
 void draw() {
+  
+  if(!psychedelicMode)
   background(#000000);
    if(mousePressed)
    {
@@ -30,23 +36,106 @@ void draw() {
      player.shoot();
    }
    player.display();
-   enemy.move();
-   if (tick%100==0)
-     enemy.shoot();
-   for(int i = 0 ; i< bullets.size();i++)
-   {
-     Projectile p = (Projectile) bullets.get(i);
-      p.move();
-   }
+   
+   
+   for(int j = 0; j< enemyShips.size();j++)
+        {
+          Ship s = (Ship) enemyShips.get(j);
+          s.move();
+           if (tick%100==0)
+            s.shoot();
+        }
+        
+        
+  for(int j = 1; j< enemyBullets.size();j++)
+        {
+          Projectile p = (Projectile) enemyBullets.get(j);
+          p.move();
+        }
+        
+        
+     for(int j = 1; j< playerBullets.size();j++)
+        {
+          Projectile p = (Projectile) playerBullets.get(j);
+          p.move();
+        }
+        
+        
+        collisionDetection();
+        
+     
+     spawner(1,tick);
+  
+   
    tick++;
+   if(tick == 100000)
+     tick = 0;
 }
 
 
-abstract class Projectile
+void spawner(int l, int t)//l for level , t for ticks
 {
-  int locX, locY, speed, horDisp;
+  if (l==1)
+    if (tick %500 ==0)
+      {
+        enemyShips.add(new Drone("Enemy1.png", 200, 200, 4));
+      }
+}
+ void collisionDetection()
+{
+ 
+   for(int i = 0 ; i< playerBullets.size();i++)
+   {
+     Projectile p = (Projectile) playerBullets.get(i);
+      for(int j = 0; j< enemyShips.size();j++)
+        {
+          Ship s = (Ship) enemyShips.get(j);
+          if (p.isTouching(s))
+          {
+            s.blowUp();
+            p.removeSelf();
+          }
+        }
+   }
+   
+   
+   for(int i = 0; i < enemyBullets.size(); i++)
+   {
+     Projectile p = (Projectile) enemyBullets.get(i);
+      p.move();
+      if(p.isTouching(player))
+      {
+      player.blowUp();
+      p.removeSelf();
+      }
+   }
+}
+
+abstract class Actor
+{
+  int locX, locY, radius, speed;
   boolean dir;
   PImage img;
+  void move()
+  {
+  }
+ boolean isTouching(Actor b)
+  {
+    if(sqrt(pow(locX - b.locX,2) + pow(locY - b.locY,2))<(radius+b.radius))
+      return true;
+     else
+       return false;
+  }
+  void display()
+  {
+    image(img, locX, locY);
+  }
+}
+
+
+abstract class Projectile extends Actor
+{
+  int horDisp;
   Projectile(int xpos, int ypos, boolean d, String img)
   {
     locX=xpos;
@@ -55,17 +144,17 @@ abstract class Projectile
     this.img = loadImage(img);
     speed = 4;
     horDisp = 0;
-    bullets.add(this);
+    radius = 7;
   }
     Projectile(int xpos, int ypos, boolean d, String img, int h)
   {
     locX=xpos;
     locY=ypos;
     dir = d;
+    radius = 7;
     this.img = loadImage(img);
     speed = 4;
     horDisp = h;
-    bullets.add(this);
   }
   
   
@@ -82,14 +171,28 @@ abstract class Projectile
       removeSelf();
     image(img, locX, locY);
   }
+  
+  
   void removeSelf()
   {
-    for(int i = bullets.size()-1 ; i  >= 0;i--)
+    boolean flag = false;
+    for(int i = enemyBullets.size()-1 ; i  >= 0;i--)
    {
-     Projectile p = (Projectile) bullets.get(i);
+     Projectile p = (Projectile) enemyBullets.get(i);
       if(p == this)
         {
-          bullets.remove(i);
+          enemyBullets.remove(i);
+          flag = true;
+          break;
+        }
+   }
+   if(!flag)
+   for(int i = playerBullets.size()-1 ; i  >= 0;i--)
+   {
+     Projectile p = (Projectile) playerBullets.get(i);
+      if(p == this)
+        {
+          playerBullets.remove(i);
           break;
         }
    }
@@ -108,14 +211,12 @@ class Bullet extends Projectile
   }
 }
 
-abstract class Ship
+abstract class Ship extends Actor
 {
-  PImage img;
-  int locX, locY;
-  color col;
   boolean dir = false; //up cor. to true
   Ship(String imageName)
   {
+    radius = 25;
     img = loadImage(imageName);
   }
   void display()
@@ -125,9 +226,29 @@ abstract class Ship
   void move()
   {
   }
+  void move(int t)//used to pass the tick count to enemy ships
+  {
+  }
   void shoot()
   {
-    new Bullet(locX, locY, dir , "bullet.png");
+   enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png") );
+  }
+  void blowUp()
+  {
+    println("BOOM");//we can add in animation here
+    removeSelf();
+  }
+  void removeSelf()
+  {
+    for(int i = enemyShips.size()-1 ; i  >= 0;i--)
+   {
+     Ship p = (Ship) enemyShips.get(i);
+      if(p == this)
+        {
+          enemyShips.remove(i);
+          break;
+        }
+   }
   }
 }
 
@@ -138,7 +259,7 @@ class Drone extends Ship
     Drone(String imageName)
     {
       super(imageName);
-      speed = 3;
+      speed = 4;
     }
     Drone(String imageName, int xpos, int ypos, int speed)
     {
@@ -162,23 +283,24 @@ class Drone extends Ship
     }
      void shoot()
   {
-    new Bullet(locX, locY, dir , "bullet.png");
-    new Bullet(locX, locY, dir , "bullet.png",1);
-    new Bullet(locX, locY, dir , "bullet.png",-1);
-    new Bullet(locX, locY, dir , "bullet.png",2);
-    new Bullet(locX, locY, dir , "bullet.png",-2);
-    new Bullet(locX, locY, dir , "bullet.png",3);
-    new Bullet(locX, locY, dir , "bullet.png",-3);
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png") );
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",2));
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-2) );
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4 ));
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4 )); 
   }
   }
   
   
 class PlayerShip extends Ship{
   int points;
-  PlayerShip(String imageName)
+  PlayerShip(String imageName,int xpos, int ypos)
   {
     super(imageName);
     dir = true;
+    radius = 25;
+    locX = xpos;
+    locY = ypos;
   }
   
     void move()
@@ -186,6 +308,15 @@ class PlayerShip extends Ship{
     image(img, mouseX, mouseY-80);
     locX = mouseX;
     locY = mouseY-80;
+  }
+  void shoot()
+  {
+     playerBullets.add( new Bullet(locX, locY, dir , "bullet.png") );
+  }
+  void blowUp()
+  {
+    println("THE PLAYER HAS DIED");
+    super.blowUp();
   }
 }
 
@@ -202,6 +333,9 @@ class Money
 void keyPressed() {
   if(key == ' ')
     player.shoot();
+    
+   if(key=='p')
+   psychedelicMode = !psychedelicMode;
 }
 
 
