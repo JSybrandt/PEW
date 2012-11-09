@@ -159,7 +159,7 @@ abstract class Projectile extends Actor
     locY=ypos;
     dir = d;
     this.img = loadImage(img);
-    speed = 4;
+    speed = 5;
     horDisp = 0;
     radius = 7;
   }
@@ -170,7 +170,7 @@ abstract class Projectile extends Actor
     dir = d;
     radius = 7;
     this.img = loadImage(img);
-    speed = 4;
+    speed = 5;
     horDisp = h;
   }
   
