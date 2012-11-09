@@ -1,11 +1,12 @@
 import java.util.Random;
 
-Ship player;
+PlayerShip player;
 Ship enemy;
 
 ArrayList enemyShips = new ArrayList<Ship>();//the player is not included
 ArrayList enemyBullets = new ArrayList<Projectile>();
 ArrayList playerBullets = new ArrayList<Projectile>();
+ArrayList items = new ArrayList<Item>();//misc stuff and items
 
 Random gen = new Random();
 
@@ -47,19 +48,24 @@ void draw() {
         }
         
         
-  for(int j = 1; j< enemyBullets.size();j++)
+  for(int j = 0; j< enemyBullets.size();j++)
         {
           Projectile p = (Projectile) enemyBullets.get(j);
           p.move();
         }
         
         
-     for(int j = 1; j< playerBullets.size();j++)
+     for(int j = 0; j< playerBullets.size();j++)
         {
           Projectile p = (Projectile) playerBullets.get(j);
           p.move();
         }
-        
+      for(int j = 0; j< items.size();j++)
+        {
+          Item p = (Item) items.get(j);
+          p.move();
+        }
+     
         
         collisionDetection();
         
@@ -107,6 +113,17 @@ void spawner(int l, int t)//l for level , t for ticks
       {
       player.blowUp();
       p.removeSelf();
+      }
+   }
+   
+   
+    for(int i = 0; i < items.size(); i++)
+   {
+     Item p = (Item) items.get(i);
+      p.move();
+      if(p.isTouching(player))
+      {
+         p.act();
       }
    }
 }
@@ -204,10 +221,12 @@ class Bullet extends Projectile
   Bullet(int xpos, int ypos, boolean d, String img)
   {
      super(xpos,ypos,d,img);
+     radius = 7;
   }
   Bullet(int xpos, int ypos, boolean d, String img, int h)
   {
     super(xpos,ypos,d,img,h);
+    radius = 7;
   }
 }
 
@@ -289,6 +308,13 @@ class Drone extends Ship
     enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4 ));
     enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4 )); 
   }
+  
+  void blowUp()
+  {
+   int w = gen.nextInt(20);
+   new Money( locX, locY,  w);
+   super.blowUp();
+  }
   }
   
   
@@ -318,14 +344,63 @@ class PlayerShip extends Ship{
     println("THE PLAYER HAS DIED");
     super.blowUp();
   }
+  void addMoney(int p)
+  {
+    points+=p;
+  }
 }
 
-class Money
+
+abstract class Item extends Actor
 {
   int worth;
-  Money(int w)
+  int speed = 1;
+  Item(int posx, int posy, String imgName)
   {
+    locX = posx;
+    locY = posy;
+    img = loadImage(imgName);
+    items.add(this);
+  }
+  void move()
+  {
+    locY += speed;
+    if(locY > 800)
+      removeSelf();
+    image(img, locX, locY);
+  }
+  
+  void removeSelf()
+  {
+      for(int i = items.size()-1 ; i  >= 0;i--)
+   {
+     Item p = (Item) items.get(i);
+      if(p == this)
+        {
+          items.remove(i);
+          break;
+        }
+   }
+  }
+  
+  void act()
+  {
+  }
+}
+class Money extends Item
+{
+  Money(int posx, int posy, int w)
+  {
+    super(posx, posy, "coin.png");
     worth = w;
+    radius = 10;
+  }
+  
+  void act()
+  {
+    this.removeSelf();
+    player.addMoney(worth);
+    println("+"+worth);
   }
 }
 
