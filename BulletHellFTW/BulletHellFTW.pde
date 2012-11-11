@@ -40,7 +40,7 @@ void draw() {
    if(mousePressed)
    {
    player.move();
-   if (tick%20==0)
+   if (tick%2==0)
      player.shoot();
    }
    player.display();
@@ -105,7 +105,7 @@ void spawner(int l, int t)//l for level , t for ticks
           Ship s = (Ship) enemyShips.get(j);
           if (p.isTouching(s))
           {
-            s.blowUp();
+            s.hit();
             p.removeSelf();
           }
         }
@@ -118,7 +118,7 @@ void spawner(int l, int t)//l for level , t for ticks
       p.move();
       if(p.isTouching(player))
       {
-      player.blowUp();
+      player.hit();
       p.removeSelf();
       }
    }
@@ -160,28 +160,17 @@ abstract class Actor
 abstract class Projectile extends Actor
 {
   int horDisp;
-  Projectile(int xpos, int ypos, boolean d, String img)
+  Projectile(int xpos, int ypos, boolean d, String img, int h, int s)
   {
     locX=xpos;
     locY=ypos;
     dir = d;
     this.img = loadImage(img);
-    speed = 5;
-    horDisp = 0;
-    radius = 7;
-  }
-    Projectile(int xpos, int ypos, boolean d, String img, int h)
-  {
-    locX=xpos;
-    locY=ypos;
-    dir = d;
-    radius = 7;
-    this.img = loadImage(img);
-    speed = 5;
+    speed = s;
     horDisp = h;
+    radius = 7;
   }
-  
-  
+   
   void move()
   {
     if(dir)
@@ -225,20 +214,16 @@ abstract class Projectile extends Actor
 
 class Bullet extends Projectile
 {
-  Bullet(int xpos, int ypos, boolean d, String img)
+  Bullet(int xpos, int ypos, boolean d, String img, int h,int s)
   {
-     super(xpos,ypos,d,img);
-     radius = 7;
-  }
-  Bullet(int xpos, int ypos, boolean d, String img, int h)
-  {
-    super(xpos,ypos,d,img,h);
+    super(xpos,ypos,d,img,h,s);
     radius = 7;
   }
 }
 
 abstract class Ship extends Actor
 {
+  int health = 1;
   boolean dir = false; //up cor. to true
   Ship(String imageName)
   {
@@ -255,9 +240,15 @@ abstract class Ship extends Actor
   void move(int t)//used to pass the tick count to enemy ships
   {
   }
+  void hit()
+  {
+    health--;
+    if(health == 0)
+      blowUp();
+  }
   void shoot()
   {
-   enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png") );
+   enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",0,5) );
   }
   void blowUp()
   {
@@ -293,6 +284,7 @@ class Drone extends Ship
       locX = xpos;
       locY = ypos;
       this.speed = speed;
+      health = 100;
     }
     void move()
     {
@@ -309,11 +301,11 @@ class Drone extends Ship
     }
      void shoot()
   {
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png") );
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",2));
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-2) );
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4 ));
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4 )); 
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",0,7) );
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",2,6));
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-2,6) );
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4,5 ));
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4,5 )); 
   }
   
   void blowUp()
@@ -342,9 +334,15 @@ class PlayerShip extends Ship{
     locX = mouseX;
     locY = mouseY-80;
   }
+  boolean left = false;
   void shoot()
   {
-     playerBullets.add( new Bullet(locX, locY, dir , "playerbullet.png") );
+    if(left)
+    playerBullets.add( new Bullet(locX + 10, locY-10, dir , "playerbullet.png",0,8) );
+    else
+     playerBullets.add( new Bullet(locX - 10, locY-10, dir , "playerbullet.png",0,8) );
+     
+    left = !left;
   }
   void blowUp()
   {
