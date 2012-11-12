@@ -21,7 +21,7 @@ void setup() {
    noStroke();
    fill(255);
    rectMode(CENTER);     //This sets all rectangles to draw from the center point
-    player = new PlayerShip("spaceship.png",600,240);
+    player = new PlayerShip("spaceship.png",200,200);
     enemy = new Drone("Enemy1.png", 200, 200, 4);
     enemyShips.add(enemy);
     
@@ -37,10 +37,12 @@ void draw() {
   
   if(!psychedelicMode)
   background(#000000);
+  
+  
    if(mousePressed)
    {
    player.move();
-   if (tick%2==0)
+   if (tick%3==0)
      player.shoot();
    }
    player.display();
@@ -77,7 +79,8 @@ void draw() {
         collisionDetection();
         
         text("Score: " + player.getScore(),10,20);
-        
+        text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()),10,50);
+        text("Ship Count: " + enemyShips.size(),10,100);
      
      spawner(1,tick);
    tick++;
@@ -89,11 +92,14 @@ void draw() {
 void spawner(int l, int t)//l for level , t for ticks
 {
   if (l==1)
-    if (tick %500 ==0)
+    if (tick %50 ==0)
       {
-        enemyShips.add(new Drone("Enemy1.png", 200, 200, 4));
+        
+        enemyShips.add(new Drone("Enemy1.png", gen.nextInt(300)+50, gen.nextInt(300)+50, 4));
       }
 }
+
+
  void collisionDetection()
 {
  
@@ -140,6 +146,7 @@ abstract class Actor
   int locX, locY, radius, speed;
   boolean dir;
   PImage img;
+  
   void move()
   {
   }
@@ -284,7 +291,7 @@ class Drone extends Ship
       locX = xpos;
       locY = ypos;
       this.speed = speed;
-      health = 100;
+      health = 5;
     }
     void move()
     {
@@ -301,11 +308,11 @@ class Drone extends Ship
     }
      void shoot()
   {
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",0,7) );
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",2,6));
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-2,6) );
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4,5 ));
-    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4,5 )); 
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",0,5) );
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",2,4));
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-2,4) );
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4,3 ));
+    enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4,3 )); 
   }
   
   void blowUp()
@@ -326,21 +333,65 @@ class PlayerShip extends Ship{
     radius = 25;
     locX = xpos;
     locY = ypos;
+    speed = 7;
   }
   
     void move()
   {
-    image(img, mouseX, mouseY-80);
-    locX = mouseX;
-    locY = mouseY-80;
+    boolean flag = true;
+    int newX, newY;
+    newX = mouseX;
+    newY = mouseY-80;
+  
+     if(newX>locX && newY > locY)
+     {
+      locX+=speed;
+      locY+=speed;
+      flag = false;
+     }
+     if(newX>locX && newY < locY)
+     {
+      locX+=speed;
+      locY-=speed;
+      flag = false;
+     }
+       if(newX<locX && newY > locY)
+     {
+      locX-=speed;
+      locY+=speed;
+      flag = false;
+     }
+       if(newX<locX && newY < locY)
+     {
+      locX-=speed;
+      locY-=speed;
+      flag = false;
+     }
+     if(flag)
+     {
+      if(newX>locX)
+      locX+=speed;
+     if(newX<locX)
+      locX-=speed;
+      if(newY>locY)
+      locY+=speed;
+    if(newY<locY)
+      locY-=speed;
+     }
+      
+    image(img, locX, locY);
+    
+    
+    
+    
   }
   boolean left = false;
   void shoot()
   {
     if(left)
-    playerBullets.add( new Bullet(locX + 10, locY-10, dir , "playerbullet.png",0,8) );
+    playerBullets.add( new Bullet(locX + 10, locY-10, dir , "playerbullet.png",0,15) );
     else
-     playerBullets.add( new Bullet(locX - 10, locY-10, dir , "playerbullet.png",0,8) );
+     playerBullets.add( new Bullet(locX - 10, locY-10, dir , "playerbullet.png",0,15) );
      
     left = !left;
   }
