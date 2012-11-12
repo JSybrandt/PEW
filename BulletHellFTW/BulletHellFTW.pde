@@ -187,7 +187,7 @@ abstract class Projectile extends Actor
       
     locX+= horDisp;
       
-    if(locY < -10 || locX > 810 || locX < -10 || locX > 490)
+    if(locY < -10 || locY > 810 || locX < -10 || locX > 490)
       removeSelf();
     image(img, locX, locY);
   }
@@ -333,51 +333,22 @@ class PlayerShip extends Ship{
     radius = 25;
     locX = xpos;
     locY = ypos;
-    speed = 7;
+    speed = 10;
   }
   
     void move()
   {
     boolean flag = true;
-    int newX, newY;
-    newX = mouseX;
-    newY = mouseY-80;
-  
-     if(newX>locX && newY > locY)
-     {
-      locX+=speed;
-      locY+=speed;
-      flag = false;
-     }
-     if(newX>locX && newY < locY)
-     {
-      locX+=speed;
-      locY-=speed;
-      flag = false;
-     }
-       if(newX<locX && newY > locY)
-     {
-      locX-=speed;
-      locY+=speed;
-      flag = false;
-     }
-       if(newX<locX && newY < locY)
-     {
-      locX-=speed;
-      locY-=speed;
-      flag = false;
-     }
-     if(flag)
-     {
-      if(newX>locX)
-      locX+=speed;
-     if(newX<locX)
-      locX-=speed;
-      if(newY>locY)
-      locY+=speed;
-    if(newY<locY)
-      locY-=speed;
-     }
+    int dX,dY;
+    float magnitude;
+    dX = mouseX - locX;
+    dY = mouseY-80 - locY;
+    if(abs(dX) > 5 || abs(dY) > 5)
+    {
+    magnitude = sqrt(dX*dX+dY*dY);
+    locX += int(speed*dX/( magnitude));
+    locY += int(speed*dY/( magnitude));
+    }
       
     image(img, locX, locY);
     
