@@ -445,4 +445,7 @@ void keyPressed() {
    psychedelicMode = !psychedelicMode;
 }
 
-
+abstract class Gun
+{
+  Gun(
+}
