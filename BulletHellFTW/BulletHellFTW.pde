@@ -275,7 +275,46 @@ abstract class Ship extends Actor
    }
   }
 }
-
+abstract class enemyShip extends Ship
+{
+  int path, count = 0, lifeTime = 1000;
+  enemyShip(int startx, int starty, String imgName, int p)
+  {
+    super(imgName);
+    locX = startx;
+    locY = starty;
+    path = p;
+  }
+  void move()
+  {
+    if (path == 0)
+    {
+      locY+= speed;
+    }
+    if(path == 1)
+    {
+      if(count < lifeTime/2)
+        {
+          locY+=speed;
+        }
+     else
+       {
+         locY += speed/sqrt(2);
+         locX += speed/sqrt(2);
+       }
+      
+    }
+    if(count > lifeTime)
+      flyAway();
+    count++;
+  }
+  void flyAway()
+  {
+    locY += speed*2;
+    if(locY >= 800)
+      removeSelf();
+  }
+}
 class Drone extends Ship
   {
     boolean flip = true;
@@ -319,6 +358,11 @@ class Drone extends Ship
   {
    int w = gen.nextInt(20)+1;
    new Money( locX, locY,  w);
+   int randomInt = gen.nextInt(100);
+   if(randomInt == 1)
+   {
+     new Upgrade(locX + 20, locY - 20);
+   }
    super.blowUp();
   }
   }
@@ -435,7 +479,19 @@ class Money extends Item
     println("+"+worth);
   }
 }
-
+class Upgrade extends Item
+{
+  Upgrade(int posx, int posy)
+  {
+    super(posx, posy, "upgrade.png");
+    radius = 10;
+  }
+  
+  void act()
+  {
+    this.removeSelf();
+  }
+}
 
 void keyPressed() {
   if(key == ' ')
@@ -445,7 +501,9 @@ void keyPressed() {
    psychedelicMode = !psychedelicMode;
 }
 
+
 abstract class Gun
 {
-  Gun(
+  
 }
+
