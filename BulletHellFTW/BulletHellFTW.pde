@@ -22,17 +22,18 @@ void setup() {
    fill(255);
    rectMode(CENTER);     //This sets all rectangles to draw from the center point
     player = new PlayerShip("spaceship.png",200,200);
-    enemy = new Drone("Enemy1.png", 200, 200, 4);
-    enemyShips.add(enemy);
+  
     
     
     f =  createFont("Impact",24,true);
     textFont(f,24);
     fill(255);
+   
 }
  
  
  int tick = 1;
+  Spawner spawner = new Spawner();
 void draw() {
   
   if(!psychedelicMode)
@@ -50,10 +51,8 @@ void draw() {
    
    for(int j = 0; j< enemyShips.size();j++)
         {
-          Ship s = (Ship) enemyShips.get(j);
-          s.move();
-           if (tick%100==0)
-            s.shoot();
+          enemyShip s = (enemyShip) enemyShips.get(j);
+          s.act();
         }
         
         
@@ -80,23 +79,42 @@ void draw() {
         
         text("Score: " + player.getScore(),10,20);
         text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()),10,50);
-        text("Ship Count: " + enemyShips.size(),10,100);
+        text("Ship Count: " + enemyShips.size(),10,75);
      
-     spawner(1,tick);
+     spawner.spawn(2);
    tick++;
    if(tick == 100000)
      tick = 0;
 }
 
-
-void spawner(int l, int t)//l for level , t for ticks
+public class Spawner
 {
+  boolean flip = false;
+void spawn(int l)//l for level , t for ticks
+{
+  
   if (l==1)
     if (tick %50 ==0)
       {
         
-        enemyShips.add(new Drone("Enemy1.png", gen.nextInt(300)+50, gen.nextInt(300)+50, 4));
+        if(flip)
+        enemyShips.add(new Drone(120, 0,3, "Drone.png", gen.nextInt(50)+50, 5, 2));
+        else
+         enemyShips.add(new Drone(360, 0,3, "Drone.png", gen.nextInt(50)+50, 5, 1));
+       flip = !flip;
       }
+
+if (l==2)
+    if (tick %25 ==0)
+      {
+        
+        if(flip)
+        enemyShips.add(new Drone(120, 0,5, "Drone.png", gen.nextInt(50)+50, 1, 2));
+        else
+         enemyShips.add(new Drone(360, 0,5, "Drone.png", gen.nextInt(50)+50, 1, 1));
+       flip = !flip;
+      }
+}
 }
 
 
@@ -139,6 +157,14 @@ void spawner(int l, int t)//l for level , t for ticks
          p.act();
       }
    }
+     for(int i = 0; i < enemyShips.size(); i++)
+   {
+     Ship p = (Ship) enemyShips.get(i);
+      if(p.isTouching(player))
+      {
+        player.blowUp();
+      }
+   }
 }
 
 abstract class Actor
@@ -177,7 +203,7 @@ abstract class Projectile extends Actor
     horDisp = h;
     radius = 7;
   }
-   
+ 
   void move()
   {
     if(dir)
@@ -277,14 +303,35 @@ abstract class Ship extends Actor
 }
 abstract class enemyShip extends Ship
 {
-  int path, count = 0, lifeTime = 1000;
-  enemyShip(int startx, int starty, String imgName, int p)
+  int path, count = 0, lifeTime = 250, freq, speed;
+  boolean flip = false;
+  enemyShip(int startx, int starty, int s, String imgName, int f, int h,  int p)
   {
     super(imgName);
     locX = startx;
     locY = starty;
+    speed = s;
+    freq = f;
     path = p;
+    health = h;
   }
+  
+   void act()
+ {
+   count++;
+   
+   if(count > lifeTime)
+   flyAway();
+   else
+   {
+   move();
+   if(count % freq == 0)
+   shoot();
+   }   
+  if(locY > 850 || locX < -50 || locX > 550)
+  removeSelf();
+ } 
+ 
   void move()
   {
     if (path == 0)
@@ -293,7 +340,19 @@ abstract class enemyShip extends Ship
     }
     if(path == 1)
     {
-      if(count < lifeTime/2)
+      if(locY < 300)
+        {
+          locY+=speed;
+        }
+     else
+       {
+         locY += speed/sqrt(2);
+         locX -= speed/sqrt(2);
+       }
+    }
+     if(path == 2)
+    {
+      if(locY < 300)
         {
           locY+=speed;
         }
@@ -302,39 +361,12 @@ abstract class enemyShip extends Ship
          locY += speed/sqrt(2);
          locX += speed/sqrt(2);
        }
-      
     }
-    if(count > lifeTime)
-      flyAway();
-    count++;
-  }
-  void flyAway()
-  {
-    locY += speed*2;
-    if(locY >= 800)
-      removeSelf();
-  }
-}
-class Drone extends Ship
-  {
-    boolean flip = true;
-    int speed;
-    Drone(String imageName)
+    if (path == 3)
     {
-      super(imageName);
-      speed = 4;
-    }
-    Drone(String imageName, int xpos, int ypos, int speed)
-    {
-      super(imageName);
-      locX = xpos;
-      locY = ypos;
-      this.speed = speed;
-      health = 5;
-    }
-    void move()
-    {
-     if (flip)
+      if(count %3 == 0)
+      locY+=1;
+       if (flip)
        locX += speed;
       else
         locX -= speed;
@@ -343,8 +375,68 @@ class Drone extends Ship
        locY += speed*3;
        flip = !flip;
      }
-      image(img, locX, locY);
     }
+    if(path == 3)
+    {
+     if(count < 100)
+     {
+       locX+=speed/2;
+       locY+=speed;
+     }
+    else 
+    {
+       locX-=speed/2;
+       locY+=speed;
+    }
+    if(path == 4)
+    {
+      if(count < 50)
+      {
+      locY+=speed;
+      locX-= speed/2;
+      }
+      else if (count < 125)
+      {
+        locY+=speed;
+        locX+= speed/2;
+      }
+      else
+      {
+        locY+=speed/2;
+      }
+    }
+    if(path == 5)
+    {
+      locY+=speed;
+      locX+=sin(count* 3.14/6)*5;
+    }
+    }
+    image(img, locX, locY);
+  }
+  void flyAway()
+  {
+    locY += speed*2;
+    this.display();
+  }
+  void blowUp()
+  {
+   int w = gen.nextInt(20)+1;
+   new Money( locX, locY,  w);
+   //int randomInt = gen.nextInt(100);
+  // if(randomInt == 1)
+  // {
+  //   new Upgrade(locX + 20, locY - 20);
+  // }
+   removeSelf();
+  }
+}
+class Drone extends enemyShip
+  {
+    boolean flip = true;
+Drone(int startx, int starty, int speed,  String imgName, int f, int h,  int p)
+{
+  super( startx,  starty, speed,  imgName, f,  h,   p);
+}
      void shoot()
   {
     enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",0,5) );
@@ -352,18 +444,6 @@ class Drone extends Ship
     enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-2,4) );
     enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",4,3 ));
     enemyBullets.add( new Bullet(locX, locY, dir , "bullet.png",-4,3 )); 
-  }
-  
-  void blowUp()
-  {
-   int w = gen.nextInt(20)+1;
-   new Money( locX, locY,  w);
-   int randomInt = gen.nextInt(100);
-   if(randomInt == 1)
-   {
-     new Upgrade(locX + 20, locY - 20);
-   }
-   super.blowUp();
   }
   }
   
