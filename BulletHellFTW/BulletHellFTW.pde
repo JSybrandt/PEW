@@ -34,6 +34,7 @@ void setup() {
  
  int tick = 1;
   Spawner spawner = new Spawner();
+  boolean spawning = false;
 void draw() {
   
   if(!psychedelicMode)
@@ -80,7 +81,10 @@ void draw() {
         text("Score: " + player.getScore(),10,20);
         text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()),10,50);
         text("Ship Count: " + enemyShips.size(),10,75);
-     
+   if (tick % 500 ==0)
+   spawning = !spawning;
+   
+     if(spawning)
      spawner.spawn(2);
    tick++;
    if(tick == 100000)
