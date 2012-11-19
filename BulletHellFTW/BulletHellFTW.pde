@@ -31,7 +31,7 @@ void setup() {
 }
 
 
-int tick = 1;
+int tick = 1, spawnNum;
 Spawner spawner = new Spawner();
 boolean spawning = false;
 void draw() {
@@ -80,8 +80,12 @@ void draw() {
   text("Score: " + player.getScore(), 10, 20);
   text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
   text("Ship Count: " + enemyShips.size(), 10, 75);
-  if (tick % 500 ==0)
+  if (tick % 300 ==0)
+  {
     spawning = !spawning;
+    spawnNum = gen.nextInt(4);
+    
+  }
 
   if (spawning)
     spawner.spawn(3);
@@ -93,10 +97,11 @@ void draw() {
 public class Spawner
 {
   boolean flip = false;
+  int xLoc = 0;
   void spawn(int l)//l for level , t for ticks
   {
 
-    if (l==1)
+    if (l==0)
       if (tick %50 ==0)
       {
 
@@ -107,7 +112,7 @@ public class Spawner
         flip = !flip;
       }
 
-    if (l==2)
+    if (l==1)
       if (tick %25 ==0)
       {
 
@@ -117,11 +122,19 @@ public class Spawner
           enemyShips.add(new Drone(360, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 1));
         flip = !flip;
       }
-    if (l==3)
+    if (l==2)
       if (tick %25 ==0)
       {
           enemyShips.add(new Drone(120, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 8));
           enemyShips.add(new Drone(360, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 7));
+      }
+    if (l==3)
+      if (tick %20 ==0)
+      {
+          xLoc += 30;
+          enemyShips.add(new Drone(xLoc, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 0));
+          if (xLoc > 480)
+          xLoc =0;
       }
   }
 }
@@ -429,7 +442,7 @@ abstract class enemyShip extends Ship
         locX+=speed;
       else
         locX-=speed;
-      if (locX<xinit-150 || locX>xinit+150)
+      if (locX<xinit-200 || locX>xinit+200)
         flip = !flip;
     }
     if (path == 8)
@@ -439,7 +452,7 @@ abstract class enemyShip extends Ship
         locX-=speed;
       else
         locX+=speed;
-      if (locX<xinit-150 || locX>xinit+150)
+      if (locX<xinit-200 || locX>xinit+200)
         flip = !flip;
     }
 
