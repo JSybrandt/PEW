@@ -518,6 +518,14 @@ class PlayerShip extends Ship {
       locX += int(speed*dX/( magnitude));
       locY += int(speed*dY/( magnitude));
     }
+    if(locX < 0)
+      locX = 0;
+    if(locX > 480)
+      locX = 480;
+    if(locY < 0)
+      locY = 0;
+    if(locY > 800)
+      locY = 800;
 
     image(img, locX, locY);
   }
