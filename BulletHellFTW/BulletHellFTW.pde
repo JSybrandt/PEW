@@ -518,11 +518,11 @@ abstract class enemyShip extends Ship
   {
     int w = gen.nextInt(20)+1;
     new Money( locX, locY, w);
-    //int randomInt = gen.nextInt(100);
-    // if(randomInt == 1)
-    // {
-    //   new Upgrade(locX + 20, locY - 20);
-    // }
+    int randomInt = gen.nextInt(10);
+    if(randomInt == 1)
+    {
+    new PowerUp(locX + 20, locY - 20);
+    }
     removeSelf();
   }
 }
@@ -664,11 +664,11 @@ class Money extends Item
     println("+"+worth);
   }
 }
-class Upgrade extends Item
+public class PowerUp extends Item
 {
-  Upgrade(int posx, int posy)
+  PowerUp(int posx, int posy)
   {
-    super(posx, posy, "upgrade.png");
+    super(posx, posy, "PowerUp.png");
     radius = 10;
   }
 
