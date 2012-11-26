@@ -87,8 +87,8 @@ void draw() {
     
   }
 
-  if (spawning)
-    spawner.spawn(3);
+ // if (spawning)
+    spawner.spawn(2);
   tick++;
   if (tick == 100000)
     tick = 0;
@@ -274,6 +274,57 @@ class Bullet extends Projectile
     super(xpos, ypos, d, img, h, s);
     radius = 7;
   }
+  
+}
+class SinShot extends Projectile
+{
+  int xinit, yinit;
+  boolean flip = false;
+  SinShot(int xpos, int ypos)
+  {
+    super(xpos,ypos,true,"playerbullet.png",0,7);
+    xinit = xpos;
+    yinit = ypos;
+  }
+  void move()
+  {
+    locY-=speed;
+    if(flip)
+    locX+=speed;
+    else locX-=speed;
+    if(locX>xinit+50||locX<xinit-50)
+     flip= !flip; 
+   if (locY < -10 || locY > 810 || locX < -10 || locX > 490)
+       removeSelf();
+   image(img, locX, locY);
+  }
+  
+  
+}
+class ArcSinShot extends Projectile
+{
+  int xinit, yinit;
+  boolean flip = true;
+  ArcSinShot(int xpos, int ypos)
+  {
+    super(xpos,ypos,true,"playerbullet.png",0,7);
+    xinit = xpos;
+    yinit = ypos;
+  }
+  void move()
+  {
+    locY-=speed;
+    if(flip)
+    locX+=speed;
+    else locX-=speed;
+    if(locX>xinit+50||locX<xinit-50)
+     flip= !flip; 
+   if (locY < -10 || locY > 810 || locX < -10 || locX > 490)
+       removeSelf();
+   image(img, locX, locY);
+  }
+  
+  
 }
 
 abstract class Ship extends Actor
@@ -532,13 +583,18 @@ class PlayerShip extends Ship {
   boolean left = false;
   void shoot()
   {
-    if (left)
+   /* if (left)
       playerBullets.add( new Bullet(locX + 10, locY-10, dir, "playerbullet.png", 0, 15) );
     else
       playerBullets.add( new Bullet(locX - 10, locY-10, dir, "playerbullet.png", 0, 15) );
-
+  */
     left = !left;
+    if(left)
+    playerBullets.add( new SinShot(locX, locY-10));
+    else
+    playerBullets.add( new ArcSinShot(locX, locY-10));
   }
+ 
   void blowUp()
   {
     println("THE PLAYER HAS DIED");
