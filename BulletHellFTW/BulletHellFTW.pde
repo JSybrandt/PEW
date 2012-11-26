@@ -23,7 +23,7 @@ void setup() {
   rectMode(CENTER);     //This sets all rectangles to draw from the center point
   player = new PlayerShip("spaceship.png", 200, 200);
 
-
+frameRate(60);
 
   f =  createFont("Impact", 24, true);
   textFont(f, 24);
@@ -87,8 +87,8 @@ void draw() {
     
   }
 
- // if (spawning)
-    spawner.spawn(2);
+  if (spawning)
+    spawner.spawn(spawnNum);
   tick++;
   if (tick == 100000)
     tick = 0;
