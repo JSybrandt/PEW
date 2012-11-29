@@ -80,15 +80,22 @@ void draw() {
   text("Score: " + player.getScore(), 10, 20);
   text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
   text("Ship Count: " + enemyShips.size(), 10, 75);
-  if (tick % 300 ==0)
+  if (tick ==100)
   {
+    ArrayList<Turret> guns = new ArrayList<Turret>();
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    enemyShips.add(new Cruiser(guns));
     spawning = !spawning;
-    spawnNum = gen.nextInt(4);
+    spawnNum = gen.nextInt(5);
     
   }
 
-  if (spawning)
-    spawner.spawn(spawnNum);
+ // if (spawning)
+ //   spawner.spawn(4);
   tick++;
   if (tick == 100000)
     tick = 0;
@@ -97,7 +104,7 @@ void draw() {
 public class Spawner
 {
   boolean flip = false;
-  int xLoc = 0;
+  int xLoc = 0, yLoc=0;
   void spawn(int l)//l for level , t for ticks
   {
 
@@ -136,6 +143,12 @@ public class Spawner
           if (xLoc > 480)
           xLoc =0;
       }
+     if(l==4)
+     if(tick%40==0)
+     {
+       yLoc=gen.nextInt(200)+50;
+       enemyShips.add(new HelixShip(0,yLoc));
+     }
   }
 }
 
@@ -153,6 +166,20 @@ void collisionDetection()
       {
         s.hit();
         p.removeSelf();
+      }
+      if(s instanceof Cruiser )
+      {
+        Cruiser t = (Cruiser) s;
+        ArrayList<Turret> guns= t.getTurretList();
+        for(int k = 0; k < guns.size(); k++ )
+        {
+           Turret g =  guns.get(k);
+            if (p.isTouching(g))
+              {
+                g.hit();
+                p.removeSelf();
+              }
+        }
       }
     }
   }
@@ -208,6 +235,14 @@ abstract class Actor
   void display()
   {
     image(img, locX, locY);
+  }
+  int getLocX()
+  {
+    return locX;
+  }
+    int getLocY()
+  {
+    return locY;
   }
 }
 
@@ -307,7 +342,7 @@ class ArcSinShot extends Projectile
   boolean flip = true;
   ArcSinShot(int xpos, int ypos)
   {
-    super(xpos,ypos,true,"playerbullet.png",0,7);
+    super(xpos,ypos,true,"bullet.png",0,7);
     xinit = xpos;
     yinit = ypos;
   }
@@ -372,6 +407,161 @@ abstract class Ship extends Actor
         break;
       }
     }
+  }
+}
+public class Turret extends Actor
+{
+  int health;
+  Gun weapon;
+  Turret (Gun g, int h)
+  {
+    health = h;
+    radius = 15;
+    weapon = g;
+    img = loadImage("Turret.png");
+  }
+  void increment(int delX, int delY)
+  {
+    locX += delX;
+    locY += delY;
+  }
+  void moveTo(int newx, int newy)
+  {
+    locX=newx;
+    locY=newy;
+  }
+  void shoot()
+  {
+   weapon.shoot();
+
+  }
+  int getHealth()
+  {
+    return health;
+  }
+  void hit()
+  {
+    health--;
+  }
+}
+
+public class Cruiser extends enemyShip
+{
+  ArrayList<Turret> guns;
+  int count;
+  boolean moving;
+  int activeGun;
+  int destinationX, destinationY;
+  Cruiser(ArrayList<Turret> g)
+  {
+    super(240, -100, 1, "BossBody.png", 1000, 1000, 1000);
+    guns = g;
+    prepairTurrets();
+    count = 0;
+    destinationX = locX;
+    destinationY = 30;
+    moving = true;
+
+  }
+  void prepairTurrets()
+  {
+    double gunRange = 0;
+    if(guns.size()>0)
+     gunRange = 800/guns.size();
+    for(int i = 0; i < guns.size(); i++)
+    {
+      guns.get(i).moveTo((int)(locX-400+i*gunRange),locY+150);
+    }
+  }
+  void act()
+  {
+    count++;
+    if (count ==1000)
+     {
+      int selection = gen.nextInt(guns.size());
+      destinationX = guns.get(selection).getLocX();
+      activeGun = selection;
+      print(selection);
+       moving = true;
+       count = 0;
+     }
+     if(moving)
+     move();
+     else
+     shoot();
+     display();
+     displayTurrets();
+     checkTurrentHealths();
+  }
+  void move()
+  {
+    int delX = 0, delY = 0;
+    if(destinationY-locY > 5)
+      {
+        if(destinationY > locY)
+        {
+          locY+=speed;
+          delY = speed;
+        }
+         else
+         {
+            locY-=speed;
+          delY = -speed;
+         }
+      }
+      else
+      {
+        if(destinationX - locX > 5)
+        {
+         if(destinationX > locX)
+        {
+          locX+=speed;
+          delX = speed;
+        }
+         else
+         {
+            locX-=speed;
+          delX = -speed;
+         }
+        }
+      }
+      moveTurrets(delX,delY);
+      if(destinationY-locY > 5 && destinationX-locX > 5)
+      moving = false;
+  }
+  void shoot()
+  {
+    guns.get(activeGun).shoot();
+  }
+  void moveTurrets(int delX, int delY)
+  {
+    for(int i = 0; i < guns.size(); i++)
+    {
+      guns.get(i).increment(delX,delY);
+    }
+  }
+  void displayTurrets()
+  {
+    for(int i = 0; i < guns.size(); i++)
+    {
+      guns.get(i).display();
+    }
+  }
+  void checkTurrentHealths()
+  {
+    for(int i = guns.size()-1; i >= 0; i--)
+    {
+      if (guns.get(i).getHealth()<1)
+        guns.remove(i);
+    }
+    if(guns.size()<1)
+    {
+      super.blowUp();
+    }
+  }
+  ArrayList<Turret> getTurretList()
+  {
+    return guns;
   }
 }
 abstract class enemyShip extends Ship
@@ -506,6 +696,10 @@ abstract class enemyShip extends Ship
       if (locX<xinit-200 || locX>xinit+200)
         flip = !flip;
     }
+    if(path==9)
+    {
+      locX+=speed;
+    }
 
     image(img, locX, locY);
   }
@@ -540,6 +734,45 @@ class Drone extends enemyShip
     enemyBullets.add( new Bullet(locX, locY, dir, "bullet.png", -2, 4) );
     enemyBullets.add( new Bullet(locX, locY, dir, "bullet.png", 4, 3 ));
     enemyBullets.add( new Bullet(locX, locY, dir, "bullet.png", -4, 3 ));
+  }
+}
+class HelixShip extends enemyShip
+{
+  boolean flip, shooting;
+  HelixShip(int startx, int starty)
+  {
+    super(startx, starty, 3, "HerpADerp.png", 10, 40, 9);
+    flip = false;
+    shooting = false;
+  }
+ void act()
+  {
+    count++;
+
+    if (count > lifeTime)
+      flyAway();
+    else
+    {
+      if (count % freq == 0)
+         shooting = !shooting;
+         
+      if(shooting)
+      shoot();
+      else
+      move();
+      
+      display();
+    }   
+    if (locY > 850 || locX < -50 || locX > 550)
+      removeSelf();
+  } 
+  void shoot()
+  {
+    if(flip)
+    new SinShot(locX,locY);
+    else
+    new ArcSinShot(locX,locY);
+    flip = !flip;  
   }
 }
 
@@ -689,5 +922,15 @@ void keyPressed() {
 
 abstract class Gun
 {
+  void shoot()
+  {
+  }
 }
 
+class TestGun extends Gun
+{
+  void shoot(int xpos,int ypos)
+  {
+    enemyBullets.add( new Bullet(xpos, ypos, false, "bullet.png", 0, 5) );
+  }
+}
