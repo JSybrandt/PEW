@@ -14,14 +14,19 @@ Random gen = new Random();
 
 boolean psychedelicMode = false;
 
+
+
+
 void setup() {
-  size(480, 800);
+  
+
+  size(displayWidth, displayHeight);
   imageMode(CENTER);
   smooth();
   noStroke();
   fill(255);
   rectMode(CENTER);     //This sets all rectangles to draw from the center point
-  player = new PlayerShip("spaceship.png", 200, 200);
+  player = new PlayerShip("spaceship.png", displayWidth/2, (4*displayHeight)/5);
 
 frameRate(60);
 

@@ -21,8 +21,8 @@ abstract class Projectile extends Actor
 
     locX+= horDisp;
 
-    if (locY < -10 || locY > 810 || locX < -10 || locX > 490)
-      removeSelf();
+    if (locY < -100 || locY > displayHeight+100 || locX < -100 || locX > displayWidth+100)
+       removeSelf();
     image(img, locX, locY);
   }
 

@@ -25,7 +25,7 @@ class HelixShip extends enemyShip
       
       display();
     }   
-    if (locY > 850 || locX < -50 || locX > 550)
+    if (locY > displayHeight+100 || locX < -100 || locX > displayWidth+100)
       removeSelf();
   } 
   void shoot()

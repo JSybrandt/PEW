@@ -12,7 +12,7 @@ abstract class Item extends Actor
   void move()
   {
     locY += speed;
-    if (locY > 800)
+    if (locY > displayHeight+100)
       removeSelf();
     image(img, locX, locY);
   }

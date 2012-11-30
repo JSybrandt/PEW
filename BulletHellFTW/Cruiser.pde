@@ -7,12 +7,12 @@ public class Cruiser extends enemyShip
   int destinationX, destinationY;
   Cruiser(ArrayList<Turret> g)
   {
-    super(240, -100, 1, "Cruiser.png", 4, 1000, 1000);
+    super(screenWidth/2, -100, 0, "Cruiser.png", 7, 1000, 1000);
     guns = g;
     prepairTurrets();
     count = 0;
     destinationX = locX;
-    destinationY = 30;
+    destinationY = screenHeight/6;
     moving = true;
     shooting = false;
     activeGun = (int)(guns.size()/2);
@@ -118,7 +118,13 @@ public class Cruiser extends enemyShip
     for(int i = guns.size()-1; i >= 0; i--)
     {
       if (guns.get(i).getHealth()<1)
+      {
+        if(i == activeGun)
+        shooting = false;
+        
         guns.remove(i);
+       
+      }
     }
     if(guns.size()<1)
     {
