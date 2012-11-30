@@ -1,6 +1,6 @@
 abstract class Gun
 {
-  void shoot()
+  void shoot(int xpos, int ypos)
   {
   }
 }

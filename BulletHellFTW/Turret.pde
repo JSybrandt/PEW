@@ -21,7 +21,7 @@ public class Turret extends Actor
   }
   void shoot()
   {
-   weapon.shoot();
+   weapon.shoot(locX,locY);
 
   }
   int getHealth()
