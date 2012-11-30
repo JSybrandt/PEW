@@ -2,19 +2,20 @@ public class Cruiser extends enemyShip
 {
   ArrayList<Turret> guns;
   int count;
-  boolean moving;
+  boolean moving,shooting;
   int activeGun;
   int destinationX, destinationY;
   Cruiser(ArrayList<Turret> g)
   {
-    super(240, -100, 1, "BossBody.png", 1000, 1000, 1000);
+    super(240, -100, 1, "Cruiser.png", 4, 1000, 1000);
     guns = g;
     prepairTurrets();
     count = 0;
     destinationX = locX;
     destinationY = 30;
     moving = true;
-
+    shooting = false;
+    activeGun = (int)(guns.size()/2);
   }
   void prepairTurrets()
   {
@@ -28,28 +29,28 @@ public class Cruiser extends enemyShip
   }
   void act()
   {
-    count++;
-    if (count ==1000)
-     {
-      int selection = gen.nextInt(guns.size());
-      destinationX = guns.get(selection).getLocX();
-      activeGun = selection;
-      print(selection);
-       moving = true;
-       count = 0;
-     }
      if(moving)
      move();
-     else
+     else if(shooting)
      shoot();
+     else
+      selectNewGun();
      display();
      displayTurrets();
      checkTurrentHealths();
   }
+  void selectNewGun()
+  {
+      int selection = gen.nextInt(guns.size());
+      destinationX = -(guns.get(selection).getLocX());
+      activeGun = selection;
+      print(""+selection+" at desintation " + destinationX+"\n");
+       moving = true;
+  }
   void move()
   {
     int delX = 0, delY = 0;
-    if(destinationY-locY > 5)
+    if( abs(destinationY-locY) > 5)
       {
         if(destinationY > locY)
         {
@@ -64,7 +65,7 @@ public class Cruiser extends enemyShip
       }
       else
       {
-        if(destinationX - locX > 5)
+        if( abs(destinationX - locX )> 5)
         {
          if(destinationX > locX)
         {
@@ -79,12 +80,24 @@ public class Cruiser extends enemyShip
         }
       }
       moveTurrets(delX,delY);
-      if(destinationY-locY > 5 && destinationX-locX > 5)
+
+      if(abs(destinationY-locY) < 10 && abs(destinationX-locX) < 10)
+      {
       moving = false;
+      shooting = true;
+      count = 0;
+      print("From Moving to Shooting.");
+      }
   }
   void shoot()
   {
+    if(count % freq == 0)
     guns.get(activeGun).shoot();
+    count++;
+    if(count > 1000)
+    {
+      shooting = false;
+    }
   }
   void moveTurrets(int delX, int delY)
   {
