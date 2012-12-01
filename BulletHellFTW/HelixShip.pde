@@ -1,11 +1,13 @@
 class HelixShip extends enemyShip
 {
+  Gun weapon;
   boolean flip, shooting;
   HelixShip(int startx, int starty)
   {
     super(startx, starty, 3, "HerpADerp.png", 10, 40, 9);
     flip = false;
     shooting = false;
+    weapon= new RocketLauncherE();
   }
  void act()
   {
@@ -25,15 +27,15 @@ class HelixShip extends enemyShip
       
       display();
     }   
-    if (locY > displayHeight+100 || locX < -100 || locX > displayWidth+100)
+    if (locY > 850 || locX < -50 || locX > 550)
       removeSelf();
   } 
   void shoot()
   {
     if(flip)
-    new SinShot(locX,locY);
+    weapon.shoot(locX+20,locY);
     else
-    new ArcSinShot(locX,locY);
+    weapon.shoot(locX-20, locY);
     flip = !flip;  
   }
 }
