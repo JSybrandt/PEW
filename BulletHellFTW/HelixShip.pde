@@ -33,9 +33,9 @@ class HelixShip extends enemyShip
   void shoot()
   {
     if(flip)
-    weapon.shoot(locX+20,locY);
+    weapon.shoot(locX+40,locY);
     else
-    weapon.shoot(locX-20, locY);
+    weapon.shoot(locX-40, locY);
     flip = !flip;  
   }
 }
