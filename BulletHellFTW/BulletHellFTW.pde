@@ -94,13 +94,18 @@ void draw() {
     guns.add(new Turret(new TestGun(),50));
     guns.add(new Turret(new TestGun(),50));
     enemyShips.add(new Cruiser(guns));
-    spawning = !spawning;
-    spawnNum = gen.nextInt(5);
+    
     
   }
+  
+  if(tick % 500 == 0)
+  {
+    spawning = true;//!spawning;
+    spawnNum = gen.nextInt(5);
+  }
 
- // if (spawning)
- //   spawner.spawn(4);
+  if (spawning)
+    spawner.spawn(spawnNum);
   tick++;
   if (tick == 100000)
     tick = 0;

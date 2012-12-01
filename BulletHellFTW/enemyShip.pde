@@ -27,8 +27,8 @@ abstract class enemyShip extends Ship
       if (count % freq == 0)
         shoot();
     }   
-    if (locY > 850 || locX < -50 || locX > 550)
-      removeSelf();
+   if (locY < -400 || locY > displayHeight+400 || locX < -400 || locX > displayWidth+400)
+       removeSelf();
   } 
 
   void move()
@@ -39,7 +39,7 @@ abstract class enemyShip extends Ship
     }
     if (path == 1)
     {
-      if (locY < 300)
+      if (locY < displayHeight/3)
       {
         locY+=speed;
       }
@@ -51,7 +51,7 @@ abstract class enemyShip extends Ship
     }
     if (path == 2)
     {
-      if (locY < 300)
+      if (locY < displayHeight/3)
       {
         locY+=speed;
       }
@@ -69,7 +69,7 @@ abstract class enemyShip extends Ship
         locX += speed;
       else
         locX -= speed;
-      if (locX > 430 || locX < 50)
+      if (locX > 8*displayWidth/9 || locX < displayWidth/9)
       {
         locY += speed*3;
         flip = !flip;
