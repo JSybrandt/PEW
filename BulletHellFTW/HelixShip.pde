@@ -31,15 +31,9 @@ class HelixShip extends enemyShip
   void shoot()
   {
     if(flip)
-<<<<<<< HEAD
     weapon.shoot(locX+40,locY);
     else
     weapon.shoot(locX-40, locY);
-=======
-    new SinShot(locX,locY);
-    else
-    new ArcSinShot(locX,locY);
->>>>>>> parent of 0d70db6... More Images and a upgrade to the HelixShip
     flip = !flip;  
   }
 }
