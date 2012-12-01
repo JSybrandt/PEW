@@ -3,7 +3,7 @@ class HelixShip extends enemyShip
   boolean flip, shooting;
   HelixShip(int startx, int starty)
   {
-    super(startx, starty, 3, "HerpADerp.png", 10, 40, 9);
+    super(startx, starty, 3, 9, 10, 40, 9);
     flip = false;
     shooting = false;
   }

@@ -2,11 +2,11 @@ abstract class Item extends Actor
 {
   int worth;
   int speed = 1;
-  Item(int posx, int posy, String imgName)
+  Item(int posx, int posy, int imageIndex)
   {
     locX = posx;
     locY = posy;
-    img = loadImage(imgName);
+    img = loadedPics.get(imageIndex);
     items.add(this);
   }
   void move()

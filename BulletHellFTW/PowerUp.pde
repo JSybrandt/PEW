@@ -2,7 +2,7 @@ public class PowerUp extends Item
 {
   PowerUp(int posx, int posy)
   {
-    super(posx, posy, "PowerUp.png");
+    super(posx, posy, 8);
     radius = 10;
   }
 

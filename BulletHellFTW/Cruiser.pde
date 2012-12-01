@@ -7,7 +7,7 @@ public class Cruiser extends enemyShip
   int destinationX, destinationY;
   Cruiser(ArrayList<Turret> g)
   {
-    super(displayWidth/2, -100, 0, "Cruiser.png", 7, 1000, 1000);
+    super(displayWidth/2, -100, 0, 5, 7, 1000, 1000);
     guns = g;
     prepairTurrets();
     count = 0;

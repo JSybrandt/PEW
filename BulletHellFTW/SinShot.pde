@@ -4,7 +4,7 @@ class SinShot extends Projectile
   boolean flip = false;
   SinShot(int xpos, int ypos)
   {
-    super(xpos,ypos,true,"playerbullet.png",0,7);
+    super(xpos,ypos,true,1,0,7);
     xinit = xpos;
     yinit = ypos;
   }

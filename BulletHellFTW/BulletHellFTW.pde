@@ -16,17 +16,34 @@ boolean psychedelicMode = false;
 
 
 
+ ArrayList<PImage> loadedPics = new ArrayList<PImage>();
+  
+  
+   void loadImages()
+  {
+    loadedPics.add(loadImage("bullet.png"));//#0
+    loadedPics.add(loadImage("playerbullet.png"));//#1
+    loadedPics.add(loadImage("coin.png"));//#2
+    loadedPics.add(loadImage("RocketE.png"));//#3
+    loadedPics.add(loadImage("Drone.png"));//#4
+    loadedPics.add(loadImage("Cruiser.png"));//#5
+    loadedPics.add(loadImage("Turret.png"));//#6
+    loadedPics.add(loadImage("spaceship.png"));//#7
+    loadedPics.add(loadImage("PowerUp.png"));//#8
+    loadedPics.add(loadImage("HerpADerp.png"));//#9
+  }
+
 
 void setup() {
   
-
+  loadImages();
   size(displayWidth, displayHeight);
   imageMode(CENTER);
   smooth();
   noStroke();
   fill(255);
   rectMode(CENTER);     //This sets all rectangles to draw from the center point
-  player = new PlayerShip("spaceship.png", displayWidth/2, (4*displayHeight)/5);
+  player = new PlayerShip( displayWidth/2, (4*displayHeight)/5);
 
 frameRate(60);
 

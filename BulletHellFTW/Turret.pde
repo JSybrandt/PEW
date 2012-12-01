@@ -7,7 +7,7 @@ public class Turret extends Actor
     health = h;
     radius = 15;
     weapon = g;
-    img = loadImage("Turret.png");
+    img = loadedPics.get(6);
   }
   void increment(int delX, int delY)
   {

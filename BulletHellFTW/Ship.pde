@@ -2,10 +2,11 @@ abstract class Ship extends Actor
 {
   int health = 1;
   boolean dir = false; //up cor. to true
-  Ship(String imageName)
+  Gun weapon;
+  Ship(int imageIndex)
   {
     radius = 25;
-    img = loadImage(imageName);
+    img = loadedPics.get(imageIndex);
   }
   void display()
   {
@@ -25,7 +26,7 @@ abstract class Ship extends Actor
   }
   void shoot()
   {
-    enemyBullets.add( new Bullet(locX, locY, dir, "bullet.png", 0, 5) );
+    enemyBullets.add( new Bullet(locX, locY, dir, 0, 0, 5) );
   }
   void blowUp()
   {

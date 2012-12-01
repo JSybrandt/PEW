@@ -1,12 +1,12 @@
 abstract class Projectile extends Actor
 {
   int horDisp;
-  Projectile(int xpos, int ypos, boolean d, String img, int h, int s)
+  Projectile(int xpos, int ypos, boolean d, int imageIndex, int h, int s)
   {
     locX=xpos;
     locY=ypos;
     dir = d;
-    this.img = loadImage(img);
+    this.img = loadedPics.get(imageIndex);
     speed = s;
     horDisp = h;
     radius = 7;

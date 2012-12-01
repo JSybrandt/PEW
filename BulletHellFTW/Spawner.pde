@@ -10,9 +10,9 @@ public class Spawner
       {
 
         if (flip)
-          enemyShips.add(new Drone(displayWidth/4, 0, 3, "Drone.png", gen.nextInt(50)+50, 5, 2));
+          enemyShips.add(new Drone(displayWidth/4, 0, 3, 4, gen.nextInt(50)+50, 5, 2));
         else
-          enemyShips.add(new Drone(3*displayWidth/4, 0, 3, "Drone.png", gen.nextInt(50)+50, 5, 1));
+          enemyShips.add(new Drone(3*displayWidth/4, 0, 3, 4, gen.nextInt(50)+50, 5, 1));
         flip = !flip;
       }
 
@@ -21,22 +21,22 @@ public class Spawner
       {
 
         if (flip)
-          enemyShips.add(new Drone(displayWidth/4, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 2));
+          enemyShips.add(new Drone(displayWidth/4, 0, 5, 4, gen.nextInt(50)+50, 1, 2));
         else
-          enemyShips.add(new Drone(3*displayWidth/4, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 1));
+          enemyShips.add(new Drone(3*displayWidth/4, 0, 5, 4, gen.nextInt(50)+50, 1, 1));
         flip = !flip;
       }
     if (l==2)
       if (tick %25 ==0)
       {
-          enemyShips.add(new Drone(displayWidth/4, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 8));
-          enemyShips.add(new Drone(3*displayWidth/4, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 7));
+          enemyShips.add(new Drone(displayWidth/4, 0, 5, 4, gen.nextInt(50)+50, 1, 8));
+          enemyShips.add(new Drone(3*displayWidth/4, 0, 5, 4, gen.nextInt(50)+50, 1, 7));
       }
     if (l==3)
       if (tick %20 ==0)
       {
           xLoc += 30;
-          enemyShips.add(new Drone(xLoc, 0, 5, "Drone.png", gen.nextInt(50)+50, 1, 0));
+          enemyShips.add(new Drone(xLoc, 0, 5, 4, gen.nextInt(50)+50, 1, 0));
           if (xLoc > displayWidth)
           xLoc =0;
       }

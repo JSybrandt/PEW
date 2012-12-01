@@ -1,8 +1,8 @@
 class PlayerShip extends Ship {
   int points;
-  PlayerShip(String imageName, int xpos, int ypos)
+  PlayerShip(int xpos, int ypos)
   {
-    super(imageName);
+    super(7);
     dir = true;
     radius = 25;
     locX = xpos;
