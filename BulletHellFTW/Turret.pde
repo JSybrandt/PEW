@@ -2,9 +2,9 @@ public class Turret extends Actor
 {
   int health;
   Gun weapon;
-  Turret (Gun g, int h)
+  Turret (Gun g, int hlth)
   {
-    health = h;
+    health = hlth;
     radius = 15;
     weapon = g;
     img = loadedPics.get(6);

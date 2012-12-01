@@ -26,7 +26,7 @@ abstract class Ship extends Actor
   }
   void shoot()
   {
-    enemyBullets.add( new Bullet(locX, locY, dir, 0, 0, 5) );
+    weapon.shoot(locX,locY);
   }
   void blowUp()
   {

@@ -8,6 +8,7 @@ class PlayerShip extends Ship {
     locX = xpos;
     locY = ypos;
     speed = 10;
+    weapon = new PlayerBaseGun();
   }
 
   void move()
@@ -37,16 +38,7 @@ class PlayerShip extends Ship {
   boolean left = false;
   void shoot()
   {
-   /* if (left)
-      playerBullets.add( new Bullet(locX + 10, locY-10, dir, "playerbullet.png", 0, 15) );
-    else
-      playerBullets.add( new Bullet(locX - 10, locY-10, dir, "playerbullet.png", 0, 15) );
-  */
-    left = !left;
-    if(left)
-    playerBullets.add( new SinShot(locX, locY-10));
-    else
-    playerBullets.add( new ArcSinShot(locX, locY-10));
+  weapon.shoot(locX,locY);
   }
  
   void blowUp()

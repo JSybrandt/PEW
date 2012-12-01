@@ -1,29 +1,25 @@
 abstract class Projectile extends Actor
 {
-  int horDisp;
-  Projectile(int xpos, int ypos, boolean d, int imageIndex, int h, int s)
+  int xdisp, ydisp;
+  Projectile(int xpos, int ypos, int imageIndex, int delx, int dely)
   {
     locX=xpos;
     locY=ypos;
-    dir = d;
     this.img = loadedPics.get(imageIndex);
-    speed = s;
-    horDisp = h;
+    xdisp = delx;
+    ydisp = dely;
     radius = 7;
   }
 
   void move()
   {
-    if (dir)
-      locY -=speed;
-    else
-      locY += speed;
-
-    locX+= horDisp;
+    locY+= ydisp;
+    locX+= xdisp;
 
     if (locY < -100 || locY > displayHeight+100 || locX < -100 || locX > displayWidth+100)
        removeSelf();
-    image(img, locX, locY);
+       
+    display();
   }
 
 
