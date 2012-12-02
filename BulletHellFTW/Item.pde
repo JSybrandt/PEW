@@ -1,7 +1,7 @@
 abstract class Item extends Actor
 {
   int worth;
-  int speed = 1;
+  int speed = 3;
   Item(int posx, int posy, int imageIndex)
   {
     locX = posx;

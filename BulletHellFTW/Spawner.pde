@@ -46,5 +46,11 @@ public class Spawner
        yLoc=gen.nextInt(200)+50;
        enemyShips.add(new HelixShip(0,yLoc));
      }
+     if(1==1337)
+     {
+       yLoc = gen.nextInt(displayWidth);
+       xLoc= gen.nextInt(displayWidth);
+       enemyShips.add(new Drone(xLoc, 0, 5, 4, gen.nextInt(50)+50, 1, 0));
+     }
   }
 }

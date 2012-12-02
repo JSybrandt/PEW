@@ -1,6 +1,6 @@
 abstract class enemyShip extends Ship
 {
-  int path, count = 0, lifeTime = 250, freq, speed, xinit, yinit;
+  int path, count = 0, lifeTime = 500, freq, speed, xinit, yinit;
   boolean flip = false;
   enemyShip(int startx, int starty, int s, int imageIndex, int f, int h, int p)
   {

@@ -5,7 +5,8 @@ class HelixShip extends enemyShip
   {
     super(startx, starty, 3, 9, 10, 40, 9);
     flip = false;
-    shooting = false;
+
+    
     weapon = new HelixGun();
   }
  void act()
@@ -16,13 +17,13 @@ class HelixShip extends enemyShip
       flyAway();
     else
     {
-      if (count % 100 == 0)
+      if (count % 400 == 0)
          shooting = !shooting;
          
-      if(shooting)
+      
       if(count % freq  ==0)
       shoot();
-      else
+  
       move();
       
       display();

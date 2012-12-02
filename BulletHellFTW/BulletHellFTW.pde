@@ -102,6 +102,7 @@ void draw() {
   text("Score: " + player.getScore(), 10, 20);
   text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
   text("Ship Count: " + enemyShips.size(), 10, 75);
+  /*
   if (tick ==100)
   {
     ArrayList<Turret> guns = new ArrayList<Turret>();
@@ -111,21 +112,22 @@ void draw() {
     guns.add(new Turret(new TestGun(),50));
     guns.add(new Turret(new TestGun(),50));
     enemyShips.add(new Cruiser(guns));
-    
-    
-  }
+  }*/
   
   if(tick % 500 == 0)
   {
     spawning = true;//!spawning;
     spawnNum = gen.nextInt(5);
   }
+  spawning = true;
 
   if (spawning)
     spawner.spawn(spawnNum);
   tick++;
   if (tick == 100000)
     tick = 0;
+    
+    
 }
 
 
