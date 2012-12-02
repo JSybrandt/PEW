@@ -34,9 +34,13 @@ boolean psychedelicMode = false;
   }
 
 
+ BackgroundHandler bghandel = new BackgroundHandler();
+
+
 void setup() {
   
   loadImages();
+  bghandel.setBG("spaceBackground.png");
   size(displayWidth, displayHeight);
   imageMode(CENTER);
   smooth();
@@ -60,6 +64,7 @@ void draw() {
 
   if (!psychedelicMode)
     background(#000000);
+    bghandel.scroll();
 
 
   if (mousePressed)
