@@ -34,13 +34,13 @@ boolean psychedelicMode = false;
   }
 
 
- BackgroundHandler bghandel = new BackgroundHandler();
+// BackgroundHandler bghandel = new BackgroundHandler();
 
 
 void setup() {
   
   loadImages();
-  bghandel.setBG("spaceBackground.png");
+//  bghandel.setBG("spaceBackground.png");
   size(displayWidth, displayHeight);
   imageMode(CENTER);
   smooth();
@@ -48,8 +48,8 @@ void setup() {
   fill(255);
   rectMode(CENTER);     //This sets all rectangles to draw from the center point
   player = new PlayerShip( displayWidth/2, (4*displayHeight)/5);
-
-frameRate(60);
+orientation(PORTRAIT); 
+//frameRate(60);
 
   f =  createFont("Impact", 24, true);
   textFont(f, 24);
@@ -64,7 +64,7 @@ void draw() {
 
   if (!psychedelicMode)
     background(#000000);
-    bghandel.scroll();
+   // bghandel.scroll();
 
 
   if (mousePressed)

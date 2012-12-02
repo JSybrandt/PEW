@@ -7,8 +7,8 @@ void keyPressed() {
     
   if(key == 's')
     spawning = !spawning;
-    
-   if(key == 'q')
+  if (key == CODED)   
+ //  if(key == MENU)
    {
       int yLoc = gen.nextInt(displayWidth);
      int xLoc= gen.nextInt(displayWidth);
