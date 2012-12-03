@@ -31,6 +31,7 @@ boolean psychedelicMode = false;
     loadedPics.add(loadImage("spaceship.png"));//#7
     loadedPics.add(loadImage("PowerUp.png"));//#8
     loadedPics.add(loadImage("HerpADerp.png"));//#9
+    loadedPics.add(loadImage("bomb.png"));//#10
   }
 
 
@@ -63,8 +64,10 @@ boolean spawning = false;
 void draw() {
 
   if (!psychedelicMode)
+  {
     background(#000000);
     bghandel.scroll();
+  }
 
 
   if (mousePressed)
