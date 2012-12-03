@@ -8,8 +8,8 @@ public class HelixGun extends Gun
   {
     left = !left;
     if(left)
-    new SinShot(xpos, ypos-10,5,5);
+    new SinShot(xpos, ypos-10,2,2);
     else
-     new SinShot(xpos, ypos+10,-5,5);
+     new SinShot(xpos, ypos+10,-2,2);
   }
 }

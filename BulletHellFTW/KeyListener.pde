@@ -7,11 +7,13 @@ void keyPressed() {
     
   if(key == 's')
     spawning = !spawning;
-  if (key == CODED)   
+  if (key == CODED||key=='q')   
  //  if(key == MENU)
    {
       int yLoc = gen.nextInt(displayWidth);
      int xLoc= gen.nextInt(displayWidth);
-     enemyShips.add(new Drone(xLoc, yLoc, 5, 4, 1, 1, 100));
+     enemyShip s = new Drone(xLoc, yLoc, 5, 4, 10, 1, 100);
+     s.setGun(new StarGun());
+     enemyShips.add(s);
    }
 }

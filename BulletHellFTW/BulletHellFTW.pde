@@ -49,7 +49,7 @@ void setup() {
   rectMode(CENTER);     //This sets all rectangles to draw from the center point
   player = new PlayerShip( displayWidth/2, (4*displayHeight)/5);
 orientation(PORTRAIT); 
-frameRate(40);
+frameRate(30);
 
   f =  createFont("Impact", 24, true);
   textFont(f, 24);

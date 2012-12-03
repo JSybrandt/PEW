@@ -13,6 +13,7 @@ abstract class enemyShip extends Ship
     freq = f;
     path = p;
     health = h;
+    weapon = new DinkyGun();
   }
 
   void act()
@@ -152,5 +153,13 @@ abstract class enemyShip extends Ship
     new PowerUp(locX + 20, locY - 20);
     }
     removeSelf();
+  }
+  void shoot()
+  {
+    weapon.shoot(locX,locY);
+  }
+  void setGun(Gun g)
+  {
+    weapon = g;
   }
 }
