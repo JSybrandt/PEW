@@ -7,8 +7,8 @@ class PlayerShip extends Ship {
     radius = 25;
     locX = xpos;
     locY = ypos;
-    speed = 15;
-    weapon = new PlayerBaseGun();
+    speed = 25;
+    weapon = new PlayerAwesomeGun();
   }
 
   void move()
@@ -18,7 +18,7 @@ class PlayerShip extends Ship {
     float magnitude;
     dX = mouseX - locX;
     dY = mouseY-80 - locY;
-    if (abs(dX) > 7 || abs(dY) > 7)
+    if (abs(dX) > 15|| abs(dY) > 15)
     {
       magnitude = sqrt(dX*dX+dY*dY);
       locX += int(speed*dX/( magnitude));

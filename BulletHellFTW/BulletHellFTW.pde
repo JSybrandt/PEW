@@ -75,7 +75,11 @@ void draw() {
   }
   player.display();
 
-
+ for (int j = 0; j< playerBullets.size();j++)
+  {
+    Projectile p = (Projectile) playerBullets.get(j);
+    p.move();
+  }
   for (int j = 0; j< enemyShips.size();j++)
   {
     enemyShip s = (enemyShip) enemyShips.get(j);
@@ -90,11 +94,7 @@ void draw() {
   }
 
 
-  for (int j = 0; j< playerBullets.size();j++)
-  {
-    Projectile p = (Projectile) playerBullets.get(j);
-    p.move();
-  }
+ 
   for (int j = 0; j< items.size();j++)
   {
     Item p = (Item) items.get(j);

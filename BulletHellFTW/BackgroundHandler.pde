@@ -15,8 +15,8 @@ public class BackgroundHandler
   {
     image(bgimg, displayWidth/2,scrolly-bgimg.height/2);
     scrolly++;
-    if(scrolly-displayHeight-bgimg.height==displayHeight)
-    scrolly=0;
+    if(scrolly-displayHeight-bgimg.height==0)
+    scrolly=displayHeight;
   }
  
 }
