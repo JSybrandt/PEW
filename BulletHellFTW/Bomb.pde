@@ -7,7 +7,15 @@ public class Bomb extends Projectile
   {
     super(locX,locY,10,0,5);
     count = 0;
-    lifeSpan = 0;
+    lifeSpan = 75;
+    speed = 5;
+    enemyBullets.add(this);
+  }
+  Bomb(int locX, int locY, int dispx, int dispy)
+  {
+    super(locX,locY,10,dispx,dispy);
+    count = 0;
+    lifeSpan = 25;
     speed = 5;
     enemyBullets.add(this);
   }
