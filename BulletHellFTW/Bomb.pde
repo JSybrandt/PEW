@@ -9,6 +9,7 @@ public class Bomb extends Projectile
     count = 0;
     lifeSpan = 0;
     speed = 5;
+    enemyBullets.add(this);
   }
   void move()
   {
