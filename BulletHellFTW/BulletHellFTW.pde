@@ -9,6 +9,7 @@ ArrayList enemyShips = new ArrayList<Ship>();//the player is not included
 ArrayList enemyBullets = new ArrayList<Projectile>();
 ArrayList playerBullets = new ArrayList<Projectile>();
 ArrayList items = new ArrayList<Item>();//misc stuff and items
+ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 
 Random gen = new Random();
 
@@ -103,7 +104,11 @@ void draw() {
     Item p = (Item) items.get(j);
     p.move();
   }
-
+   for (int i = activePowerUps.size()-1 ; i  >= 0;i--)
+      {
+        PowerUp p =  activePowerUps.get(i);
+       p.increment();
+      }
 
   collisionDetection();
 
