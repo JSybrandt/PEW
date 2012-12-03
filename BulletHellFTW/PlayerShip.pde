@@ -24,6 +24,11 @@ class PlayerShip extends Ship {
       locX += int(speed*dX/( magnitude));
       locY += int(speed*dY/( magnitude));
     }
+    else
+    {
+     locX+=dX;
+     locY+=dY;
+    }
     if(locX < 0)
       locX = 0;
     if(locX > displayWidth)
