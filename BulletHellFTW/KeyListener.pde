@@ -13,7 +13,7 @@ void keyPressed() {
       int yLoc = gen.nextInt(displayWidth);
      int xLoc= gen.nextInt(displayWidth);
      enemyShip s = new Drone(xLoc, yLoc, 5, 4, 10, 1, 100);
-     s.setGun(new Bomb());
+     s.setGun(new StarGun());
      enemyShips.add(s);
    }
 }

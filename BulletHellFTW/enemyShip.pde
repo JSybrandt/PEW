@@ -150,7 +150,7 @@ abstract class enemyShip extends Ship
     int randomInt = gen.nextInt(10);
     if(randomInt == 1)
     {
-    new Hallucinate(locX + 20, locY - 20);
+    new PowerUp(locX + 20, locY - 20);
     }
     removeSelf();
   }

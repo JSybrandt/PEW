@@ -9,9 +9,6 @@ ArrayList enemyShips = new ArrayList<Ship>();//the player is not included
 ArrayList enemyBullets = new ArrayList<Projectile>();
 ArrayList playerBullets = new ArrayList<Projectile>();
 ArrayList items = new ArrayList<Item>();//misc stuff and items
-ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
-
-
 
 Random gen = new Random();
 
@@ -34,7 +31,6 @@ boolean psychedelicMode = false;
     loadedPics.add(loadImage("spaceship.png"));//#7
     loadedPics.add(loadImage("PowerUp.png"));//#8
     loadedPics.add(loadImage("HerpADerp.png"));//#9
-    loadedPics.add(loadImage("bomb.png"));//#10
   }
 
 
@@ -58,9 +54,6 @@ frameRate(30);
   f =  createFont("Impact", 24, true);
   textFont(f, 24);
   fill(255);
-  
-  
-  
 }
 
 
@@ -70,10 +63,8 @@ boolean spawning = false;
 void draw() {
 
   if (!psychedelicMode)
-  {
     background(#000000);
     bghandel.scroll();
-  }
 
 
   if (mousePressed)
@@ -141,11 +132,6 @@ void draw() {
   if (tick == 100000)
     tick = 0;
     
-      for (int i = activePowerUps.size()-1 ; i  >= 0;i--)
-      {
-        PowerUp p =  activePowerUps.get(i);
-       p.increment();
-      }
     
 }
 
