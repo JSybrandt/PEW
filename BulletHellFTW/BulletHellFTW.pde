@@ -98,6 +98,7 @@ void draw() {
 
  if (playgame == true)
   {
+   spawning = true;
 
   if (mousePressed)
   {
@@ -158,10 +159,9 @@ void draw() {
   
   if(tick % 500 == 0)
   {
-    spawning = true;//!spawning;
+          //!spawning;
     spawnNum = gen.nextInt(5);
   }
-  spawning = true;
 
   if (spawning)
     spawner.spawn(spawnNum);

@@ -1,4 +1,5 @@
   void Menu() {
+    spawning = false;
     image(Menu, displayWidth/2, displayHeight/2);
     if(overRect(rectX, rectY, rectSize, rectSize) == true)
     {
