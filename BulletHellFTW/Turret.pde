@@ -8,7 +8,7 @@ public class Turret extends Actor
     radius = 15;
     weapon = g;
     img = loadedPics.get(6);
-    freq = gen.nextInt(10)+1;
+    freq = gen.nextInt(10)+10;
     count = 0;
   }
   void act()
@@ -38,6 +38,7 @@ public class Turret extends Actor
   }
   void hit()
   {
+    Sounds.play(2);
     health--;
   }
 }

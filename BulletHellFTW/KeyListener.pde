@@ -20,11 +20,18 @@ void keyPressed() {
      enemyShips.add(s);
    }
      
-     
+     if(key=='a')
+     {
+       Sounds.adjustVolume(0.1);
+     }
+     if(key=='z')
+     {
+       Sounds.adjustVolume(-0.1);
+     }
      
      //this gets switched around when porting to android
     if(key == 'r')
-      // if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU) 
+    //   if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU) 
      if (playGame == true)
   {
   

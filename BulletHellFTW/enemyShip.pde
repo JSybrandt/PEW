@@ -179,6 +179,7 @@ abstract class enemyShip extends Ship
   {
     img = loadedPics.get(11);
     flashing = true;
+    Sounds.play(1);
   }
   void revert()
   {
