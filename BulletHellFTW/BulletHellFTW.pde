@@ -246,6 +246,7 @@ void collisionDetection()
 void printCredits()
 {
   textAlign(CENTER);
+   image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
   text("Lead Designer: Justin \"Nalta\" Sybrandt", displayWidth/2,displayHeight/5);
   text("Code Monkey: Caelan \"DarkFire16\" Mayberry", displayWidth/2,displayHeight*(2/5.0));
   text("Chill Meister: Mike \"Reason\" Boom", displayWidth/2,displayHeight*(3/5.0));
@@ -263,6 +264,7 @@ void printCredits()
 void printInstructions()
 {
   textAlign(CENTER);
+   image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
   text("SHOOT STUFF", displayWidth/2,displayHeight/3);
    
    
@@ -281,6 +283,7 @@ void printInstructions()
 void printHighScores()
 {
   textAlign(CENTER);
+   image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
   text("YOUR SCORES ARE BAD", displayWidth/2,displayHeight/4);
 
 text("AND YOU SHOULD FEEL BAD", displayWidth/2,displayHeight/3); 
@@ -297,6 +300,7 @@ text("AND YOU SHOULD FEEL BAD", displayWidth/2,displayHeight/3);
 void printOptions()
 {
   textAlign(CENTER);
+  image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
   text("YOU AINT SEEN NOTHING YET!", displayWidth/2,displayHeight/4);
 
 text("...seriously, we have yet to code this...", displayWidth/2,displayHeight/3); 
