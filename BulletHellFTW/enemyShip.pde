@@ -1,10 +1,11 @@
 abstract class enemyShip extends Ship
 {
-  int path, count = 0, lifeTime = 500, freq, speed, xinit, yinit;
-  boolean flip = false;
-  enemyShip(int startx, int starty, int s, int imageIndex, int f, int h, int p)
+  int path, count = 0, lifeTime = 500, freq, speed, xinit, yinit, imageIndex;
+  boolean flip = false, flashing = false;
+  enemyShip(int startx, int starty, int s, int imgIndex, int f, int h, int p)
   {
-    super(imageIndex);
+    super(imgIndex);
+    imageIndex=imgIndex;
     locX = startx;
     locY = starty;
     xinit = startx;
@@ -19,6 +20,7 @@ abstract class enemyShip extends Ship
   void act()
   {
     count++;
+    display();
 
     if (count > lifeTime)
       flyAway();
@@ -28,6 +30,11 @@ abstract class enemyShip extends Ship
       if (count % freq == 0)
         shoot();
     }   
+    
+    if(flashing)
+    {
+      revert();
+    }
    if (locY < -400 || locY > displayHeight+400 || locX < -400 || locX > displayWidth+400)
        removeSelf();
   } 
@@ -136,7 +143,6 @@ abstract class enemyShip extends Ship
       locX+=speed;
     }
 
-    image(img, locX, locY);
   }
   void flyAway()
   {
@@ -161,5 +167,22 @@ abstract class enemyShip extends Ship
   void setGun(Gun g)
   {
     weapon = g;
+  }
+   void hit()
+  {
+    flash();
+    health--;
+    if (health == 0)
+      blowUp();
+  }
+  void flash()
+  {
+    img = loadedPics.get(11);
+    flashing = true;
+  }
+  void revert()
+  {
+     img = loadedPics.get(imageIndex);
+     flashing = false;
   }
 }

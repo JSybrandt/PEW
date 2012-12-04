@@ -37,6 +37,7 @@ int rectSize = 200;     // Diameter of rect
     loadedPics.add(loadImage("PowerUp.png"));//#8
     loadedPics.add(loadImage("HerpADerp.png"));//#9
     loadedPics.add(loadImage("bomb.png"));//#10
+    loadedPics.add(loadImage("Drone-hit.png"));//*11
   }
 
 

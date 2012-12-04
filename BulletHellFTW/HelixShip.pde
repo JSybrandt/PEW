@@ -9,28 +9,7 @@ class HelixShip extends enemyShip
     
     weapon = new HelixGun();
   }
- void act()
-  {
-    count++;
 
-    if (count > lifeTime)
-      flyAway();
-    else
-    {
-      if (count % 400 == 0)
-         shooting = !shooting;
-         
-      
-      if(count % freq  ==0)
-      shoot();
-  
-      move();
-      
-      display();
-    }   
-    if (locY > displayHeight+100 || locX < -100 || locX > displayWidth+100)
-      removeSelf();
-  } 
   void shoot()
   {
     if(flip)
