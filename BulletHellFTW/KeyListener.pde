@@ -19,4 +19,11 @@ void keyPressed() {
      s.setGun(new BombLauncher());
      enemyShips.add(s);
    }
+     if (playgame == true)
+  {
+    if (key == 'r' || key == 'R') 
+    {
+       playgame = false;
+    }
+  }
 }

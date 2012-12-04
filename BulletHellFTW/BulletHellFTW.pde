@@ -15,6 +15,10 @@ Random gen = new Random();
 
 boolean psychedelicMode = false;
 
+PImage Menu;
+boolean playgame = false;
+int rectX, rectY;      // Position of square button
+int rectSize = 200;     // Diameter of rect
 
 
  ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -42,6 +46,11 @@ BackgroundHandler bghandel = new BackgroundHandler();
 void setup() {
   
   loadImages();
+  
+  Menu = loadImage("Menu2.png");
+  rectX = displayWidth/2 - rectSize - 10;;
+  rectY = displayHeight/2;
+  
  bghandel.setBG("spaceBackground.png");
   size(displayWidth, displayHeight);
   imageMode(CENTER);
@@ -58,6 +67,18 @@ frameRate(30);
   fill(255);
 }
 
+boolean overRect(int x, int y, int width, int height)  
+{
+  if (mouseX >= x && mouseX <= x+width && 
+      mouseY >= y && mouseY <= y+height) 
+  {
+    return true;
+  } 
+  else 
+  {
+    return false;
+  }
+}
 
 int tick = 1, spawnNum;
 Spawner spawner = new Spawner();
@@ -69,7 +90,14 @@ void draw() {
     background(#000000);
     bghandel.scroll();
   }
+  
+  if (playgame == false)
+  {
+    Menu();
+  }
 
+ if (playgame == true)
+  {
 
   if (mousePressed)
   {
@@ -109,6 +137,7 @@ void draw() {
         PowerUp p =  activePowerUps.get(i);
        p.increment();
       }
+  }
 
   collisionDetection();
 
