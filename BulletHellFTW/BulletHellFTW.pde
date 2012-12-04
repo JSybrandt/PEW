@@ -17,7 +17,7 @@ ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 Random gen = new Random();
 
 boolean psychedelicMode = false;
-boolean playgame;
+boolean playGame,showMenu,showCredits,showHighScore,showInstructions;
 public  Menu menu;
 
 
@@ -48,26 +48,15 @@ BackgroundHandler bghandel = new BackgroundHandler();
 
 
 
-//PImage MenuImage;// = loadImage("MainMenu.png");;
-//float PlayX, PlayY, playSizeY, playSizeX;      // Position of square button
-
-
-
 
 
 void setup() {
   
-/*  
-  playgame = false;
-  MenuImage = loadImage("MainMenu.png");
-  PlayX = displayWidth/13.2;
-  PlayY = (displayHeight/1.865);
-  playSizeY = displayHeight/7.8;// Diameter of 
-  playSizeX = displayWidth/1.201;
-  */
   
   loadImages();
  menu = new Menu();
+ showMenu = true;
+ playGame = false;
  bghandel.setBG("spaceBackground.png");
   size(displayWidth, displayHeight);
   imageMode(CENTER);
@@ -96,12 +85,14 @@ void draw() {
     bghandel.scroll();
   }
   
-  if (playgame == false)
+  if (playGame == false)
   {
-    menu.ScreenTest();
+    if(showCredits)
+      showCredits();
+    if(showMenu)
+    menu.showMenu();
   }
-
- if (playgame == true)
+ else
   {
    spawning = true;
 
@@ -144,9 +135,9 @@ void draw() {
        p.increment();
       }
       
-       text("Score: " + player.getScore(), 10, 20);
-  text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
-  text("Ship Count: " + enemyShips.size(), 10, 75);
+       text("Score: " + player.getScore(), displayWidth/20,displayHeight/20);
+ // text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
+ // text("Ship Count: " + enemyShips.size(), 10, 75);
   
 
   collisionDetection();
@@ -240,6 +231,24 @@ void collisionDetection()
     {
       player.blowUp();
     }
+  }
+}
+
+
+void showCredits()
+{
+  textAlign(CENTER);
+  text("Lead Designer: Justin \"Nalta\" Sybrandt", displayWidth/2,displayHeight/5);
+  text("Code Monkey: Caelan \"DarkFire16\" Mayberry", displayWidth/2,displayHeight*(2/5.0));
+  text("Chill Meister: Mike \"Cake\" Boom", displayWidth/2,displayHeight*(3/5.0));
+  text("Art Master: Josh \"Fa1seEcho\" Walton", displayWidth/2,displayHeight*(4/5.0));
+  
+  //BULD A BACK BUTTON AT TOP OF SCREEN
+  if(mousePressed )
+  {
+    showCredits= false;
+    showMenu = true;
+    playGame = false;
   }
 }
 

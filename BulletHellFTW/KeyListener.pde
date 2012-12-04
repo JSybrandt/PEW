@@ -7,7 +7,7 @@ void keyPressed() {
     
   if(key == 's')
     spawning = !spawning;
-  if (key == CODED||key=='q'||key=='b')   
+  if (key=='q'||key=='b')   
  //  if(key == MENU)
    {
       int yLoc = gen.nextInt(displayWidth);
@@ -19,11 +19,16 @@ void keyPressed() {
      s.setGun(new BombLauncher());
      enemyShips.add(s);
    }
-     if (playgame == true)
+     
+     if(key == 'r')
+      // if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU) 
+     if (playGame == true)
   {
-    if (key == 'r' || key == 'R') 
+  
     {
-       playgame = false;
+       playGame = false;
+       showMenu = true;
+       showCredits = false;
     }
   }
 }
