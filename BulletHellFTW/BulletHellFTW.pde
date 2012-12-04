@@ -17,7 +17,7 @@ ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 Random gen = new Random();
 
 boolean psychedelicMode = false;
-boolean playGame,showMenu,showCredits,showHighScore,showInstructions;
+boolean playGame,showMenu,showCredits,showHighScore,showInstructions,showOptions;
 public  Menu menu;
 
 
@@ -77,7 +77,8 @@ frameRate(30);
 int tick = 1, spawnNum;
 Spawner spawner = new Spawner();
 boolean spawning = false;
-void draw() {
+void draw() 
+{
 
   if (!psychedelicMode)
   {
@@ -88,59 +89,65 @@ void draw() {
   if (playGame == false)
   {
     if(showCredits)
-      showCredits();
+      printCredits();
     if(showMenu)
-    menu.showMenu();
-  }
- else
-  {
-   spawning = true;
+      menu.showMenu();
+    if(showInstructions)
+      printInstructions();
+    if(showHighScore)
+      printHighScores(); 
+    if(showOptions)
+      printOptions();
+  } 
+  else
+     {
+     spawning = true;
 
-  if (mousePressed)
-  {
-    player.move();
-    if (tick%3==0)
-      player.shoot();
-  }
-  player.display();
+    if (mousePressed)
+    {
+      player.move();
+      if (tick%3==0)
+        player.shoot();
+    }
+    player.display();
 
- for (int j = 0; j< playerBullets.size();j++)
-  {
-    Projectile p = (Projectile) playerBullets.get(j);
-    p.move();
-  }
-  for (int j = 0; j< enemyShips.size();j++)
-  {
-    enemyShip s = (enemyShip) enemyShips.get(j);
-    s.act();
-  }
+    for (int j = 0; j< playerBullets.size();j++)
+    {
+      Projectile p = (Projectile) playerBullets.get(j);
+      p.move();
+    }
+    for (int j = 0; j< enemyShips.size();j++)
+    {
+      enemyShip s = (enemyShip) enemyShips.get(j);
+      s.act();
+    }
 
 
-  for (int j = 0; j< enemyBullets.size();j++)
-  {
-    Projectile p = (Projectile) enemyBullets.get(j);
-    p.move();
-  }
+    for (int j = 0; j< enemyBullets.size();j++)
+    {
+      Projectile p = (Projectile) enemyBullets.get(j);
+      p.move();
+    }
 
 
  
-  for (int j = 0; j< items.size();j++)
-  {
-    Item p = (Item) items.get(j);
-    p.move();
-  }
-   for (int i = activePowerUps.size()-1 ; i  >= 0;i--)
-      {
-        PowerUp p =  activePowerUps.get(i);
+    for (int j = 0; j< items.size();j++)
+    {
+      Item p = (Item) items.get(j);
+      p.move();
+    }
+    for (int i = activePowerUps.size()-1 ; i  >= 0;i--)
+    {
+       PowerUp p =  activePowerUps.get(i);
        p.increment();
-      }
+    }
       
-       text("Score: " + player.getScore(), displayWidth/20,displayHeight/20);
+    text("Score: " + player.getScore(), displayWidth/20,displayHeight/20);
  // text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
  // text("Ship Count: " + enemyShips.size(), 10, 75);
   
 
-  collisionDetection();
+    collisionDetection();
 
  
   /*
@@ -155,20 +162,21 @@ void draw() {
     enemyShips.add(new Cruiser(guns));
   }*/
   
-  if(tick % 500 == 0)
-  {
+     if(tick % 500 == 0)
+    {
           //!spawning;
-    spawnNum = gen.nextInt(5);
-  }
+      spawnNum = gen.nextInt(5);
+    }
 
-  if (spawning)
-    spawner.spawn(spawnNum);
-  tick++;
-  if (tick == 100000)
-    tick = 0;
+     if (spawning)
+      spawner.spawn(spawnNum);
+      
+     tick++;
+     if (tick == 100000)
+       tick = 0;
     
+    }
   }
-}
 
 
 void collisionDetection()
@@ -235,16 +243,16 @@ void collisionDetection()
 }
 
 
-void showCredits()
+void printCredits()
 {
   textAlign(CENTER);
   text("Lead Designer: Justin \"Nalta\" Sybrandt", displayWidth/2,displayHeight/5);
   text("Code Monkey: Caelan \"DarkFire16\" Mayberry", displayWidth/2,displayHeight*(2/5.0));
-  text("Chill Meister: Mike \"Cake\" Boom", displayWidth/2,displayHeight*(3/5.0));
+  text("Chill Meister: Mike \"Reason\" Boom", displayWidth/2,displayHeight*(3/5.0));
   text("Art Master: Josh \"Fa1seEcho\" Walton", displayWidth/2,displayHeight*(4/5.0));
   
   //BULD A BACK BUTTON AT TOP OF SCREEN
-  if(mousePressed )
+ if(mousePressed && mouseY<displayHeight/6)
   {
     showCredits= false;
     showMenu = true;
@@ -252,6 +260,55 @@ void showCredits()
   }
 }
 
+void printInstructions()
+{
+  textAlign(CENTER);
+  text("SHOOT STUFF", displayWidth/2,displayHeight/3);
+   
+   
+   if(mousePressed && mouseY<displayHeight/6.0)
+  { 
+    showCredits= false;
+    showMenu = true;
+    playGame = false;
+    showInstructions = false;
+  }
+}
+
+
+
+
+void printHighScores()
+{
+  textAlign(CENTER);
+  text("YOUR SCORES ARE BAD", displayWidth/2,displayHeight/4);
+
+text("AND YOU SHOULD FEEL BAD", displayWidth/2,displayHeight/3); 
+   
+   
+   if(mousePressed && mouseY<displayHeight/6.0)
+  { 
+    
+    showMenu = true;
+    showHighScore = false;
+  }
+}
+
+void printOptions()
+{
+  textAlign(CENTER);
+  text("YOU AINT SEEN NOTHING YET!", displayWidth/2,displayHeight/4);
+
+text("...seriously, we have yet to code this...", displayWidth/2,displayHeight/3); 
+   
+   
+   if(mousePressed && mouseY<displayHeight/6.0)
+  { 
+    
+    showMenu = true;
+    showOptions = false;
+  }
+}
 
 
 

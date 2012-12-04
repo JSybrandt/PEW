@@ -20,7 +20,10 @@ void keyPressed() {
      enemyShips.add(s);
    }
      
-     if(key == 'r')
+     
+     
+     //this gets switched around when porting to android
+    if(key == 'r')
       // if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU) 
      if (playGame == true)
   {

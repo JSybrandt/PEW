@@ -72,18 +72,27 @@ float opX, opY, opSizeX, opSizeY;
     {
       if(mousePressed == true)
       {
-        //stuff
-        
+        showInstructions=true;
+        showMenu = false;
       }
     }
      if(overBox(opX, opY, opSizeX, opSizeY))
     {
       if(mousePressed == true)
       {
-        //stuff
-        
+        showOptions = true;
+        showMenu = false;
       }
     }
+     if(overBox( scoreX, scoreY, scoreSizeX,scoreSizeY))
+    {
+      if(mousePressed == true)
+      {
+        showHighScore = true;
+        showMenu = false;
+      }
+    }
+   
   }
   boolean overBox(float a, float b, float w, float h)  
 {
