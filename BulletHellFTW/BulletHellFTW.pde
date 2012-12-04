@@ -14,11 +14,8 @@ ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 Random gen = new Random();
 
 boolean psychedelicMode = false;
-
-PImage Menu;
-boolean playgame = false;
-int rectX, rectY;      // Position of square button
-int rectSize = 200;     // Diameter of rect
+boolean playgame;
+public  Menu menu = new Menu();
 
 
  ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -44,13 +41,27 @@ int rectSize = 200;     // Diameter of rect
 BackgroundHandler bghandel = new BackgroundHandler();
 
 
+
+
+PImage MenuImage;// = loadImage("MainMenu.png");;
+float PlayX, PlayY, playSizeY, playSizeX;      // Position of square button
+
+
+
+
+
 void setup() {
   
-  loadImages();
   
-  Menu = loadImage("Menu2.png");
-  rectX = displayWidth/2 - rectSize - 10;;
-  rectY = displayHeight/2;
+  
+  playgame = false;
+  MenuImage = loadImage("MainMenu.png");
+  PlayX = displayWidth/13.2;
+  PlayY = (displayHeight/1.865);
+  playSizeY = displayHeight/7.8;// Diameter of 
+  playSizeX = displayWidth/1.201;
+  
+  loadImages();
   
  bghandel.setBG("spaceBackground.png");
   size(displayWidth, displayHeight);
@@ -68,7 +79,7 @@ frameRate(30);
   fill(255);
 }
 
-boolean overRect(int x, int y, int width, int height)  
+boolean overBox(float x, float y, float width, float height)  
 {
   if (mouseX >= x && mouseX <= x+width && 
       mouseY >= y && mouseY <= y+height) 
@@ -94,7 +105,7 @@ void draw() {
   
   if (playgame == false)
   {
-    Menu();
+    menu.ScreenTest();
   }
 
  if (playgame == true)
@@ -236,5 +247,11 @@ void collisionDetection()
     }
   }
 }
+
+
+
+
+
+
 
 
