@@ -143,13 +143,15 @@ void draw() {
         PowerUp p =  activePowerUps.get(i);
        p.increment();
       }
-  }
+      
+       text("Score: " + player.getScore(), 10, 20);
+  text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
+  text("Ship Count: " + enemyShips.size(), 10, 75);
+  
 
   collisionDetection();
 
-  text("Score: " + player.getScore(), 10, 20);
-  text("Bullet Count: " + (enemyBullets.size() + playerBullets.size()), 10, 50);
-  text("Ship Count: " + enemyShips.size(), 10, 75);
+ 
   /*
   if (tick ==100)
   {
@@ -174,7 +176,7 @@ void draw() {
   if (tick == 100000)
     tick = 0;
     
-    
+  }
 }
 
 
