@@ -1,5 +1,8 @@
 import java.util.Random;
 
+
+ 
+
 PlayerShip player;
 Ship enemy;
 
@@ -15,7 +18,7 @@ Random gen = new Random();
 
 boolean psychedelicMode = false;
 boolean playgame;
-public  Menu menu = new Menu();
+public  Menu menu;
 
 
  ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -35,6 +38,8 @@ public  Menu menu = new Menu();
     loadedPics.add(loadImage("HerpADerp.png"));//#9
     loadedPics.add(loadImage("bomb.png"));//#10
     loadedPics.add(loadImage("Drone-hit.png"));//*11
+    loadedPics.add( loadImage("MainMenu.png"));//#12
+   
   }
 
 
@@ -43,8 +48,8 @@ BackgroundHandler bghandel = new BackgroundHandler();
 
 
 
-PImage MenuImage;// = loadImage("MainMenu.png");;
-float PlayX, PlayY, playSizeY, playSizeX;      // Position of square button
+//PImage MenuImage;// = loadImage("MainMenu.png");;
+//float PlayX, PlayY, playSizeY, playSizeX;      // Position of square button
 
 
 
@@ -52,17 +57,17 @@ float PlayX, PlayY, playSizeY, playSizeX;      // Position of square button
 
 void setup() {
   
-  
-  
+/*  
   playgame = false;
   MenuImage = loadImage("MainMenu.png");
   PlayX = displayWidth/13.2;
   PlayY = (displayHeight/1.865);
   playSizeY = displayHeight/7.8;// Diameter of 
   playSizeX = displayWidth/1.201;
+  */
   
   loadImages();
-  
+ menu = new Menu();
  bghandel.setBG("spaceBackground.png");
   size(displayWidth, displayHeight);
   imageMode(CENTER);
@@ -79,18 +84,6 @@ frameRate(30);
   fill(255);
 }
 
-boolean overBox(float x, float y, float width, float height)  
-{
-  if (mouseX >= x && mouseX <= x+width && 
-      mouseY >= y && mouseY <= y+height) 
-  {
-    return true;
-  } 
-  else 
-  {
-    return false;
-  }
-}
 
 int tick = 1, spawnNum;
 Spawner spawner = new Spawner();
