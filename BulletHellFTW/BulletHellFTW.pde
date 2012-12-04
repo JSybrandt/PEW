@@ -103,13 +103,7 @@ void draw()
      {
      spawning = true;
 
-    if (mousePressed)
-    {
-      player.move();
-      if (tick%3==0)
-        player.shoot();
-    }
-    player.display();
+ 
 
     for (int j = 0; j< playerBullets.size();j++)
     {
@@ -150,7 +144,7 @@ void draw()
     collisionDetection();
 
  
-  /*
+  
   if (tick ==100)
   {
     ArrayList<Turret> guns = new ArrayList<Turret>();
@@ -158,9 +152,22 @@ void draw()
     guns.add(new Turret(new TestGun(),50));
     guns.add(new Turret(new TestGun(),50));
     guns.add(new Turret(new TestGun(),50));
+     guns.add(new Turret(new TestGun(),50));
     guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+     guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+     guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+    guns.add(new Turret(new TestGun(),50));
+
+   
     enemyShips.add(new Cruiser(guns));
-  }*/
+  }
   
      if(tick % 500 == 0)
     {
@@ -174,7 +181,15 @@ void draw()
      tick++;
      if (tick == 100000)
        tick = 0;
-    
+       
+       
+       if (mousePressed)
+    {
+      player.move();
+      if (tick%3==0)
+        player.shoot();
+    }
+    player.display();
     }
   }
 

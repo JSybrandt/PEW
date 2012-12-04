@@ -1,21 +1,26 @@
 public class Cruiser extends enemyShip
 {
   ArrayList<Turret> guns;
+  int[] turretsX = {-600,-530,-470,-420,-376,-340,-296,-150,-90,-30,30,100,220,300,370,450};
+  int[] turretsY = {136,136,136,90,18,90,18,162,162,162,162,166,82,82,82,82};
   int count;
   boolean moving,shooting;
   int activeGun;
+  Turret activeTurret;
   int destinationX, destinationY;
+  
   Cruiser(ArrayList<Turret> g)
   {
-    super(displayWidth/2, -100, 0, 5, 7, 1000, 1000);
+    super(displayWidth/2, -100, 3, 5, 7, 1000, 1000);
     guns = g;
     prepairTurrets();
     count = 0;
     destinationX = locX;
-    destinationY = displayHeight/6;
+    destinationY = displayHeight/4;
     moving = true;
     shooting = false;
-    activeGun = (int)(guns.size()/2);
+   selectNewGun();
+    
   }
   void prepairTurrets()
   {
@@ -24,26 +29,32 @@ public class Cruiser extends enemyShip
      gunRange = 800/guns.size();
     for(int i = 0; i < guns.size(); i++)
     {
-      guns.get(i).moveTo((int)(locX-400+i*gunRange),locY+150);
+      guns.get(i).moveTo(locX+turretsX[i],locY+turretsY[i]);
     }
   }
   void act()
   {
+      display();
+     displayTurrets();
+     checkTurrentHealths();
      if(moving)
      move();
      else if(shooting)
      shoot();
-     else
+     else if(guns.size()>0)
       selectNewGun();
-     display();
-     displayTurrets();
-     checkTurrentHealths();
+     else super.blowUp();
+    
+  
   }
   void selectNewGun()
   {
       int selection = gen.nextInt(guns.size());
-      destinationX = -(guns.get(selection).getLocX());
+      activeTurret =  guns.get(selection);
+      destinationX = displayWidth/2-activeTurret.getLocX();
+  //    destinationY = activeTurret.getLocY();
       activeGun = selection;
+      activeTurret =  guns.get(selection);
       print(""+selection+" at desintation " + destinationX+"\n");
        moving = true;
   }
@@ -56,6 +67,7 @@ public class Cruiser extends enemyShip
         {
           locY+=speed;
           delY = speed;
+          
         }
          else
          {
@@ -64,24 +76,26 @@ public class Cruiser extends enemyShip
          }
       }
       else
-      {
-        if( abs(destinationX - locX )> 5)
         {
-         if(destinationX > locX)
+         if(destinationX > 0)
         {
           locX+=speed;
           delX = speed;
+          destinationX -=speed;
         }
          else
          {
             locX-=speed;
           delX = -speed;
+          destinationX +=speed;
          }
-        }
+        
       }
+     
       moveTurrets(delX,delY);
+      print("%%"+(destinationX - locX));
 
-      if(abs(destinationY-locY) < 10 && abs(destinationX-locX) < 10)
+      if(abs(destinationY-locY) < 10 && abs(destinationX) < 10)
       {
       moving = false;
       shooting = true;
@@ -91,8 +105,13 @@ public class Cruiser extends enemyShip
   }
   void shoot()
   {
-    if(count % freq == 0)
-    guns.get(activeGun).shoot();
+   for(int i = 0; i < guns.size(); i++)
+    {
+      if(guns.get(i).getLocX()>0&&guns.get(i).getLocX()<displayWidth)//aka on screen
+      {
+        guns.get(i).act();
+      }
+    }
     count++;
     if(count > 1000)
     {
@@ -119,7 +138,7 @@ public class Cruiser extends enemyShip
     {
       if (guns.get(i).getHealth()<1)
       {
-        if(i == activeGun)
+        if(guns.get(i)==activeTurret)
         shooting = false;
         
         guns.remove(i);
@@ -134,5 +153,9 @@ public class Cruiser extends enemyShip
   ArrayList<Turret> getTurretList()
   {
     return guns;
+  }
+  void hit()
+  {
+    //do nothing;
   }
 }

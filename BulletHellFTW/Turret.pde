@@ -1,6 +1,6 @@
 public class Turret extends Actor
 {
-  int health;
+  int health, freq,count;
   Gun weapon;
   Turret (Gun g, int hlth)
   {
@@ -8,6 +8,14 @@ public class Turret extends Actor
     radius = 15;
     weapon = g;
     img = loadedPics.get(6);
+    freq = gen.nextInt(10)+1;
+    count = 0;
+  }
+  void act()
+  {
+    count++;
+    if(count % freq == 0)
+    shoot();
   }
   void increment(int delX, int delY)
   {
