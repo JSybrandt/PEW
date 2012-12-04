@@ -1,28 +1,19 @@
 public class Wave
 {
-  Wave(int d)
+  Wave(int n, int d)
   {
     tick = 0;
+    wavedone = false;
+    wavenum = n;
     difficulty = d;
-    pattern = gen.nextint(10);
   }
+  boolean wavedone;
+  int wavenum;
   int difficulty;
-  int pattern;
   int tick;
-  void spawnship()
-  {
-    
-  }
   void spawn()
   {
-    if(pattern == 0)
-    {
-      
-    }
-    if(pattern == 1)
-    {
-      
-    }
+
   }
 }
 
@@ -30,13 +21,16 @@ public class Level
 {
   Level(int n)
   {
+    wavedone = false;
     levelnumber = n;
-    bgimg = gen.nextint(6);
+    bgimg = 1+gen.nextint(6);
     for(int i=0; i < levelnumber%5*2+1; i++)
     {
-      waves.add(new Wave(levelnumber/5));
+      waves.add(new Wave(i, levelnumber/5));
     }
+    //bghandel.loadNewImage();
   }
+  boolean wavedone;
   int levelnumber;
   int bgimg;
   ArrayList waves = new ArrayList<Wave>();
