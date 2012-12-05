@@ -1,6 +1,6 @@
 class PlayerShip extends Ship {
-  int points;
-  PlayerShip(int xpos, int ypos)
+   
+  public PlayerShip(int xpos, int ypos)
   {
     super(7);
     dir = true;
@@ -50,6 +50,8 @@ class PlayerShip extends Ship {
   {
     println("THE PLAYER HAS DIED");
     super.blowUp();
+    showDeath = true;
+    playGame = false;
   }
   void addMoney(int p)
   {

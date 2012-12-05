@@ -28,6 +28,14 @@ void keyPressed() {
      {
        Sounds.adjustVolume(-0.1);
      }
+       if (key == 'c') // Clear highscore
+      {
+        highscore = 0;
+        // Create a new file in the sketch directory
+        output = createWriter(highscoreFile);
+        output.println(highscore);
+        output.close(); // Writes the remaining data to the file & Finishes the file
+      }
      
      //this gets switched around when porting to android
     if(key == 'r')

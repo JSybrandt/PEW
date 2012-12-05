@@ -14,10 +14,17 @@ ArrayList playerBullets = new ArrayList<Projectile>();
 ArrayList items = new ArrayList<Item>();//misc stuff and items
 ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 
+PFont fontG;
+String highscoreFile = "highscore.txt";
+final String GO = "Game Over";
+PrintWriter output;
+BufferedReader reader;
+int highscore, points;
+
 Random gen = new Random();
 
 boolean psychedelicMode = false;
-boolean playGame,showMenu,showCredits,showHighScore,showInstructions,showOptions;
+boolean playGame,showMenu,showCredits,showHighScore, showDeath, showInstructions,showOptions;
 public  Menu menu;
 
 
@@ -47,12 +54,13 @@ BackgroundHandler bghandel = new BackgroundHandler();
 
 
 
-
-
-
 void setup() {
 
   Sounds.setUp();
+  
+  fontG = createFont("Constantia", 48);
+ 
+  importHighscore();
   
   loadImages();
  menu = new Menu();
@@ -99,6 +107,8 @@ void draw()
       printHighScores(); 
     if(showOptions)
       printOptions();
+    if(showDeath)
+      printDeath();
   } 
   else
      {
@@ -235,6 +245,7 @@ void collisionDetection()
     {
       player.hit();
       p.removeSelf();
+      updateHighscore();
     }
   }
 
@@ -254,8 +265,8 @@ void collisionDetection()
     if (p.isTouching(player))
     {
       player.blowUp();
-    }
-  }
+      updateHighscore();;
+    }    }
 }
 
 
@@ -298,16 +309,20 @@ void printInstructions()
 
 void printHighScores()
 {
+   for (int i = 1; i == 1; i++)
+  {
+      importHighscore();
+      
+  }
   textAlign(CENTER);
    image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
-  text("YOUR SCORES ARE BAD", displayWidth/2,displayHeight/4);
+  text(" " + highscore, displayWidth/2,displayHeight/4);
 
 text("AND YOU SHOULD FEEL BAD", displayWidth/2,displayHeight/3); 
    
    
    if(mousePressed && mouseY<displayHeight/6.0)
   { 
-    
     showMenu = true;
     showHighScore = false;
   }
@@ -330,7 +345,10 @@ text("...seriously, we have yet to code this...", displayWidth/2,displayHeight/3
   }
 }
 
-
+void printDeath()
+{
+   GameOverMessage(GO);
+}
 
 
 

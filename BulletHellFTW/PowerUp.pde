@@ -7,7 +7,7 @@ public class PowerUp extends Item
     radius = 10;
     activePowerUps.add(this);
     counter = 0; 
-    lifeSpan = 500;
+    lifeSpan = 250;
     
     
   }
