@@ -1,11 +1,5 @@
+import apwidget.*;
 import java.util.Random;
-import ddf.minim.*;
-import ddf.minim.signals.*;
-import ddf.minim.effects.*;
-import ddf.minim.spi.*;
-import ddf.minim.signals.*;
-
-static Minim minim;
 
 
 
@@ -57,7 +51,7 @@ BackgroundHandler bghandel = new BackgroundHandler();
 
 
 void setup() {
-  minim = new Minim(this);
+
   Sounds.setUp();
   
   loadImages();
