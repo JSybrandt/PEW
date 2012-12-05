@@ -60,8 +60,8 @@ void setup() {
 /*  
   playgame = false;
   MenuImage = loadImage("MainMenu.png");
-  PlayX = displayWidth/13.57;
-  PlayY = displayHeight/1.865;
+  PlayX = displayWidth/13.2;
+  PlayY = (displayHeight/1.865);
   playSizeY = displayHeight/7.8;// Diameter of 
   playSizeX = displayWidth/1.201;
   */
