@@ -1,4 +1,4 @@
-import apwidget.*;
+import apwidgets.*;
 import java.util.Random;
 
 
