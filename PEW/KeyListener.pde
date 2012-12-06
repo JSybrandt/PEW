@@ -38,15 +38,12 @@ void keyPressed() {
       }
      
      //this gets switched around when porting to android
-    if(key == 'r')
-    //   if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU) 
-     if (playGame == true)
-  {
-  
+   // if(key == 'r')
+      if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU||keyCode == android.view.KeyEvent.KEYCODE_BACK) 
     {
        playGame = false;
        showMenu = true;
        showCredits = false;
     }
-  }
+ 
 }
