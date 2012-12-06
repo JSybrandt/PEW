@@ -1,10 +1,13 @@
-import apwidgets.*;
+//import apwidgets.*;
 import java.util.Random;
 //the following are all pieces we need to pull in from the android sdk
 import android.media.SoundPool; //this is the audio player for short quick audio files
 import android.media.AudioManager; //the audio manager controlls all the audio connected to it, enabeling overall volume and such
 import android.content.res.AssetManager; //the asset manager helps us find specific files and can be used in the style of an array if needed
 
+
+AssetManager assetManager;//needed for sounds, has to be up in rank
+SoundPool soundPool;
 
 
 PlayerShip player;
@@ -59,7 +62,8 @@ BackgroundHandler bghandel = new BackgroundHandler();
 Sounds sound = new Sounds();
 
 void setup() {
-
+assetManager = this.getAssets();//needed for sounds, has to be up in rank
+soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
  sound.setUp();
   
   fontG = createFont("Constantia", 48);
