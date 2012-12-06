@@ -38,7 +38,7 @@ public class Turret extends Actor
   }
   void hit()
   {
-    Sounds.play(2);
+    //s.play(2);
     health--;
   }
 }

@@ -22,11 +22,11 @@ void keyPressed() {
      
      if(key=='a')
      {
-       Sounds.adjustVolume(0.1);
+       //s.adjustVolume(0.1);
      }
      if(key=='z')
      {
-       Sounds.adjustVolume(-0.1);
+      // Sounds.adjustVolume(-0.1);
      }
        if (key == 'c') // Clear highscore
       {
