@@ -56,11 +56,11 @@ public  Menu menu;
 
 BackgroundHandler bghandel = new BackgroundHandler();
 
-
+Sounds sound = new Sounds();
 
 void setup() {
 
-//  Sounds.setUp();
+ sound.setUp();
   
   fontG = createFont("Constantia", 48);
  
