@@ -8,11 +8,17 @@ void GameOverMessage(String msg)
   
    if(mousePressed && mouseY<displayHeight/6)
   {
+    enemyShips.clear();
+    enemyBullets.clear();
+    playerBullets.clear();
+    items.clear();
+    activePowerUps.clear();
     textAlign(LEFT);
     textFont(f, 24);
     fill(255);
     showDeath = false;
     showMenu = true;
     playGame = false;
+    points = 0;
   }
 }
