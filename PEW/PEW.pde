@@ -66,7 +66,7 @@ assetManager = this.getAssets();//needed for sounds, has to be up in rank
 soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
  sound.setUp();
   
-  fontG = createFont("Constantia", 48);
+  fontG = createFont("Constantia", 48, true);
  
   importHighscore();
   
@@ -251,7 +251,7 @@ void collisionDetection()
     p.move();
     if (p.isTouching(player))
     {
-      player.hit();
+      player.blowUp();
       p.removeSelf();
       updateHighscore();
     }
@@ -272,6 +272,7 @@ void collisionDetection()
     Ship p = (Ship) enemyShips.get(i);
     if (p.isTouching(player))
     {
+      p.blowUp();
       player.blowUp();
       updateHighscore();;
     }    }
