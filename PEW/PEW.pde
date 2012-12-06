@@ -4,9 +4,11 @@ import java.util.Random;
 import android.media.SoundPool; //this is the audio player for short quick audio files
 import android.media.AudioManager; //the audio manager controlls all the audio connected to it, enabeling overall volume and such
 import android.content.res.AssetManager; //the asset manager helps us find specific files and can be used in the style of an array if needed
-
+import android.media.MediaPlayer;
+import android.content.res.AssetFileDescriptor; //needed to reference local file in mediaplplayer
 
 AssetManager assetManager;//needed for sounds, has to be up in rank
+MediaPlayer mediaPlayer;
 SoundPool soundPool;
 
 
@@ -63,9 +65,14 @@ Sounds sound = new Sounds();
 
 void setup() {
 assetManager = this.getAssets();//needed for sounds, has to be up in rank
+
+
+
 soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+
  sound.setUp();
-  
+ 
+  mediaPlayer = new MediaPlayer();
   fontG = createFont("Constantia", 48);
  
   importHighscore();
