@@ -1,7 +1,9 @@
 import apwidgets.*;
 import java.util.Random;
+//the following are all pieces we need to pull in from the android sdk
 import android.media.SoundPool; //this is the audio player for short quick audio files
 import android.media.AudioManager; //the audio manager controlls all the audio connected to it, enabeling overall volume and such
+import android.content.res.AssetManager; //the asset manager helps us find specific files and can be used in the style of an array if needed
 
 
 
@@ -58,7 +60,7 @@ BackgroundHandler bghandel = new BackgroundHandler();
 
 void setup() {
 
-  Sounds.setUp();
+//  Sounds.setUp();
   
   fontG = createFont("Constantia", 48);
  
@@ -352,11 +354,13 @@ void printDeath()
    GameOverMessage(GO);
 }
 
-
-
 public void onDestroy() {
 
   super.onDestroy(); //call onDestroy on super class
- Sounds.endAll();
+  if(soundPool!=null) { //must be checked because or else crash when return from landscape mode
+    soundPool.release(); //release the player
+  }
 }
+
+
 
