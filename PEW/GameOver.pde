@@ -8,6 +8,7 @@ void GameOverMessage(String msg)
   
    if(mousePressed && mouseY<displayHeight/6)
   {
+    textAlign(LEFT);
     textFont(f, 24);
     fill(255);
     showDeath = false;
