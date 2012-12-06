@@ -1,5 +1,7 @@
 import apwidgets.*;
 import java.util.Random;
+import android.media.SoundPool; //this is the audio player for short quick audio files
+import android.media.AudioManager; //the audio manager controlls all the audio connected to it, enabeling overall volume and such
 
 
 
@@ -352,5 +354,9 @@ void printDeath()
 
 
 
+public void onDestroy() {
 
+  super.onDestroy(); //call onDestroy on super class
+ Sounds.endAll();
+}
 

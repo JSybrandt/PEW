@@ -1,44 +1,33 @@
+
 public static class Sounds
 {
- // static AudioOutput out = minim.getLineOut();;
-  static float volumeLevel=0.5;
-  //static SoundPool noises = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
-  
+  static SoundPool soundPool;
+  static AssetManager assetManager;
+  static int PEW;
+
   public static void setUp()
   {
-   adjustVolume(0);
- //  out = minim.getLineOut();
-  //  noises.put(1, soundPool.load(this, data.sounds.pew, 1));
-  // noises.add(minim.loadSample("\\sounds\\tchhhh.mp3"));
- //  noises.add(minim.loadSample("\\sounds\\tch.mp3"));
-   
-   
-  }
-  public static void mute()
-  {
-    //out.mute();
-  }
-   public static void unMute()
-  {
-   // out.unmute();
-  }
-  public static void adjustVolume(float delV)
-  {
-   // volumeLevel+=delV;
-  // if ( out.hasControl(Controller.VOLUME) )
-  // out.setVolume(volumeLevel);
-  //  if ( out.hasControl(Controller.GAIN) )
-  //  out.setGain(volumeLevel);
+    soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0); //(max #of streams, stream type, source quality) - see the android reference for details
+    assetManager = this.getAssets();
+    try
+    {
+      pew = soundPool.load(assetManager.openFd("\\sounds\\pew.mp3"), 0); //load the files
+    }
+    catch (IOException e) {
+      print("Opps..");
+      e.printStackTrace(); //you can leave this empty...or use some other way to notify the user/developer something went wrong
+    }
   }
   public static void play(int i)
   {
-  //  if(i < noises.size())
-  //  noises.get(i).trigger();
+    soundPool.play(i, 1, 1, 0, 0, 1);//no idea why this is to be quite honest
   }
-  
-    void stop()
-   {
-    //out.close();
-   // minim.stop();
+
+  public static endAll() {//needed to close sound stuff right
+
+    if (soundPool!=null) { //must be checked because or else crash when return from landscape mode
+      soundPool.release(); //release the player
     }
+  }
 }
+
