@@ -46,7 +46,7 @@ public class PEW extends PApplet {
 	final String GO = "Game Over";
 	PrintWriter output;
 	BufferedReader reader;
-	int highscore, points;
+	int highscoretop, highscoremid, highscorebottom, points;
 
 	Random gen = new Random();
 
@@ -344,7 +344,7 @@ public class PEW extends PApplet {
 		textAlign(CENTER);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text(" " + highscore, displayWidth / 2, displayHeight / 4);
+		text(" " + highscoretop, displayWidth / 2, displayHeight / 4);
 
 		text("AND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)", displayWidth / 2, displayHeight / 3);
 
@@ -702,7 +702,7 @@ public class PEW extends PApplet {
 	  textFont(fontG);
 	  fill(110, 50, 255);
 	    textAlign(CENTER);
-	  text(msg+ "\nScore: " + points + "\nHigh Score: " + highscore, displayWidth / 2, displayHeight / 2);
+	  text(msg+ "\nScore: " + points + "\nHigh Score: " + highscoretop, displayWidth / 2, displayHeight / 2);
 	  
 	   if(mousePressed && mouseY<displayHeight/6)
 	  {
@@ -718,6 +718,7 @@ public class PEW extends PApplet {
 	    showMenu = true;
 	    playGame = false;
 	    points = 0;
+	    tick = 0;
 	  }
 	}
 
@@ -780,7 +781,7 @@ public class PEW extends PApplet {
 		// Open the file from the createWriter()
 		reader = createReader(highscoreFile);
 		if (reader == null) {
-			highscore = 0;
+			highscoretop = 0;
 			return;
 		}
 		String line;
@@ -791,8 +792,8 @@ public class PEW extends PApplet {
 			line = null;
 		}
 		if (line != null) {
-			highscore = PApplet.parseInt(line);
-			println(highscore);
+			highscoretop = PApplet.parseInt(line);
+			println(highscoretop);
 		}
 		try {
 			reader.close();
@@ -802,11 +803,11 @@ public class PEW extends PApplet {
 	}
 
 	public void updateHighscore() {
-		if (highscore < points) {
-			highscore = points;
+		if (highscoretop < points) {
+			highscoretop = points;
 			// Create a new file in the sketch directory
 			output = createWriter(highscoreFile);
-			output.println(highscore);
+			output.println(highscoretop);
 			output.close(); // Writes the remaining data to the file & Finishes
 							// the file
 		}
@@ -875,10 +876,10 @@ public class PEW extends PApplet {
 		}
 		if (key == 'c') // Clear highscore
 		{
-			highscore = 0;
+			highscoretop = 0;
 			// Create a new file in the sketch directory
 			output = createWriter(highscoreFile);
-			output.println(highscore);
+			output.println(highscoretop);
 			output.close(); // Writes the remaining data to the file & Finishes
 							// the file
 		}
