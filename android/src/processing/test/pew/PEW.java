@@ -696,15 +696,29 @@ public class PEW extends PApplet {
 
 	}
 
-	public void GameOverMessage(String msg) {
-		textFont(fontG);
-		fill(110, 50, 255);
-		textAlign(CENTER);
-		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore,
-				displayWidth / 2, displayHeight / 2);
-		
-		
-		
+	void GameOverMessage(String msg)
+	{
+	  image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
+	  textFont(fontG);
+	  fill(110, 50, 255);
+	    textAlign(CENTER);
+	  text(msg+ "\nScore: " + points + "\nHigh Score: " + highscore, displayWidth / 2, displayHeight / 2);
+	  
+	   if(mousePressed && mouseY<displayHeight/6)
+	  {
+	    enemyShips.clear();
+	    enemyBullets.clear();
+	    playerBullets.clear();
+	    items.clear();
+	    activePowerUps.clear();
+	    textAlign(LEFT);
+	    textFont(f, 24);
+	    fill(255);
+	    showDeath = false;
+	    showMenu = true;
+	    playGame = false;
+	    points = 0;
+	  }
 	}
 
 	abstract class Gun {
