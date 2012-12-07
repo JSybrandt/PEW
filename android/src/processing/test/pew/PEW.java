@@ -238,8 +238,9 @@ public class PEW extends PApplet{
 			Projectile p = (Projectile) enemyBullets.get(i);
 			p.move();
 			if (p.isTouching(player)) {
-				player.blowUp();
-				p.removeSelf();
+				//player.blowUp();
+				//p.removeSelf();
+				player.hit();
 				updateHighscore();
 			}
 		}
@@ -1017,18 +1018,18 @@ public class PEW extends PApplet{
 	public class PlayerGunLev2 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			
-				new PlayerBullet(xpos + 12, ypos, 0, -20);
+				new PlayerBullet(xpos + 12, ypos, 1, -20);
 				new PlayerBullet(xpos , ypos, 0, -20);
-				new PlayerBullet(xpos - 12, ypos, 0, -20);
+				new PlayerBullet(xpos - 12, ypos, -1, -20);
 		}
 	}
 	
 	public class PlayerGunLev3 extends Gun {
 		public void shoot(int xpos, int ypos) {
-			new PlayerBullet(xpos - 12, ypos, 2, -20);
-			new PlayerBullet(xpos + 12, ypos, 2, -20);
-			new PlayerBullet(xpos +12, ypos, -2, -20);
 			new PlayerBullet(xpos - 12, ypos, -2, -20);
+			new PlayerBullet(xpos + 12, ypos, 2, -20);
+			new PlayerBullet(xpos +12, ypos, 0, -20);
+			new PlayerBullet(xpos - 12, ypos, 0, -20);
 		}
 	}
 
@@ -1195,8 +1196,13 @@ public class PEW extends PApplet{
 		{
 			super(posX,posY,8);
 			lifeSpan = 0;
+		}
+		public void act()
+		{
 			player.incrementGunLev(1);
 		}
+		
+		
 	}
 	
 	void makeRandPowerUp(int i, int j)
