@@ -167,27 +167,27 @@ public class PEW extends PApplet{
 
 			collisionDetection();
 
-			if (tick == 100) {
-				ArrayList<Turret> guns = new ArrayList<Turret>();
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-
-				enemyShips.add(new Cruiser(guns));
-			}
+//			if (tick == 100) {
+//				ArrayList<Turret> guns = new ArrayList<Turret>();
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//
+//				enemyShips.add(new Cruiser(guns));
+//			}
 
 			if (tick % 500 == 0) {
 				// !spawning;
@@ -1018,16 +1018,16 @@ public class PEW extends PApplet{
 	public class PlayerGunLev2 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			
-				new PlayerBullet(xpos + 12, ypos, 1, -20);
+				new PlayerBullet(xpos + 12, ypos, 2, -20);
 				new PlayerBullet(xpos , ypos, 0, -20);
-				new PlayerBullet(xpos - 12, ypos, -1, -20);
+				new PlayerBullet(xpos - 12, ypos, -2, -20);
 		}
 	}
 	
 	public class PlayerGunLev3 extends Gun {
 		public void shoot(int xpos, int ypos) {
-			new PlayerBullet(xpos - 12, ypos, -2, -20);
-			new PlayerBullet(xpos + 12, ypos, 2, -20);
+			new PlayerBullet(xpos - 12, ypos, -3, -20);
+			new PlayerBullet(xpos + 12, ypos, 3, -20);
 			new PlayerBullet(xpos +12, ypos, 0, -20);
 			new PlayerBullet(xpos - 12, ypos, 0, -20);
 		}
@@ -1046,12 +1046,12 @@ public class PEW extends PApplet{
 	public class PlayerGunLev5 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
-			new PlayerBullet(xpos, ypos, 1, -20);
-			new PlayerBullet(xpos, ypos, -1, -20);
-			new PlayerBullet(xpos + 12, ypos, 3, -20);
-			new PlayerBullet(xpos - 12, ypos, -3, -20);
-			new PlayerBullet(xpos + 12, ypos, 6, -20);
-			new PlayerBullet(xpos - 12, ypos, -6, -20);
+			new PlayerBullet(xpos, ypos, 2, -20);
+			new PlayerBullet(xpos, ypos, -2, -20);
+			new PlayerBullet(xpos + 12, ypos, 4, -20);
+			new PlayerBullet(xpos - 12, ypos, -4, -20);
+			new PlayerBullet(xpos + 12, ypos, 8, -20);
+			new PlayerBullet(xpos - 12, ypos, -8, -20);
 		}
 	}
 
@@ -1200,6 +1200,7 @@ public class PEW extends PApplet{
 		public void act()
 		{
 			player.incrementGunLev(1);
+			this.removeSelf();
 		}
 		
 		
