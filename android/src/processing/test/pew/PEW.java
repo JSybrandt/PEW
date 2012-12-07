@@ -102,11 +102,9 @@ public class PEW extends PApplet{
 		player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
 		orientation(PORTRAIT);
 		frameRate(30);
-
 		f = createFont("Impact", 24, true);
 		textFont(f, 24);
 		fill(255);
-
 	}
 
 	int tick = 1, spawnNum;
@@ -119,7 +117,6 @@ public class PEW extends PApplet{
 			background(0xff000000);
 			bghandel.scroll();
 		}
-
 		if (playGame == false) {
 			if (showCredits)
 				printCredits();
@@ -239,7 +236,7 @@ public class PEW extends PApplet{
 			p.move();
 			if (p.isTouching(player)) {
 				//player.blowUp();
-				//p.removeSelf();
+				p.removeSelf();
 				player.hit();
 				updateHighscore();
 			}
@@ -345,7 +342,7 @@ public class PEW extends PApplet{
 			{
 			mediaPlayer.stop();
 			mediaPlayer.release();
-			mediaPlayer.reset();
+			//mediaPlayer.reset();
 			musicReady=false;
 			}
 		}
@@ -360,7 +357,7 @@ public class PEW extends PApplet{
 			{
 			mediaPlayer.stop();
 			mediaPlayer.release();
-			mediaPlayer.reset();
+			//mediaPlayer.reset();
 			musicReady=false;
 			}
 		}
@@ -486,7 +483,6 @@ public class PEW extends PApplet{
 				int dispx = (int) (speed * sin(degree));
 				int dispy = (int) (speed * cos(degree));
 				new Bullet(locX, locY, dispx, dispy);
-				// print(""+dispx +","+ dispy);
 			}
 		}
 	}
@@ -849,11 +845,11 @@ public class PEW extends PApplet{
 			showMenu = true;
 			showCredits = false;
 		}
-		if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_HOME) {
-			playGame = false;
-			showMenu = false;
-			showCredits = false;
-		}
+		//if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_HOME) {
+	//		playGame = false;
+	//		showMenu = false;
+	//		showCredits = false;
+	//	}
 
 	}
 
