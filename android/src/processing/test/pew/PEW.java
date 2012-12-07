@@ -917,7 +917,7 @@ public class PEW extends PApplet {
 		}
 
 		public void showMenu() {
-			
+			mediaPlayer.start();
 		
 
 			spawning = false;
@@ -928,7 +928,7 @@ public class PEW extends PApplet {
 
 			if (overBox(PlayX, PlayY, playSizeX, playSizeY)) {
 				if (mousePressed == true) {
-					mediaPlayer.start();
+					
 					showMenu = false;
 					playGame = true;
 					mediaPlayer.start();
