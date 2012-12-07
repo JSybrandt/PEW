@@ -258,7 +258,6 @@ public class PEW extends PApplet{
 				p.blowUp();
 				player.blowUp();
 				updateHighscore();
-				;
 			}
 		}
 	}
@@ -746,7 +745,7 @@ public class PEW extends PApplet{
 		boolean flip, shooting;
 
 		HelixShip(int startx, int starty) {
-			super(startx, starty, 3, 9, 10, 40, 9);
+			super(startx, starty, 3, 9, 10, 1, 9);
 			flip = false;
 
 			weapon = new HelixGun();
