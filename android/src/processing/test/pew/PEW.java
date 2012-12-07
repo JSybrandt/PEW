@@ -17,15 +17,6 @@ import android.content.res.AssetFileDescriptor;
 
 public class PEW extends PApplet {
 
-	// import apwidgets.*;
-
-	// the following are all pieces we need to pull in from the android sdk
-	// this is the audio player for short quick audio files
-	// the audio manager controlls all the audio connected to it, enabeling
-	// overall volume and such
-	// the asset manager helps us find specific files and can be used in the
-	// style of an array if needed
-
 	AssetManager assetManager;// needed for sounds, has to be up in rank
 	SoundPool soundPool;
 
@@ -85,39 +76,6 @@ public class PEW extends PApplet {
 		soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
 	//mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.bitswithbyte);
 		mediaPlayer = new MediaPlayer();
-		
-		 AssetFileDescriptor fd = null;
-		try {
-			fd = assetManager.openFd("bitswithbyte.ogg");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 try {
-			mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		  mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		  mediaPlayer.setLooping(true);
-		  try {
-			mediaPlayer.prepare();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		
 
 		sound.setUp();
@@ -393,6 +351,12 @@ public class PEW extends PApplet {
 }
 	    super.onStop();    
 	}
+	public void onResume()
+	{
+		sound.setUp();
+		super.onResume();
+	}
+	
 
 	abstract class Actor {
 		int locX, locY, radius, speed;
@@ -848,32 +812,7 @@ public class PEW extends PApplet {
 	public void keyPressed() {
 		if (key == ' ')
 			player.shoot();
-
-		if (key == 'm')
-			sound.play(sound.bgsong);
-
-		if (key == 's')
-			spawning = !spawning;
-		if (key == 'q' || key == 'b')
-			mediaPlayer.start();
-		// if(key == MENU)
-		{
-			int yLoc = gen.nextInt(displayWidth);
-			int xLoc = gen.nextInt(displayWidth);
-			enemyShip s = new Drone(xLoc, yLoc, 5, 4, 10, 1, 100);
-			// if(key=='q')
-			// s.setGun(new StarGun());
-			// if(key=='b')
-			s.setGun(new BombLauncher());
-			enemyShips.add(s);
-		}
-
-		if (key == 'a') {
-			// s.adjustVolume(0.1);
-		}
-		if (key == 'z') {
-			// Sounds.adjustVolume(-0.1);
-		}
+		
 		if (key == 'c') // Clear highscore
 		{
 			highscoretop = 0;
@@ -979,7 +918,7 @@ public class PEW extends PApplet {
 
 		public void showMenu() {
 			
-			mediaPlayer.start();
+		
 
 			spawning = false;
 			playGame = false;
@@ -992,6 +931,7 @@ public class PEW extends PApplet {
 					mediaPlayer.start();
 					showMenu = false;
 					playGame = true;
+					mediaPlayer.start();
 				}
 			}
 			if (overBox(creditsX, creditsY, creditsSizeX, creditsSizeY)) {
@@ -1318,6 +1258,7 @@ public class PEW extends PApplet {
 				e.printStackTrace(); // you can leave this empty...or use some
 										// other way to notify the
 										// user/developer something went wrong
+				buildPlayer();
 			}
 		}
 
@@ -1326,10 +1267,44 @@ public class PEW extends PApplet {
 													// quite honest
 		}
 
-		public void buildPlayer() {
-			//mediaPlayer.prepare();
-		}
 		
+		public void buildPlayer()
+		{
+		 AssetFileDescriptor fd = null;
+		 
+			try {
+				fd = assetManager.openFd("bitswithbyte.ogg");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			 try {
+				mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+			  mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			  
+			  mediaPlayer.setLooping(true);
+			  try {
+				mediaPlayer.prepare();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 
