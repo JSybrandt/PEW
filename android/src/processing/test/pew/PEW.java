@@ -277,7 +277,7 @@ public class PEW extends PApplet {
 			Projectile p = (Projectile) enemyBullets.get(i);
 			p.move();
 			if (p.isTouching(player)) {
-				player.hit();
+				player.blowUp();
 				p.removeSelf();
 				updateHighscore();
 			}
@@ -293,6 +293,7 @@ public class PEW extends PApplet {
 		for (int i = 0; i < enemyShips.size(); i++) {
 			Ship p = (Ship) enemyShips.get(i);
 			if (p.isTouching(player)) {
+				p.blowUp();
 				player.blowUp();
 				updateHighscore();
 				;
@@ -701,6 +702,9 @@ public class PEW extends PApplet {
 		textAlign(CENTER);
 		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore,
 				displayWidth / 2, displayHeight / 2);
+		
+		
+		
 	}
 
 	abstract class Gun {
