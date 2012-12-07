@@ -15,16 +15,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.content.res.AssetFileDescriptor;
 
-public class PEW extends PApplet {
-
-	// import apwidgets.*;
-
-	// the following are all pieces we need to pull in from the android sdk
-	// this is the audio player for short quick audio files
-	// the audio manager controlls all the audio connected to it, enabeling
-	// overall volume and such
-	// the asset manager helps us find specific files and can be used in the
-	// style of an array if needed
+public class PEW extends PApplet{
 
 	AssetManager assetManager;// needed for sounds, has to be up in rank
 	SoundPool soundPool;
@@ -53,6 +44,7 @@ public class PEW extends PApplet {
 	boolean psychedelicMode = false;
 	boolean playGame, showMenu, showCredits, showHighScore, showDeath,
 			showInstructions, showOptions;
+	boolean musicReady = false, startUp = true;
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -71,54 +63,23 @@ public class PEW extends PApplet {
 		loadedPics.add(loadImage("bomb.png"));// #10
 		loadedPics.add(loadImage("Drone-hit.png"));// *11
 		loadedPics.add(loadImage("MainMenu.png"));// #12
+		loadedPics.add(loadImage("PsychedelicPowerUp1.png"));// #13
+		
 
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
 
 	Sounds sound = new Sounds();
-	MediaPlayer mediaPlayer;
+	MediaPlayer mediaPlayer = new MediaPlayer();
 
 	public void setup() {
+		startUp = false;
 		assetManager = this.getAssets();// needed for sounds, has to be up in
 										// rank
 		soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
-	//mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.bitswithbyte);
-		mediaPlayer = new MediaPlayer();
-		
-		 AssetFileDescriptor fd = null;
-		try {
-			fd = assetManager.openFd("bitswithbyte.ogg");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 try {
-			mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		  mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		  mediaPlayer.setLooping(true);
-		  try {
-			mediaPlayer.prepare();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		// mediaPlayer =
+		// MediaPlayer.create(getApplicationContext(),R.raw.bitswithbyte);
 
 		sound.setUp();
 
@@ -326,7 +287,7 @@ public class PEW extends PApplet {
 		textAlign(CENTER);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text("To move, put your finger on the screen\n\n Hold your finger on the screen to shoot\n\nThe objective is to kill the cruiser\n\n do so by shooting all its turrets \n\n If you fail \n\n YOU SUCK", displayWidth / 2, displayHeight / 3);
+		text("SHOOT STUFF", displayWidth / 2, displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			showCredits = false;
@@ -346,7 +307,8 @@ public class PEW extends PApplet {
 				displayWidth, displayHeight / 6);
 		text(" " + highscoretop, displayWidth / 2, displayHeight / 4);
 
-		text("AND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)\nwatching you...", displayWidth / 2, displayHeight / 3);
+		text("AND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)",
+				displayWidth / 2, displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			showMenu = true;
@@ -374,25 +336,46 @@ public class PEW extends PApplet {
 		GameOverMessage(GO);
 	}
 
-	public void onDestroy() {
 
-		
-		if (soundPool != null) { // must be checked because or else crash when
-									// return from landscape mode
-			soundPool.release(); // release the player
-			mediaPlayer.release();
-		}
-		super.onDestroy(); // call onDestroy on super class
-	}
-	
-	public void onStop(){
+	public void onStop() {
 		if (soundPool != null) { // must be checked because or else crash when
 			// return from landscape mode
 			soundPool.release(); // release the player
+			if(musicReady)
+			{
+			mediaPlayer.stop();
 			mediaPlayer.release();
-}
-	    super.onStop();    
+			mediaPlayer.reset();
+			musicReady=false;
+			}
+		}
+		super.onStop();
 	}
+	
+	public void onPause() {
+		if (soundPool != null) { // must be checked because or else crash when
+			// return from landscape mode
+			soundPool.release(); // release the player
+			if(musicReady)
+			{
+			mediaPlayer.stop();
+			mediaPlayer.release();
+			mediaPlayer.reset();
+			musicReady=false;
+			}
+		}
+		super.onPause();
+	}
+
+	public void onResume()
+	{
+		if(!startUp && !musicReady)
+		{
+		sound.setUp();
+		}
+		super.onResume();
+	}
+
 
 	abstract class Actor {
 		int locX, locY, radius, speed;
@@ -696,30 +679,30 @@ public class PEW extends PApplet {
 
 	}
 
-	void GameOverMessage(String msg)
-	{
-	  image(loadImage("Back.png"),displayWidth/2,displayHeight/12,displayWidth, displayHeight/6);
-	  textFont(fontG);
-	  fill(110, 50, 255);
-	    textAlign(CENTER);
-	  text(msg+ "\nScore: " + points + "\nHigh Score: " + highscoretop, displayWidth / 2, displayHeight / 2);
-	  
-	   if(mousePressed && mouseY<displayHeight/6)
-	  {
-	    enemyShips.clear();
-	    enemyBullets.clear();
-	    playerBullets.clear();
-	    items.clear();
-	    activePowerUps.clear();
-	    textAlign(LEFT);
-	    textFont(f, 24);
-	    fill(255);
-	    showDeath = false;
-	    showMenu = true;
-	    playGame = false;
-	    points = 0;
-	    tick = 0;
-	  }
+	void GameOverMessage(String msg) {
+		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
+				displayWidth, displayHeight / 6);
+		textFont(fontG);
+		fill(110, 50, 255);
+		textAlign(CENTER);
+		text(msg + "\nScore: " + points + "\nHigh Score: " + highscoretop,
+				displayWidth / 2, displayHeight / 2);
+
+		if (mousePressed && mouseY < displayHeight / 6) {
+			enemyShips.clear();
+			enemyBullets.clear();
+			playerBullets.clear();
+			items.clear();
+			activePowerUps.clear();
+			textAlign(LEFT);
+			textFont(f, 24);
+			fill(255);
+			showDeath = false;
+			showMenu = true;
+			playGame = false;
+			points = 0;
+			tick = 0;
+		}
 	}
 
 	abstract class Gun {
@@ -729,7 +712,7 @@ public class PEW extends PApplet {
 
 	public class Hallucinate extends PowerUp {
 		Hallucinate(int locX, int locY) {
-			super(locX, locY);
+			super(locX, locY,13);
 
 		}
 
@@ -849,31 +832,6 @@ public class PEW extends PApplet {
 		if (key == ' ')
 			player.shoot();
 
-		if (key == 'm')
-			sound.play(sound.bgsong);
-
-		if (key == 's')
-			spawning = !spawning;
-		if (key == 'q' || key == 'b')
-			mediaPlayer.start();
-		// if(key == MENU)
-		{
-			int yLoc = gen.nextInt(displayWidth);
-			int xLoc = gen.nextInt(displayWidth);
-			enemyShip s = new Drone(xLoc, yLoc, 5, 4, 10, 1, 100);
-			// if(key=='q')
-			// s.setGun(new StarGun());
-			// if(key=='b')
-			s.setGun(new BombLauncher());
-			enemyShips.add(s);
-		}
-
-		if (key == 'a') {
-			// s.adjustVolume(0.1);
-		}
-		if (key == 'z') {
-			// Sounds.adjustVolume(-0.1);
-		}
 		if (key == 'c') // Clear highscore
 		{
 			highscoretop = 0;
@@ -886,19 +844,16 @@ public class PEW extends PApplet {
 
 		// this gets switched around when porting to android
 		// if(key == 'r')
-		if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU
-				|| keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+		if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_MENU) {
 			playGame = false;
 			showMenu = true;
 			showCredits = false;
 		}
 		if (key == CODED && keyCode == android.view.KeyEvent.KEYCODE_HOME) {
-			mediaPlayer.release();
 			playGame = false;
 			showMenu = false;
 			showCredits = false;
 		}
-
 
 	}
 
@@ -978,8 +933,10 @@ public class PEW extends PApplet {
 		}
 
 		public void showMenu() {
-			
+			if(musicReady)
 			mediaPlayer.start();
+			else
+				sound.buildPlayer();
 
 			spawning = false;
 			playGame = false;
@@ -989,9 +946,10 @@ public class PEW extends PApplet {
 
 			if (overBox(PlayX, PlayY, playSizeX, playSizeY)) {
 				if (mousePressed == true) {
-					mediaPlayer.start();
+
 					showMenu = false;
 					playGame = true;
+					
 				}
 			}
 			if (overBox(creditsX, creditsY, creditsSizeX, creditsSizeY)) {
@@ -1043,7 +1001,7 @@ public class PEW extends PApplet {
 		}
 	}
 
-	public class PlayerBaseGun extends Gun {
+	public class PlayerGunLev1 extends Gun {
 
 		boolean flip = false;
 
@@ -1056,9 +1014,25 @@ public class PEW extends PApplet {
 			flip = !flip;
 		}
 	}
+	public class PlayerGunLev2 extends Gun {
+		public void shoot(int xpos, int ypos) {
+			
+				new PlayerBullet(xpos + 12, ypos, 0, -20);
+				new PlayerBullet(xpos , ypos, 0, -20);
+				new PlayerBullet(xpos - 12, ypos, 0, -20);
+		}
+	}
+	
+	public class PlayerGunLev3 extends Gun {
+		public void shoot(int xpos, int ypos) {
+			new PlayerBullet(xpos - 12, ypos, 2, -20);
+			new PlayerBullet(xpos + 12, ypos, 2, -20);
+			new PlayerBullet(xpos +12, ypos, -2, -20);
+			new PlayerBullet(xpos - 12, ypos, -2, -20);
+		}
+	}
 
-	public class PlayerAwesomeGun extends Gun {
-
+	public class PlayerGunLev4 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
 			new PlayerBullet(xpos, ypos, 0, -20);
@@ -1066,7 +1040,17 @@ public class PEW extends PApplet {
 			new PlayerBullet(xpos - 12, ypos, -3, -20);
 			new PlayerBullet(xpos + 12, ypos, 6, -20);
 			new PlayerBullet(xpos - 12, ypos, -6, -20);
-
+		}
+	}
+	public class PlayerGunLev5 extends Gun {
+		public void shoot(int xpos, int ypos) {
+			sound.play(sound.pew);
+			new PlayerBullet(xpos, ypos, 1, -20);
+			new PlayerBullet(xpos, ypos, -1, -20);
+			new PlayerBullet(xpos + 12, ypos, 3, -20);
+			new PlayerBullet(xpos - 12, ypos, -3, -20);
+			new PlayerBullet(xpos + 12, ypos, 6, -20);
+			new PlayerBullet(xpos - 12, ypos, -6, -20);
 		}
 	}
 
@@ -1088,7 +1072,7 @@ public class PEW extends PApplet {
 	}
 
 	class PlayerShip extends Ship {
-
+		int gunLev;
 		public PlayerShip(int xpos, int ypos) {
 			super(7);
 			dir = true;
@@ -1096,7 +1080,8 @@ public class PEW extends PApplet {
 			locX = xpos;
 			locY = ypos;
 			speed = 25;
-			weapon = new PlayerAwesomeGun();
+			weapon = new PlayerGunLev1();
+			gunLev = 1;
 		}
 
 		public void move() {
@@ -1126,7 +1111,27 @@ public class PEW extends PApplet {
 		}
 
 		boolean left = false;
-
+		public void hit()
+		{
+			incrementGunLev(-1);
+		}
+		public void incrementGunLev(int i)
+		{
+			gunLev += i;
+			if(gunLev <= 0)
+				this.blowUp();
+			else if(gunLev==1)
+				weapon = new PlayerGunLev1();
+			else if(gunLev==2)
+				weapon = new PlayerGunLev2();
+			else if(gunLev==3)
+				weapon = new PlayerGunLev3();
+			else if(gunLev==4)
+				weapon = new PlayerGunLev4();
+			else if(gunLev==5)
+				weapon = new PlayerGunLev5();
+			else gunLev -=i;
+		}
 		public void shoot() {
 			weapon.shoot(locX, locY);
 		}
@@ -1150,8 +1155,8 @@ public class PEW extends PApplet {
 	public class PowerUp extends Item {
 		int counter, lifeSpan;
 
-		PowerUp(int posx, int posy) {
-			super(posx, posy, 8);
+		PowerUp(int posx, int posy,int imgIndex) {
+			super(posx, posy, imgIndex);
 			radius = 10;
 			activePowerUps.add(this);
 			counter = 0;
@@ -1184,7 +1189,25 @@ public class PEW extends PApplet {
 		public void removeEffect() {
 		}
 	}
-
+	public class GunUp extends PowerUp
+	{
+		GunUp(int posX, int posY)
+		{
+			super(posX,posY,8);
+			lifeSpan = 0;
+			player.incrementGunLev(1);
+		}
+	}
+	
+	void makeRandPowerUp(int i, int j)
+	{
+		int b = gen.nextInt(2);
+		if (b == 0)
+			new Hallucinate(i,j);
+		if (b==1)
+			new GunUp(i,j);
+	}
+	
 	abstract class Projectile extends Actor {
 		int xdisp, ydisp;
 
@@ -1319,6 +1342,7 @@ public class PEW extends PApplet {
 				e.printStackTrace(); // you can leave this empty...or use some
 										// other way to notify the
 										// user/developer something went wrong
+				buildPlayer();
 			}
 		}
 
@@ -1328,9 +1352,43 @@ public class PEW extends PApplet {
 		}
 
 		public void buildPlayer() {
-			//mediaPlayer.prepare();
+			AssetFileDescriptor fd = null;
+
+			try {
+				fd = assetManager.openFd("bitswithbyte.ogg");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			try {
+				mediaPlayer.setDataSource(fd.getFileDescriptor(),
+						fd.getStartOffset(), fd.getLength());
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+			mediaPlayer.setLooping(true);
+			try {
+				mediaPlayer.prepare();
+				musicReady = true;
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 
 	}
 
@@ -1384,7 +1442,7 @@ public class PEW extends PApplet {
 					yLoc = gen.nextInt(200) + 50;
 					enemyShips.add(new HelixShip(0, yLoc));
 				}
-		
+
 		}
 	}
 
@@ -1633,7 +1691,7 @@ public class PEW extends PApplet {
 			new Money(locX, locY, w);
 			int randomInt = gen.nextInt(10);
 			if (randomInt == 1) {
-				new Hallucinate(locX + 20, locY - 20);
+				makeRandPowerUp(locX,locY);
 			}
 			removeSelf();
 		}
@@ -1701,11 +1759,5 @@ public class PEW extends PApplet {
 	public int sketchHeight() {
 		return displayHeight;
 	}
-	
-	
-	
-	
+
 }
-
-
-
