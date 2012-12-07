@@ -346,7 +346,7 @@ public class PEW extends PApplet {
 				displayWidth, displayHeight / 6);
 		text(" " + highscore, displayWidth / 2, displayHeight / 4);
 
-		text("AND YOU SHOULD FEEL BAD", displayWidth / 2, displayHeight / 3);
+		text("AND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)\nwatching you...", displayWidth / 2, displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			showMenu = true;
