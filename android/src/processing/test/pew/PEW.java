@@ -326,7 +326,7 @@ public class PEW extends PApplet {
 		textAlign(CENTER);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text("SHOOT STUFF", displayWidth / 2, displayHeight / 3);
+		text("To move, put your finger on the screen\n\n Hold your finger on the screen to shoot\n\nThe objective is to kill the cruiser\n\n do so by shooting all its turrets \n\n If you fail \n\n YOU SUCK", displayWidth / 2, displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			showCredits = false;
