@@ -762,7 +762,7 @@ public class PEW extends PApplet {
 		boolean flip, shooting;
 
 		HelixShip(int startx, int starty) {
-			super(startx, starty, 3, 9, 10, 40, 9);
+			super(startx, starty, 3, 9, 10, 10, 9);
 			flip = false;
 
 			weapon = new HelixGun();
@@ -1236,6 +1236,7 @@ public class PEW extends PApplet {
 		Ship(int imageIndex) {
 			radius = 25;
 			img = loadedPics.get(imageIndex);
+			img.resize((displayWidth/480)*img.width, (displayHeight/800)*img.height);
 		}
 
 		public void display() {
