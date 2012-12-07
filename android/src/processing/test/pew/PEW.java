@@ -238,9 +238,7 @@ public class PEW extends PApplet{
 			Projectile p = (Projectile) enemyBullets.get(i);
 			p.move();
 			if (p.isTouching(player)) {
-				player.blowUp();
-				p.removeSelf();
-				updateHighscore();
+				player.hit();
 			}
 		}
 
@@ -256,8 +254,7 @@ public class PEW extends PApplet{
 			if (p.isTouching(player)) {
 				p.blowUp();
 				player.blowUp();
-				updateHighscore();
-				;
+				
 			}
 		}
 	}
@@ -1141,6 +1138,7 @@ public class PEW extends PApplet{
 			super.blowUp();
 			showDeath = true;
 			playGame = false;
+			updateHighscore();
 		}
 
 		public void addMoney(int p) {
