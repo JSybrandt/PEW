@@ -270,6 +270,16 @@ public class PEW extends PApplet{
 					if (p.isinKillZone(s)) {
 						s.hit();
 					}
+					if (s instanceof Cruiser) {
+						Cruiser t = (Cruiser) s;
+						ArrayList<Turret> guns = t.getTurretList();
+						for (int k = 0; k < guns.size(); k++) {
+							Turret g = guns.get(k);
+							if (p.isinKillZone(g)) {
+								g.hit();
+							}
+						}
+					}
 				}
 			}
 			else if( p.isinKillZone(player))
