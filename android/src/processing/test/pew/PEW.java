@@ -680,6 +680,7 @@ public class PEW extends PApplet{
 				displayWidth / 2, displayHeight / 2);
 
 		if (mousePressed && mouseY < displayHeight / 6) {
+			level.reset();
 			enemyShips.clear();
 			enemyBullets.clear();
 			playerBullets.clear();
@@ -852,7 +853,7 @@ public class PEW extends PApplet{
 		int waveNum, count;
 		boolean flip, inWave;
 		int waveShipsSpawned, waveShipsEnd, waveType;
-		int p;
+		int path;
 		
 		Level() {
 			waveNum = 0;
@@ -862,7 +863,18 @@ public class PEW extends PApplet{
 			waveShipsEnd = 0;
 			waveType = 0;
 			inWave = false;
-			p = 1;
+			path = 1;
+		}
+		
+		void reset() {
+			count = 0;
+			waveNum = 0;
+			flip = true;
+			inWave = false;
+			waveShipsSpawned = 0;
+			waveShipsEnd = 0;
+			waveType = 0;
+			path = 1;
 		}
 		
 		void spawn() {
@@ -886,13 +898,13 @@ public class PEW extends PApplet{
 			if (count%20 == 0)
 			{
 				if (flip) {
-					p = 1;
+					path = 1;
 					flip = !flip;
 				} else {
-					p = 2;
+					path = 2;
 					flip = !flip;
 				}
-				Drone s = new Drone(4, 12, 3, p, 5);
+				Drone s = new Drone(4, 12, 3, path, 5);
 				enemyShips.add(s);
 				waveShipsSpawned++;
 			}
@@ -901,13 +913,13 @@ public class PEW extends PApplet{
 		void spawnSideToSide() {
 			if (count%20 == 0) {
 				if (flip) {
-					p = 3;
+					path = 3;
 					flip = !flip;
 				} else {
-					p = 4;
+					path = 4;
 					flip = !flip;
 				}
-				Drone s = new Drone(4, 12, 3, p, 5);
+				Drone s = new Drone(4, 12, 3, path, 5);
 				enemyShips.add(s);
 				waveShipsSpawned++;
 			}
