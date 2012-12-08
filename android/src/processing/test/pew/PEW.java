@@ -224,18 +224,14 @@ public class PEW extends PApplet{
 				PowerUp p = activePowerUps.get(i);
 				p.increment();
 			}
-<<<<<<< HEAD
-			textAlign(LEFT);
-			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20,
-=======
 			for (int i = 0; i < animations.size(); i++) {
 				Animation a = animations.get(i);
 				a.animate();
 			}
-
-			text("Score: " + player.getScore(), displayWidth / 20,
->>>>>>> 952c7e96917bf5438431c6aed2c68e200bc42e1f
-					displayHeight / 20);
+			
+			textAlign(LEFT);
+			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20, displayHeight / 20);
+			
 			// text("Bullet Count: " + (enemyBullets.size() +
 			// playerBullets.size()), 10, 50);
 			// text("Ship Count: " + enemyShips.size(), 10, 75);
@@ -1047,6 +1043,7 @@ public class PEW extends PApplet{
 			rando = gen.nextInt(100);
 			if (rando < uniqueRarity) {
 				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
+				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
 				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
