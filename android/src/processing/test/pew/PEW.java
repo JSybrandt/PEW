@@ -359,6 +359,9 @@ public class PEW extends PApplet{
 			musicReady=false;
 			mediaPlayer=null;
 			}
+			
+			playGame = false;
+			showMenu = true;
 		
 		super.onPause();
 	}
@@ -368,6 +371,11 @@ public class PEW extends PApplet{
 		if(!startUp && !musicReady)
 		{
 		sound.setUp();
+		if(mediaPlayer!=null)
+		{
+		mediaPlayer.start();
+		print("THIS DIDNT MAKE ITSELF PROPERLY JERKWAD");
+		}
 		}
 		super.onResume();
 	}
@@ -998,9 +1006,9 @@ public class PEW extends PApplet{
 		public void shoot(int xpos, int ypos) {
 			// Sounds.play(0);
 			if (flip)
-				new PlayerBullet(xpos + 12, ypos, 0, -20);
+				new PlayerBullet(xpos + 12, ypos, 0, -30);
 			else
-				new PlayerBullet(xpos - 12, ypos, 0, -20);
+				new PlayerBullet(xpos - 12, ypos, 0, -30);
 			flip = !flip;
 		}
 	}
@@ -1008,42 +1016,42 @@ public class PEW extends PApplet{
 		public void shoot(int xpos, int ypos) {
 			
 
-				new PlayerBullet(xpos + 12, ypos, 2, -20);
-				new PlayerBullet(xpos , ypos, 0, -20);
-				new PlayerBullet(xpos - 12, ypos, -2, -20);
+				new PlayerBullet(xpos + 12, ypos, 2, -30);
+				new PlayerBullet(xpos , ypos, 0, -30);
+				new PlayerBullet(xpos - 12, ypos, -2, -30);
 		}
 	}
 	
 	public class PlayerGunLev3 extends Gun {
 		public void shoot(int xpos, int ypos) {
 
-			new PlayerBullet(xpos - 12, ypos, -3, -20);
-			new PlayerBullet(xpos + 12, ypos, 3, -20);
-			new PlayerBullet(xpos +12, ypos, 0, -20);
-			new PlayerBullet(xpos - 12, ypos, 0, -20);
+			new PlayerBullet(xpos - 12, ypos, -3, -30);
+			new PlayerBullet(xpos + 12, ypos, 3, -30);
+			new PlayerBullet(xpos +12, ypos, 0, -30);
+			new PlayerBullet(xpos - 12, ypos, 0, -30);
 		}
 	}
 
 	public class PlayerGunLev4 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
-			new PlayerBullet(xpos, ypos, 0, -20);
-			new PlayerBullet(xpos + 12, ypos, 3, -20);
-			new PlayerBullet(xpos - 12, ypos, -3, -20);
-			new PlayerBullet(xpos + 12, ypos, 6, -20);
-			new PlayerBullet(xpos - 12, ypos, -6, -20);
+			new PlayerBullet(xpos, ypos, 0, -30);
+			new PlayerBullet(xpos + 12, ypos, 3, -30);
+			new PlayerBullet(xpos - 12, ypos, -3, -30);
+			new PlayerBullet(xpos + 12, ypos, 6, -30);
+			new PlayerBullet(xpos - 12, ypos, -6, -30);
 		}
 	}
 	public class PlayerGunLev5 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
 
-			new PlayerBullet(xpos, ypos, 2, -20);
-			new PlayerBullet(xpos, ypos, -2, -20);
-			new PlayerBullet(xpos + 12, ypos, 4, -20);
-			new PlayerBullet(xpos - 12, ypos, -4, -20);
-			new PlayerBullet(xpos + 12, ypos, 8, -20);
-			new PlayerBullet(xpos - 12, ypos, -8, -20);
+			new PlayerBullet(xpos, ypos, 2, -30);
+			new PlayerBullet(xpos, ypos, -2, -30);
+			new PlayerBullet(xpos + 12, ypos, 4, -30);
+			new PlayerBullet(xpos - 12, ypos, -4, -30);
+			new PlayerBullet(xpos + 12, ypos, 8, -30);
+			new PlayerBullet(xpos - 12, ypos, -8, -30);
 		}
 	}
 
@@ -1325,7 +1333,7 @@ public class PEW extends PApplet{
 	}
 
 	public class Sounds {
-		public int pew, bgsong;
+		public int pew;
 
 		public void setUp() {
 			if(assetManager ==null)
