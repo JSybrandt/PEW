@@ -673,6 +673,19 @@ public class PEW extends PApplet{
 			new Bullet(locX, locY);
 		}
 	}
+	public class doubleGun extends Gun {
+		public void shoot(int locX, int locY) {
+			new Bullet(locX, locY,-1,2);
+			new Bullet(locX, locY,1,2);
+		}
+	}
+	public class tripleGun extends Gun {
+		public void shoot(int locX, int locY) {
+			new Bullet(locX, locY,-1,2);
+			new Bullet(locX, locY,1,2);
+			new Bullet(locX, locY,0,2);
+		}
+	}
 
 	class Drone extends enemyShip {
 		Gun weapon;
