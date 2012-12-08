@@ -110,8 +110,8 @@ public class PEW extends PApplet{
 	}
 
 	int tick = 1, spawnNum;
-	Spawner spawner = new Spawner();
 	boolean spawning = false;
+	Level level = new Level();
 
 	public void draw() {
 
@@ -167,35 +167,30 @@ public class PEW extends PApplet{
 
 			collisionDetection();
 
-			if (tick == 100) {
-				ArrayList<Turret> guns = new ArrayList<Turret>();
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-				guns.add(new Turret(new TestGun(), 50));
-
-				enemyShips.add(new Cruiser(guns));
-			}
-
-			if (tick % 500 == 0) {
-				// !spawning;
-				spawnNum = gen.nextInt(5);
-			}
+//			if (tick == 100) {
+//				ArrayList<Turret> guns = new ArrayList<Turret>();
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//				guns.add(new Turret(new TestGun(), 50));
+//
+//				enemyShips.add(new Cruiser(guns));
+//			}
 
 			if (spawning)
-				spawner.spawn(spawnNum);
+				level.spawn();
 
 			tick++;
 			if (tick == 100000)
@@ -525,7 +520,7 @@ public class PEW extends PApplet{
 		int destinationX, destinationY;
 
 		Cruiser(ArrayList<Turret> g) {
-			super(displayWidth / 2, -100, 3, 5, 7, 1000, 1000);
+			super(5, 7, 1000, 1000, 3);
 			guns = g;
 			prepairTurrets();
 			count = 0;
@@ -668,9 +663,8 @@ public class PEW extends PApplet{
 
 		boolean flip = true;
 
-		Drone(int startx, int starty, int speed, int imageIndex, int f, int h,
-				int p) {
-			super(startx, starty, speed + 10, imageIndex, f, h, p);
+		Drone(int imageIndex, int f, int h, int p, int s) {
+			super(imageIndex, f, h, p, s);
 			weapon = new DinkyGun();
 		}
 
@@ -742,7 +736,7 @@ public class PEW extends PApplet{
 		boolean flip, shooting;
 
 		HelixShip(int startx, int starty) {
-			super(startx, starty, 3, 9, 10, 10, 9);
+			super(9, 10, 10, 9, 3);
 			flip = false;
 
 			weapon = new HelixGun();
@@ -854,39 +848,78 @@ public class PEW extends PApplet{
 
 	}
 
-	public class Wave {
-		Wave(int n, int d) {
-			tick = 0;
-			wavedone = false;
-			wavenum = n;
-			difficulty = d;
-		}
-
-		boolean wavedone;
-		int wavenum;
-		int difficulty;
-		int tick;
-
-		public void spawn() {
-
-		}
-	}
-
 	public class Level {
-		Level(int n) {
-			wavedone = false;
-			levelnumber = n;
-			bgimg = 1 + gen.nextInt(6);
-			for (int i = 0; i < levelnumber % 5 * 2 + 1; i++) {
-				waves.add(new Wave(i, levelnumber / 5));
-			}
-			// bghandel.loadNewImage();
+		int waveNum, count;
+		boolean flip, inWave;
+		int waveShipsSpawned, waveShipsEnd, waveType;
+		int p;
+		
+		Level() {
+			waveNum = 0;
+			count = 0;
+			flip = true;
+			waveShipsSpawned = 0;
+			waveShipsEnd = 0;
+			waveType = 0;
+			inWave = false;
+			p = 1;
 		}
-
-		boolean wavedone;
-		int levelnumber;
-		int bgimg;
-		ArrayList<Wave> waves = new ArrayList<Wave>();
+		
+		void spawn() {
+			if (inWave) {
+				if (waveType == 0)
+					spawnScissor();
+				if (waveType == 1)
+					spawnSideToSide();
+				if (waveShipsSpawned >= waveShipsEnd)
+					inWave = false;
+			} else {
+				newWave();
+			}
+			count++;
+			if (count == 10000)
+				count = 0;
+			text(waveNum, displayWidth/2, displayHeight/2);
+		}
+		
+		void spawnScissor() {
+			if (count%20 == 0)
+			{
+				if (flip) {
+					p = 1;
+					flip = !flip;
+				} else {
+					p = 2;
+					flip = !flip;
+				}
+				Drone s = new Drone(4, 12, 3, p, 5);
+				enemyShips.add(s);
+				waveShipsSpawned++;
+			}
+		}
+		
+		void spawnSideToSide() {
+			if (count%20 == 0) {
+				if (flip) {
+					p = 3;
+					flip = !flip;
+				} else {
+					p = 4;
+					flip = !flip;
+				}
+				Drone s = new Drone(4, 12, 3, p, 5);
+				enemyShips.add(s);
+				waveShipsSpawned++;
+			}
+		}
+		
+		void newWave() {
+			waveType = gen.nextInt(2);
+			waveShipsSpawned = 0;
+			waveShipsEnd = 10;
+			waveNum++;
+			inWave = true;
+		}
 	}
 
 	public class Menu {
@@ -1390,60 +1423,6 @@ public class PEW extends PApplet{
 
 	}
 
-	public class Spawner {
-		boolean flip = false;
-		int xLoc = 0, yLoc = 0;
-
-		public void spawn(int l)// l for level , t for ticks
-		{
-
-			if (l == 0)
-				if (tick % 50 == 0) {
-
-					if (flip)
-						enemyShips.add(new Drone(displayWidth / 4, 0, 3, 4, gen
-								.nextInt(50) + 50, 5, 2));
-					else
-						enemyShips.add(new Drone(3 * displayWidth / 4, 0, 3, 4,
-								gen.nextInt(50) + 50, 5, 1));
-					flip = !flip;
-				}
-
-			if (l == 1)
-				if (tick % 25 == 0) {
-
-					if (flip)
-						enemyShips.add(new Drone(displayWidth / 4, 0, 5, 4, gen
-								.nextInt(50) + 50, 1, 2));
-					else
-						enemyShips.add(new Drone(3 * displayWidth / 4, 0, 5, 4,
-								gen.nextInt(50) + 50, 1, 1));
-					flip = !flip;
-				}
-			if (l == 2)
-				if (tick % 25 == 0) {
-					enemyShips.add(new Drone(displayWidth / 4, 0, 5, 4, gen
-							.nextInt(50) + 50, 1, 8));
-					enemyShips.add(new Drone(3 * displayWidth / 4, 0, 5, 4, gen
-							.nextInt(50) + 50, 1, 7));
-				}
-			if (l == 3)
-				if (tick % 20 == 0) {
-					xLoc += 30;
-					enemyShips.add(new Drone(xLoc, 0, 5, 4,
-							gen.nextInt(50) + 50, 1, 0));
-					if (xLoc > displayWidth)
-						xLoc = 0;
-				}
-			if (l == 4)// figure this out its garbage
-				if (tick % 40 == 0) {
-					yLoc = gen.nextInt(200) + 50;
-					enemyShips.add(new HelixShip(0, yLoc));
-				}
-
-		}
-	}
-
 	public class SpiralGun extends Gun {
 		float degree = 0;
 		int speed = 5;
@@ -1469,7 +1448,7 @@ public class PEW extends PApplet{
 
 		SpiralShip(int startx, int starty, int speed, int imageIndex, int f,
 				int h, int p) {
-			super(startx, starty, speed, imageIndex, 1, h, p);
+			super(imageIndex, 1, h, p, speed);
 			weapon = new SpiralGun();
 		}
 
@@ -1564,19 +1543,35 @@ public class PEW extends PApplet{
 				imageIndex;
 		boolean flip = false, flashing = false;
 
-		enemyShip(int startx, int starty, int s, int imgIndex, int f, int h,
-				int p) {
+		enemyShip(int imgIndex, int f, int h, int p, int s) {
 			super(imgIndex);
 			imageIndex = imgIndex;
-			locX = startx;
-			locY = starty;
-			xinit = startx;
-			yinit = starty;
 			speed = s;
 			freq = f;
 			path = p;
 			health = h;
 			weapon = new DinkyGun();
+			
+			if (path == 1) {
+				xinit = locX = displayWidth/4;
+				yinit = locY = 0;
+			}
+			if (path == 2) {
+				xinit = locX = 3 * displayWidth/4;
+				yinit = locY = 0;
+			}
+			if (path == 3) {
+				xinit = locX = displayWidth/5;
+				yinit = locY = 0;
+				flip = true;
+			}
+			if (path == 4) {
+				xinit = locX = 4 * displayWidth/5;
+				yinit = locY = 0;
+				flip = false;
+			}
+			
+			
 		}
 
 		public void act() {
@@ -1600,26 +1595,26 @@ public class PEW extends PApplet{
 		}
 
 		public void move() {
-			if (path == 0) {
+			if (path == 0) {						// STRAIGHT DOWN LIKE A BALLER
 				locY += speed;
 			}
-			if (path == 1) {
-				if (locY < displayHeight / 3) {
-					locY += speed;
-				} else {
-					locY += speed / sqrt(2);
-					locX -= speed / sqrt(2);
-				}
-			}
-			if (path == 2) {
-				if (locY < displayHeight / 3) {
+			if (path == 1) {						// DOWN A BIT THEN DIAG RIGHT
+				if (locY < displayHeight / 4) {
 					locY += speed;
 				} else {
 					locY += speed / sqrt(2);
 					locX += speed / sqrt(2);
 				}
 			}
-			if (path == 3) {
+			if (path == 2) {						// DOWN A BIT THEN DIAG LEFT
+				if (locY < displayHeight / 4) {
+					locY += speed;
+				} else {
+					locY += speed / sqrt(2);
+					locX -= speed / sqrt(2);
+				}
+			}
+			if (path == 3 || path == 4) {			// SIDE TO SIDE
 				if (count % 3 == 0)
 					locY += 1;
 				if (flip)
@@ -1631,16 +1626,7 @@ public class PEW extends PApplet{
 					flip = !flip;
 				}
 			}
-			if (path == 4) {
-				if (count < 100) {
-					locX += speed / 2;
-					locY += speed;
-				} else {
-					locX -= speed / 2;
-					locY += speed;
-				}
-			}
-			if (path == 5) {
+			if (path == 5) {						// DOWN LEFT, THEN DOWN RIGHT, THEN DOWN
 				if (count < 50) {
 					locY += speed;
 					locX -= speed / 2;
@@ -1651,29 +1637,11 @@ public class PEW extends PApplet{
 					locY += speed / 2;
 				}
 			}
-			if (path == 6) {
+			if (path == 6) {						// SOME WEIRD SINE SHIT
 				locY += speed;
 				locX += sin(count * 3.14f / 6) * 5;
 			}
-			if (path == 7) {
-				locY += speed;
-				if (flip)
-					locX += speed;
-				else
-					locX -= speed;
-				if (locX < xinit - 200 || locX > xinit + 200)
-					flip = !flip;
-			}
-			if (path == 8) {
-				locY += speed;
-				if (flip)
-					locX -= speed;
-				else
-					locX += speed;
-				if (locX < xinit - 200 || locX > xinit + 200)
-					flip = !flip;
-			}
-			if (path == 9) {
+			if (path == 9) {						// TO THE RIGHT TO THE RIGHT
 				locX += speed;
 			}
 
