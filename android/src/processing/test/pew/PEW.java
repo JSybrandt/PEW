@@ -982,20 +982,20 @@ public class PEW extends PApplet{
 		void spawnCruiser() {
 			ArrayList<Turret> guns = new ArrayList<Turret>();
 			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new SpiralGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new BombLauncher(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new doubleGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new tripleGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			enemyShips.add(new Cruiser(guns));
 		}
