@@ -51,6 +51,8 @@ public class PEW extends PApplet{
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedShipPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedShipFlashPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedShipExpPics = new ArrayList<PImage>();
 
 	public void loadImages() {
@@ -72,45 +74,72 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Drone.png");// #4
+		img = loadImage("Turret.png");// #4
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Cruiser.png");// #5
+		img = loadImage("GunUpgrade.png");// #5
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Turret.png");// #6
+		img = loadImage("bomb.png"); // #6
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("spaceship.png");// #7
+		img = loadImage("MainMenu.png");// #7
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("GunUpgrade.png");// #8
+		img = loadImage("PsychedelicPowerUp1.png");// #8
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("HerpADerp.png");// #9
+		
+		
+		img = loadImage("spaceship.png");// #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("bomb.png"); // #10
+		img = loadImage("Cruiser.png");// #1
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Drone-hit.png"); // #11
+		img = loadImage("Drone.png");// #2
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		loadedShipPics.add(img);
 		
-		img = loadImage("MainMenu.png");// #12
+		img = loadImage("EnemyMissileShip1.png");// #3
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		loadedShipPics.add(img);
 		
-		img = loadImage("PsychedelicPowerUp1.png");// #13
+		img = loadImage("HerpADerp.png");// #4
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		loadedShipPics.add(img);
+		
+
+		
+		
+		img = loadImage("ShipExpolsion1.png"); // #0
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("BossBody.png"); // #1
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("Drone-hit.png"); // #2
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("EnemyMissileShip1-flash.png"); // #3
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("HerpADerpOld.png"); // #4
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		
 		
 		img = loadImage("ShipExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
@@ -224,18 +253,15 @@ public class PEW extends PApplet{
 				PowerUp p = activePowerUps.get(i);
 				p.increment();
 			}
-<<<<<<< HEAD
-			textAlign(LEFT);
-			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20,
-=======
 			for (int i = 0; i < animations.size(); i++) {
 				Animation a = animations.get(i);
 				a.animate();
 			}
+			
+			textAlign(LEFT);
+			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20, displayHeight / 20);
 
-			text("Score: " + player.getScore(), displayWidth / 20,
->>>>>>> 952c7e96917bf5438431c6aed2c68e200bc42e1f
-					displayHeight / 20);
+			
 			// text("Bullet Count: " + (enemyBullets.size() +
 			// playerBullets.size()), 10, 50);
 			// text("Ship Count: " + enemyShips.size(), 10, 75);
@@ -525,7 +551,7 @@ public class PEW extends PApplet{
 		int speed;
 
 		Bomb(int locX, int locY) {
-			super(locX, locY, 10, 0, 5);
+			super(locX, locY, 6, 0, 5);
 			count = 0;
 			lifeSpan = 75;
 			speed = 5;
@@ -595,7 +621,7 @@ public class PEW extends PApplet{
 		int destinationX, destinationY;
 
 		Cruiser(ArrayList<Turret> g) {
-			super(5, 7, 1000, 1000, 3);
+			super(1, 7, 1000, 1000, 3);
 			guns = g;
 			prepairTurrets();
 			count = 0;
@@ -796,7 +822,7 @@ public class PEW extends PApplet{
 
 	public class Hallucinate extends PowerUp {
 		Hallucinate(int locX, int locY) {
-			super(locX, locY,13);
+			super(locX, locY,8);
 
 		}
 		public void act()
@@ -828,26 +854,6 @@ public class PEW extends PApplet{
 				new SinShot(xpos, ypos - 10, 2, 2);
 			else
 				new SinShot(xpos, ypos + 10, -2, 2);
-		}
-	}
-
-	class HelixShip extends enemyShip {
-		boolean flip, shooting;
-
-		HelixShip(int startx, int starty) {
-
-			super(9, 10, 10, 9, 3);
-			flip = false;
-
-			weapon = new HelixGun();
-		}
-
-		public void shoot() {
-			if (flip)
-				weapon.shoot(locX + 40, locY);
-			else
-				weapon.shoot(locX - 40, locY);
-			flip = !flip;
 		}
 	}
 
@@ -1046,7 +1052,9 @@ public class PEW extends PApplet{
 		void spawnShip() {
 			rando = gen.nextInt(100);
 			if (rando < uniqueRarity) {
-				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
+				rando = gen.nextInt(3)+2;
+				Drone s = new Drone(rando, shipFreq, shipHP, path, shipSpeed);
+				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
 				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
@@ -1066,7 +1074,7 @@ public class PEW extends PApplet{
 			shipHP = 3 + waveNum / 2;
 			shipSpeed = 6 + waveNum / 2;
 			uniqueRarity =  5 + waveNum;
-			shipImage = 4;
+			shipImage = gen.nextInt(3)+2;
 		}
 	}
 
@@ -1081,7 +1089,7 @@ public class PEW extends PApplet{
 
 		Menu() {
 			playGame = false;
-			MenuImage = loadedPics.get(12);
+			MenuImage = loadedPics.get(7);
 
 			PlayX = displayWidth / 13.2f;
 			PlayY = (displayHeight / 1.865f);
@@ -1254,7 +1262,7 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		public PlayerShip(int xpos, int ypos) {
-			super(7);
+			super(0);
 			dir = true;
 			radius = 25;
 			locX = xpos;
@@ -1382,7 +1390,7 @@ public class PEW extends PApplet{
 	{
 		GunUp(int posX, int posY)
 		{
-			super(posX,posY,8);
+			super(posX,posY,5);
 			lifeSpan = 0;
 		}
 		public void act()
@@ -1451,7 +1459,7 @@ public class PEW extends PApplet{
 
 		Ship(int imageIndex) {
 			radius = 40;
-			img = loadedPics.get(imageIndex);
+			img = loadedShipPics.get(imageIndex);
 		}
 
 		public void display() {
@@ -1693,7 +1701,7 @@ public class PEW extends PApplet{
 			health = hlth;
 			radius = 15;
 			weapon = g;
-			img = loadedPics.get(6);
+			img = loadedPics.get(4);
 			freq = gen.nextInt(10) + 10;
 			count = 0;
 		}
@@ -1871,7 +1879,7 @@ public class PEW extends PApplet{
 		}
 
 		public void flash() {
-			img = loadedPics.get(11);
+			img = loadedShipFlashPics.get(imageIndex);
 			flashing = true;
 			// s.play(1);
 		}
@@ -1917,24 +1925,19 @@ public class PEW extends PApplet{
 		{
 			super(x, y);
 			current = 0;
-			count = 0;
 			currentImg = loadedShipExpPics.get(0);
 		}
 		
 		public void animate()
 		{
 			image(currentImg, locX, locY);
-			if(count%2 == 1)
+			current++;
+			if(current <= loadedShipExpPics.size()-1)
 			{
-				current++;
-				if(current <= loadedShipExpPics.size()-1)
-				{
-					currentImg = loadedShipExpPics.get(current);
-				} else {
-					super.removeSelf();
-				}
+				currentImg = loadedShipExpPics.get(current);
+			} else {
+				super.removeSelf();
 			}
-			count++;
 		}
 	}
 
