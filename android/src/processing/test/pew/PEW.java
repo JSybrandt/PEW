@@ -869,15 +869,16 @@ public class PEW extends PApplet{
 		boolean flip, inWave;
 		int waveShipsSpawned, waveShipsEnd, waveType;
 		int path;
+		int spawnFreq, shipFreq, shipHP, shipSpeed;
 		
 		Level() {
-			waveNum = 0;
 			count = 0;
+			waveNum = 0;
 			flip = true;
+			inWave = false;
 			waveShipsSpawned = 0;
 			waveShipsEnd = 0;
 			waveType = 0;
-			inWave = false;
 			path = 1;
 		}
 		
@@ -901,16 +902,17 @@ public class PEW extends PApplet{
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
 			} else {
-				newWave();
+				if (enemyShips.size() == 0) {
+					newWave();
+				}
 			}
 			count++;
 			if (count == 10000)
 				count = 0;
-			text(waveNum, displayWidth/2, displayHeight/2);
 		}
 		
 		void spawnScissor() {
-			if (count%20 == 0)
+			if (count%spawnFreq == 0)
 			{
 				if (flip) {
 					path = 1;
@@ -919,14 +921,14 @@ public class PEW extends PApplet{
 					path = 2;
 					flip = !flip;
 				}
-				Drone s = new Drone(4, 12, 3, path, 5);
+				Drone s = new Drone(4, shipFreq, shipHP, path, shipSpeed);
 				enemyShips.add(s);
 				waveShipsSpawned++;
 			}
 		}
 		
 		void spawnSideToSide() {
-			if (count%20 == 0) {
+			if (count%spawnFreq == 0) {
 				if (flip) {
 					path = 3;
 					flip = !flip;
@@ -934,18 +936,22 @@ public class PEW extends PApplet{
 					path = 4;
 					flip = !flip;
 				}
-				Drone s = new Drone(4, 12, 3, path, 5);
+				Drone s = new Drone(4, shipFreq, shipHP, path, shipSpeed);
 				enemyShips.add(s);
 				waveShipsSpawned++;
 			}
 		}
 		
 		void newWave() {
-			waveType = gen.nextInt(2);
-			waveShipsSpawned = 0;
-			waveShipsEnd = 10;
 			waveNum++;
 			inWave = true;
+			waveType = gen.nextInt(2);
+			waveShipsSpawned = 0;
+			waveShipsEnd = waveNum * 2 + 10;
+			spawnFreq = 36 - waveNum / 2;
+			shipFreq = 25 - waveNum / 4;
+			shipHP = 3 + waveNum;
+			shipSpeed = 4 + waveNum / 2;
 		}
 	}
 
