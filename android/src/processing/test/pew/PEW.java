@@ -1884,7 +1884,7 @@ public class PEW extends PApplet{
 		}
 
 		public void revert() {
-			img = loadedPics.get(imageIndex);
+			img = loadedShipPics.get(imageIndex);
 			flashing = false;
 		}
 	}
