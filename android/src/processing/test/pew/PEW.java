@@ -1208,10 +1208,27 @@ public class PEW extends PApplet{
 			new PlayerBullet(xpos - 12, ypos, -8, -30);
 		}
 	}
-	public class PlayerGunLev6 extends Gun {
+	public class PlayerBeamGun extends Gun {
+		boolean gunAround = false;
+		int count = 0;
 		public void shoot(int xpos, int ypos) {
+			if(!gunAround){
 			sound.play(sound.pew);
 			new PlayerBeam(xpos, ypos);
+			gunAround  = true;
+			count = 0;
+			}
+			else
+			{
+				count++;
+				if(count > 25)
+				{
+					count = 0;
+					gunAround = false;
+				}
+				
+			}
+			
 		}
 	}
 	public class Beam
@@ -1223,13 +1240,19 @@ public class PEW extends PApplet{
 			startx = locX;
 			starty = locY;
 			width = w;//width is like radius
-			duration = 100;
+			duration = 50;
+			activeBeams.add(this);
 		}
 		public void increment()
 		{
 			count++;
 			if(count > duration)
 				removeSelf();
+		}
+		public void moveBean(int newX,int newY)
+		{
+			startx = newX;
+			starty = newY;
 		}
 		public void removeSelf()
 		{
@@ -1264,6 +1287,12 @@ public class PEW extends PApplet{
 		{
 			super(locX,locY,true, 50);
 		}
+		public void increment()
+		{
+		PImage laser = loadImage("playerBeam.png");
+		image(laser,startx, starty-laser.height/2);
+		super.increment();
+		}
 	}
 
 	public class PlayerBullet extends Projectile {
@@ -1292,7 +1321,7 @@ public class PEW extends PApplet{
 			locX = xpos;
 			locY = ypos;
 			speed = 25;
-			weapon = new PlayerGunLev1();
+			weapon = new PlayerBeamGun();
 			gunLev = 1;
 			scoreMultiplyer = 1;
 		}
@@ -1346,7 +1375,7 @@ public class PEW extends PApplet{
 				weapon = new PlayerGunLev5();
 			else gunLev -=i;
 		}
-		public void shoot() {
+		public void shoot() {	
 			weapon.shoot(locX, locY);
 		}
 		public void incrementScoreMultiplyer(int i)
