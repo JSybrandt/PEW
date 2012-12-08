@@ -1870,7 +1870,7 @@ public class PEW extends PApplet{
 		public void animate()
 		{
 			image(currentImg, locX, locY);
-			if(count%3 == 2)
+			if(count%2 == 1)
 			{
 				current++;
 				if(current <= loadedShipExpPics.size()-1)
