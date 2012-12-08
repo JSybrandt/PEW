@@ -936,7 +936,8 @@ public class PEW extends PApplet{
 		boolean flip, inWave;
 		int waveShipsSpawned, waveShipsEnd, waveType;
 		int path;
-		int spawnFreq, shipFreq, shipHP, shipSpeed;
+		int spawnFreq, shipFreq, shipHP, shipSpeed, uniqueRarity, shipImage;
+		int rando;
 		
 		Level() {
 			count = 0;
@@ -992,9 +993,7 @@ public class PEW extends PApplet{
 					path = 2;
 					flip = !flip;
 				}
-				Drone s = new Drone(4, shipFreq, shipHP, path, shipSpeed);
-				enemyShips.add(s);
-				waveShipsSpawned++;
+				spawnShip();
 			}
 		}
 		
@@ -1007,9 +1006,7 @@ public class PEW extends PApplet{
 					path = 4;
 					flip = !flip;
 				}
-				Drone s = new Drone(4, shipFreq, shipHP, path, shipSpeed);
-				enemyShips.add(s);
-				waveShipsSpawned++;
+				spawnShip();
 			}
 		}
 		
@@ -1034,16 +1031,30 @@ public class PEW extends PApplet{
 			enemyShips.add(new Cruiser(guns));
 		}
 		
+		void spawnShip() {
+			rando = gen.nextInt(100);
+			if (rando < uniqueRarity) {
+				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
+				enemyShips.add(s);
+			} else {
+				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
+				enemyShips.add(s);
+			}
+			waveShipsSpawned++;
+		}
+		
 		void newWave() {
 			waveNum++;
 			inWave = true;
 			waveType = gen.nextInt(2);
 			waveShipsSpawned = 0;
 			waveShipsEnd = waveNum * 2 + 10;
-			spawnFreq = 36 - waveNum / 2;
-			shipFreq = 25 - waveNum / 4;
-			shipHP = 3 + waveNum;
-			shipSpeed = 4 + waveNum / 2;
+			spawnFreq = 30 - waveNum / 2;
+			shipFreq = 25 - waveNum / 3;
+			shipHP = 3 + waveNum / 2;
+			shipSpeed = 6 + waveNum / 2;
+			uniqueRarity =  5 + waveNum;
+			shipImage = 4;
 		}
 	}
 
