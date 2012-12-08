@@ -710,6 +710,9 @@ public class PEW extends PApplet{
 			playGame = false;
 			points = 0;
 			tick = 0;
+			psychedelicMode = false;
+			player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
+			
 		}
 	}
 
