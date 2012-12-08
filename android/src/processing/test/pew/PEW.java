@@ -774,6 +774,7 @@ public class PEW extends PApplet{
 
 		public void removeEffect() {
 			psychedelicMode = false;
+			player.incrementScoreMultiplyer(-4);
 		}
 
 	}
