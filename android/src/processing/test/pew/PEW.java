@@ -112,31 +112,31 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion1.png");
+		img = loadImage("\\animations\\ShipExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion2.png");
+		img = loadImage("\\animations\\ShipExplosion2.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion3.png");
+		img = loadImage("\\animations\\ShipExplosion3.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion4.png");
+		img = loadImage("\\animations\\ShipExplosion4.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion5.png");
+		img = loadImage("\\animations\\ShipExplosion5.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion6.png");
+		img = loadImage("\\animations\\ShipExplosion6.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\Animations\\ShipExplosion7.png");
+		img = loadImage("\\animations\\ShipExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 	}
@@ -1444,7 +1444,8 @@ public class PEW extends PApplet{
 		}
 
 		public void blowUp() {
-			println("BOOM");// we can add in animation here
+			ShipExplosion s = new ShipExplosion(locX, locY);
+			animations.add(s);
 			removeSelf();
 		}
 
