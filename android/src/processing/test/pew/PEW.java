@@ -53,22 +53,64 @@ public class PEW extends PApplet{
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
 
 	public void loadImages() {
-		loadedPics.add(loadImage("bullet.png"));// #0
-		loadedPics.add(loadImage("playerbullet.png"));// #1
-		loadedPics.add(loadImage("coin.png"));// #2
-		loadedPics.add(loadImage("RocketE.png"));// #3
-		loadedPics.add(loadImage("EnemyMissileShip1.png"));// #4
-		loadedPics.add(loadImage("Cruiser.png"));// #5
-		loadedPics.add(loadImage("Turret.png"));// #6
-		loadedPics.add(loadImage("spaceship.png"));// #7
-		loadedPics.add(loadImage("PowerUp.png"));// #8
-		loadedPics.add(loadImage("HerpADerp.png"));// #9
-		loadedPics.add(loadImage("bomb.png"));// #10
-		loadedPics.add(loadImage("EnemyMissileShip1-flash.png"));// *11
-		loadedPics.add(loadImage("MainMenu.png"));// #12
-		loadedPics.add(loadImage("PsychedelicPowerUp1.png"));// #13
+		PImage img;
 		
-
+		img = loadImage("bullet.png");//#0
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("playerbullet.png");// #1
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("coin.png");// #2
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("RocketE.png");// #3
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("Drone.png");// #4
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("Cruiser.png");// #5
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("Turret.png");// #6
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("spaceship.png");// #7
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("PowerUp.png");// #8
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("HerpADerp.png");// #9
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("bomb.png"); // #10
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("Drone-hit.png"); // #11
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("MainMenu.png");// #12
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("PsychedelicPowerUp1.png");// #13
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
@@ -405,6 +447,8 @@ public class PEW extends PApplet{
 
 		public void setBG(String img) {
 			bgimg = loadImage(img);
+			bgimg.resize((int)((displayWidth/480.0)*bgimg.width), (int)((displayHeight/800.0)*bgimg.height));
+
 			upcomingImg = bgimg;
 			scrolly = displayHeight;
 			upcomingScrolly = 0;
@@ -1348,7 +1392,6 @@ public class PEW extends PApplet{
 		Ship(int imageIndex) {
 			radius = 40;
 			img = loadedPics.get(imageIndex);
-			img.resize((displayWidth/480)*img.width, (displayHeight/800)*img.height);
 		}
 
 		public void display() {
