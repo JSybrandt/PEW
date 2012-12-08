@@ -87,7 +87,7 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("PowerUp.png");// #8
+		img = loadImage("GunUpgrade.png");// #8
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
@@ -275,28 +275,24 @@ public class PEW extends PApplet{
 	}
 
 	public void printCredits() {
-		textAlign(CENTER);
-		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
-				displayWidth, displayHeight / 6);
-		text("Lead Designer: Justin \"Nalta\" Sybrandt", displayWidth / 2,
-				displayHeight / 5);
-		text("Code Monkey: Caelan \"DarkFire16\" Mayberry", displayWidth / 2,
-				displayHeight * (2 / 5.0f));
-		text("Code Alpaca: Mike \"Reason\" Boom", displayWidth / 2,
-				displayHeight * (3 / 5.0f));
-		text("Art Master: Josh \"Fa1seEcho\" Walton", displayWidth / 2,
-				displayHeight * (4 / 5.0f));
+		PImage credit = loadImage("credit.png");
+		credit.resize(displayWidth, displayHeight);
+		image(credit,displayWidth/2,displayHeight/2);
+		
 		PImage art = loadImage("bandart.png");
 		art.resize((int)(displayWidth *(1/3.0)),(int)(displayHeight*(1/ 6.0)));
-		image(art,(int)(displayWidth *(5/6.0)),(int)(displayHeight*(11/ 12.0)));
+		image(art,(int)(displayWidth *(1/6.0)),(int)(displayHeight*(11/ 12.0)));
 		// BULD A BACK BUTTON AT TOP OF SCREEN
+		
+		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
+				displayWidth, displayHeight / 6);
 		if (mousePressed && mouseY < displayHeight / 6) {
 			showCredits = false;
 			showMenu = true;
 			playGame = false;
 		}
 		//go to band link
-		if(mousePressed && mouseY > displayHeight *(5/6.0)&& mouseX > displayWidth *(2/3.0))
+		if(mousePressed && mouseY > displayHeight *(5/6.0)&& mouseX < displayWidth *(1/3.0))
 		{
 			makeWebPage();
 		}
@@ -987,20 +983,20 @@ public class PEW extends PApplet{
 		void spawnCruiser() {
 			ArrayList<Turret> guns = new ArrayList<Turret>();
 			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new SpiralGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new BombLauncher(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new doubleGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new tripleGun(), 50));
 			guns.add(new Turret(new TestGun(), 50));
 			enemyShips.add(new Cruiser(guns));
 		}
