@@ -28,12 +28,12 @@ public class PEW extends PApplet{
 
 	PFont f;
 
-	ArrayList<Ship> enemyShips = new ArrayList<Ship>();// the player is not
-														// included
+	ArrayList<Ship> enemyShips = new ArrayList<Ship>();// the player is not included
 	ArrayList<Projectile> enemyBullets = new ArrayList<Projectile>();
 	ArrayList<Projectile> playerBullets = new ArrayList<Projectile>();
 	ArrayList<Item> items = new ArrayList<Item>();// misc stuff and items
 	ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
+	ArrayList<Animation> animations = new ArrayList<Animation>();
 
 	PFont fontG;
 	String highscoreFile = "highscore.txt";
@@ -51,6 +51,7 @@ public class PEW extends PApplet{
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedShipExpPics = new ArrayList<PImage>();
 
 	public void loadImages() {
 		PImage img;
@@ -111,6 +112,33 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
+		img = loadImage("ShipExplosion1.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
+		
+		img = loadImage("ShipExplosion2.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
+		
+		img = loadImage("ShipExplosion3.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
+		
+		img = loadImage("ShipExplosion4.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
+		
+		img = loadImage("ShipExplosion5.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
+		
+		img = loadImage("ShipExplosion6.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
+		
+		img = loadImage("ShipExplosion7.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipExpPics.add(img);
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
@@ -184,22 +212,29 @@ public class PEW extends PApplet{
 				enemyShip s = (enemyShip) enemyShips.get(j);
 				s.act();
 			}
-
 			for (int j = 0; j < enemyBullets.size(); j++) {
 				Projectile p = (Projectile) enemyBullets.get(j);
 				p.move();
 			}
-
 			for (int j = 0; j < items.size(); j++) {
 				Item p = (Item) items.get(j);
 				p.move();
 			}
-			for (int i = activePowerUps.size() - 1; i >= 0; i--) {
+			for (int i = activePowerUps.size()-1; i>=0; i--) {
 				PowerUp p = activePowerUps.get(i);
 				p.increment();
 			}
+<<<<<<< HEAD
 			textAlign(LEFT);
 			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20,
+=======
+			for (int i = 0; i < animations.size(); i++) {
+				Animation a = animations.get(i);
+				a.animate();
+			}
+
+			text("Score: " + player.getScore(), displayWidth / 20,
+>>>>>>> 952c7e96917bf5438431c6aed2c68e200bc42e1f
 					displayHeight / 20);
 			// text("Bullet Count: " + (enemyBullets.size() +
 			// playerBullets.size()), 10, 50);
@@ -739,6 +774,7 @@ public class PEW extends PApplet{
 			playerBullets.clear();
 			items.clear();
 			activePowerUps.clear();
+			animations.clear();
 			textAlign(LEFT);
 			textFont(f, 24);
 			fill(255);
@@ -1429,7 +1465,8 @@ public class PEW extends PApplet{
 		}
 
 		public void blowUp() {
-			println("BOOM");// we can add in animation here
+			ShipExplosion s = new ShipExplosion(locX, locY);
+			animations.add(s);
 			removeSelf();
 		}
 
@@ -1802,6 +1839,8 @@ public class PEW extends PApplet{
 			if (randomInt == 1) {
 				makeRandPowerUp(locX,locY);
 			}
+			ShipExplosion s = new ShipExplosion(locX, locY);
+			animations.add(s);
 			removeSelf();
 		}
 
@@ -1829,6 +1868,62 @@ public class PEW extends PApplet{
 		public void revert() {
 			img = loadedPics.get(imageIndex);
 			flashing = false;
+		}
+	}
+	
+	public class Animation
+	{
+		int locX, locY, current, count;
+		PImage currentImg;
+		Animation(int xLoc, int yLoc)
+		{
+			locX = xLoc;
+			locY = yLoc;
+		}
+		
+		public  void animate()
+		{
+
+		}
+		
+		public  void removeSelf()
+		{
+			for(int i = animations.size()-1; i>=0; i--)
+			{
+				Animation a = (Animation) animations.get(i);
+				if (a == this)
+				{
+					animations.remove(i);
+					break;
+				}
+			}
+		}
+	}
+
+	public class ShipExplosion extends Animation
+	{
+		ShipExplosion(int x,int y)
+		{
+			super(x, y);
+			current = 0;
+			count = 0;
+			currentImg = loadedShipExpPics.get(0);
+		}
+		
+		public void animate()
+		{
+			image(currentImg, locX, locY);
+			if(count%2 == 1)
+			{
+				current++;
+				if(current <= loadedShipExpPics.size()-1)
+				{
+					currentImg = loadedShipExpPics.get(current);
+				} else {
+					super.removeSelf();
+				}
+			}
+			count++;
 		}
 	}
 
