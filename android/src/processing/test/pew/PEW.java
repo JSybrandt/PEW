@@ -116,6 +116,10 @@ public class PEW extends PApplet{
 		img = loadImage("playerBeam.png"); //14
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);//##14
+		
+		img = loadImage("beamUp.png"); //15
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);//##15
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
@@ -1310,9 +1314,9 @@ public class PEW extends PApplet{
 		public void increment()
 		{
 		image(loadedPics.get(14),startx, starty-loadedPics.get(14).height/2);
-		count++;
-		if(count > duration)
-			removeSelf();
+		//count++;
+		//if(count > duration)
+		//	removeSelf();
 		}
 		public void removeSelf()
 		{
@@ -1347,7 +1351,7 @@ public class PEW extends PApplet{
 			locX = xpos;
 			locY = ypos;
 			speed = 25;
-			weapon = new PlayerBeamGun();
+			weapon = new PlayerGunLev1();
 			
 			gunLev = 1;
 			scoreMultiplyer = 1;
@@ -1384,6 +1388,11 @@ public class PEW extends PApplet{
 		{
 			incrementGunLev(-1);
 			scoreMultiplyer=1;
+		}
+		public void addBeam()
+		{
+			weapon = new PlayerBeamGun();
+			gunLev++;
 		}
 		public void incrementGunLev(int i)
 		{
@@ -1452,8 +1461,8 @@ public class PEW extends PApplet{
 				for (int i = activePowerUps.size() - 1; i >= 0; i--) {
 					PowerUp p = activePowerUps.get(i);
 					if (p == this) {
+						this.removeEffect();
 						activePowerUps.remove(i);
-						removeEffect();
 						break;
 					}
 				}
@@ -1464,6 +1473,19 @@ public class PEW extends PApplet{
 		}
 
 		public void removeEffect() {
+		}
+	}
+	public class BeamUp extends PowerUp
+	{
+		BeamUp(int posX, int posY)
+		{
+			super(posX,posY,15);
+			lifeSpan = 200;
+		}
+		public void act()
+		{
+			player.addBeam();
+			this.removeSelf();
 		}
 	}
 	public class GunUp extends PowerUp
@@ -1482,11 +1504,13 @@ public class PEW extends PApplet{
 	
 	void makeRandPowerUp(int i, int j)
 	{
-		int b = gen.nextInt(2);
+		int b = gen.nextInt(3);
 		if (b == 0)
 			new Hallucinate(i,j);
 		if (b==1)
 			new GunUp(i,j);
+		if(b ==3)
+			new BeamUp(i,j);
 	}
 	
 	abstract class Projectile extends Actor {
