@@ -303,7 +303,7 @@ public class PEW extends PApplet{
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		image(loadImage("Instructions.png"), displayWidth /2 , displayHeight / 2,
-				displayWidth, displayHeight / 6);
+				displayWidth, displayHeight);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			showCredits = false;
