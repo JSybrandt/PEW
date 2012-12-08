@@ -17,8 +17,8 @@ import android.content.res.AssetFileDescriptor;
 
 public class PEW extends PApplet{
 
-	AssetManager assetManager;// needed for sounds, has to be up in rank
-	SoundPool soundPool;
+	AssetManager assetManager=null;// needed for sounds, has to be up in rank
+	SoundPool soundPool=null;
 
 	PlayerShip player;
 	Ship enemy;
@@ -71,13 +71,11 @@ public class PEW extends PApplet{
 	BackgroundHandler bghandel = new BackgroundHandler();
 
 	Sounds sound = new Sounds();
-	MediaPlayer mediaPlayer = new MediaPlayer();
+	MediaPlayer mediaPlayer = null;
 
 	public void setup() {
 		startUp = false;
-		assetManager = this.getAssets();// needed for sounds, has to be up in
-										// rank
-		soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+		
 		// mediaPlayer =
 		// MediaPlayer.create(getApplicationContext(),R.raw.bitswithbyte);
 
@@ -335,14 +333,16 @@ public class PEW extends PApplet{
 		if (soundPool != null) { // must be checked because or else crash when
 			// return from landscape mode
 			soundPool.release(); // release the player
+			soundPool = null;
+		}
 			if(musicReady)
 			{
 			mediaPlayer.stop();
 			mediaPlayer.release();
-
+			mediaPlayer=null;
 			musicReady=false;
 			}
-		}
+		
 		super.onStop();
 	}
 	
@@ -350,13 +350,16 @@ public class PEW extends PApplet{
 		if (soundPool != null) { // must be checked because or else crash when
 			// return from landscape mode
 			soundPool.release(); // release the player
+			soundPool=null;
+		}
 			if(musicReady)
 			{
 			mediaPlayer.stop();
 			mediaPlayer.release();
 			musicReady=false;
+			mediaPlayer=null;
 			}
-		}
+		
 		super.onPause();
 	}
 
@@ -1325,13 +1328,17 @@ public class PEW extends PApplet{
 		public int pew, bgsong;
 
 		public void setUp() {
+			if(assetManager ==null)
+			assetManager = getAssets();// needed for sounds, has to be up in
+			// rank
+			if(soundPool==null)
+				soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
 			try { // loading these files can throw an exception and therefore
 					// you HAVE to have a way to handle those events
 				pew = soundPool.load(assetManager.openFd("pew.ogg"), 0); // load
 																			// the
 																			// files
-				bgsong = soundPool.load(
-						assetManager.openFd("bitswithbyte.ogg"), 0);
+				
 			} catch (IOException e) {
 				print("OOOOPPPPPPPPPPPPPPPPPPPSSSSSSSSSSSSSSSS");
 				e.printStackTrace(); // you can leave this empty...or use some
@@ -1347,6 +1354,8 @@ public class PEW extends PApplet{
 		}
 
 		public void buildPlayer() {
+			if(mediaPlayer==null)
+				mediaPlayer = new MediaPlayer();
 			AssetFileDescriptor fd = null;
 
 			try {
