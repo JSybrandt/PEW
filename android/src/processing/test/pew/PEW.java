@@ -183,14 +183,6 @@ public class PEW extends PApplet{
 //
 //				enemyShips.add(new Cruiser(guns));
 //			}
-<<<<<<< HEAD
-
-			if (tick % 500 == 0) {
-				// !spawning;
-				spawnNum = gen.nextInt(5);
-			}
-=======
->>>>>>> origin/waves
 
 			if (spawning)
 				level.spawn();
@@ -751,11 +743,8 @@ public class PEW extends PApplet{
 		boolean flip, shooting;
 
 		HelixShip(int startx, int starty) {
-<<<<<<< HEAD
-			super(startx, starty, 3, 9, 10, 1, 9);
-=======
+
 			super(9, 10, 10, 9, 3);
->>>>>>> origin/waves
 			flip = false;
 
 			weapon = new HelixGun();
