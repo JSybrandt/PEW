@@ -1714,7 +1714,7 @@ public class PEW extends PApplet{
 		public void blowUp() {
 			int w = gen.nextInt(20) + 1;
 			new Money(locX, locY, w);
-			int randomInt = gen.nextInt(10);
+			int randomInt = gen.nextInt(20);
 			if (randomInt == 1) {
 				makeRandPowerUp(locX,locY);
 			}
