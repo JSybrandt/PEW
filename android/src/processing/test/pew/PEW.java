@@ -282,7 +282,7 @@ public class PEW extends PApplet{
 				displayHeight / 5);
 		text("Code Monkey: Caelan \"DarkFire16\" Mayberry", displayWidth / 2,
 				displayHeight * (2 / 5.0f));
-		text("Chill Meister: Mike \"Reason\" Boom", displayWidth / 2,
+		text("Code Alpaca: Mike \"Reason\" Boom", displayWidth / 2,
 				displayHeight * (3 / 5.0f));
 		text("Art Master: Josh \"Fa1seEcho\" Walton", displayWidth / 2,
 				displayHeight * (4 / 5.0f));
