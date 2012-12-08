@@ -35,6 +35,7 @@ public class PEW extends PApplet{
 	ArrayList<Item> items = new ArrayList<Item>();// misc stuff and items
 	ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 	ArrayList<Beam> activeBeams = new ArrayList<Beam>();
+	PlayerBeam playersBeam = null;
 
 	PFont fontG;
 	String highscoreFile = "highscore.txt";
@@ -112,6 +113,9 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
+		img = loadImage("playerBeam.png"); //14
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);//##14
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
@@ -224,6 +228,8 @@ public class PEW extends PApplet{
 
 			if (mousePressed) {
 				player.move();
+				if(playersBeam != null)
+					playersBeam.moveBeam(player.locX,player.locY);
 				if (tick % 3 == 0)
 					player.shoot();
 			}
@@ -1228,7 +1234,10 @@ public class PEW extends PApplet{
 				}
 				
 			}
-			
+			new PlayerBullet(xpos, ypos, 4, -30);
+			new PlayerBullet(xpos, ypos, -4, -30);
+			new PlayerBullet(xpos + 12, ypos, 8, -30);
+			new PlayerBullet(xpos - 12, ypos, -8, -30);
 		}
 	}
 	public class Beam
@@ -1249,7 +1258,7 @@ public class PEW extends PApplet{
 			if(count > duration)
 				removeSelf();
 		}
-		public void moveBean(int newX,int newY)
+		public void moveBeam(int newX,int newY)
 		{
 			startx = newX;
 			starty = newY;
@@ -1271,11 +1280,11 @@ public class PEW extends PApplet{
 			{
 				if(direction)
 				{
-					if(a.locY < starty)
+					if(a.locY > starty)
 						return true;
 				}
 				else
-					if(a.locY > starty)
+					if(a.locY < starty)
 						return true;
 			}
 			return false;
@@ -1286,12 +1295,19 @@ public class PEW extends PApplet{
 		PlayerBeam(int locX,int locY)
 		{
 			super(locX,locY,true, 50);
+			playersBeam = this;
 		}
 		public void increment()
 		{
-		PImage laser = loadImage("playerBeam.png");
-		image(laser,startx, starty-laser.height/2);
-		super.increment();
+		image(loadedPics.get(14),startx, starty-loadedPics.get(14).height/2);
+		count++;
+		if(count > duration)
+			removeSelf();
+		}
+		public void removeSelf()
+		{
+			playersBeam = null;
+			super.removeSelf();
 		}
 	}
 
@@ -1322,6 +1338,7 @@ public class PEW extends PApplet{
 			locY = ypos;
 			speed = 25;
 			weapon = new PlayerBeamGun();
+			
 			gunLev = 1;
 			scoreMultiplyer = 1;
 		}
