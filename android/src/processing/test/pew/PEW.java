@@ -270,7 +270,7 @@ public class PEW extends PApplet{
 		text("Art Master: Josh \"Fa1seEcho\" Walton", displayWidth / 2,
 				displayHeight * (4 / 5.0f));
 		PImage art = loadImage("bandart.png");
-		art.resize((int)(displayWidth *(2/3.0)),(int)(displayHeight*(1/ 6.0)));
+		art.resize((int)(displayWidth *(1/3.0)),(int)(displayHeight*(1/ 6.0)));
 		image(art,(int)(displayWidth *(5/6.0)),(int)(displayHeight*(11/ 12.0)));
 		// BULD A BACK BUTTON AT TOP OF SCREEN
 		if (mousePressed && mouseY < displayHeight / 6) {
