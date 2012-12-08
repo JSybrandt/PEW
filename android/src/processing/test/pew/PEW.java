@@ -373,6 +373,7 @@ public class PEW extends PApplet{
 	}
 	
 	public void onPause() {
+		showMenu = false;
 		if (soundPool != null) { // must be checked because or else crash when
 			// return from landscape mode
 			soundPool.release(); // release the player
@@ -387,7 +388,6 @@ public class PEW extends PApplet{
 			}
 			
 			playGame = false;
-			showMenu = true;
 		
 		super.onPause();
 	}
@@ -403,6 +403,7 @@ public class PEW extends PApplet{
 		print("THIS DIDNT MAKE ITSELF PROPERLY JERKWAD");
 		}
 		}
+		showMenu = true;
 		super.onResume();
 	}
 
