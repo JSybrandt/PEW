@@ -300,10 +300,12 @@ public class PEW extends PApplet{
 
 	public void printInstructions() {
 		textAlign(CENTER);
-		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
-				displayWidth, displayHeight / 6);
+		
 		image(loadImage("Instructions.png"), displayWidth /2 , displayHeight / 2,
 				displayWidth, displayHeight);
+		
+		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
+				displayWidth, displayHeight / 6);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			showCredits = false;
