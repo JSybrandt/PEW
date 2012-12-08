@@ -34,6 +34,7 @@ public class PEW extends PApplet{
 	ArrayList<Projectile> playerBullets = new ArrayList<Projectile>();
 	ArrayList<Item> items = new ArrayList<Item>();// misc stuff and items
 	ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
+	ArrayList<Beam> activeBeams = new ArrayList<Beam>();
 
 	PFont fontG;
 	String highscoreFile = "highscore.txt";
@@ -198,6 +199,11 @@ public class PEW extends PApplet{
 				PowerUp p = activePowerUps.get(i);
 				p.increment();
 			}
+			for (int i = activeBeams.size() - 1; i >= 0; i--) {
+				Beam p = activeBeams.get(i);
+				p.increment();
+			}
+			
 			textAlign(LEFT);
 			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20,
 					displayHeight / 20);
@@ -248,6 +254,22 @@ public class PEW extends PApplet{
 				}
 			}
 		}
+		
+		for (int i = 0; i < activeBeams.size(); i++) {
+			Beam p = (Beam) activeBeams.get(i);
+			if(p instanceof PlayerBeam)
+			{
+				for (int j = 0; j < enemyShips.size(); j++) {
+					Ship s = (Ship) enemyShips.get(j);
+					if (p.isinKillZone(s)) {
+						s.hit();
+					}
+				}
+			}
+			else if( p.isinKillZone(player))
+				player.hit();
+		}
+				
 
 		for (int i = 0; i < enemyBullets.size(); i++) {
 			Projectile p = (Projectile) enemyBullets.get(i);
@@ -1184,6 +1206,63 @@ public class PEW extends PApplet{
 			new PlayerBullet(xpos - 12, ypos, -4, -30);
 			new PlayerBullet(xpos + 12, ypos, 8, -30);
 			new PlayerBullet(xpos - 12, ypos, -8, -30);
+		}
+	}
+	public class PlayerGunLev6 extends Gun {
+		public void shoot(int xpos, int ypos) {
+			sound.play(sound.pew);
+			new PlayerBeam(xpos, ypos);
+		}
+	}
+	public class Beam
+	{
+		int startx,starty, width, duration , count;
+		boolean direction; //true:  up 
+		Beam(int locX, int locY, boolean dir,int w)
+		{
+			startx = locX;
+			starty = locY;
+			width = w;//width is like radius
+			duration = 100;
+		}
+		public void increment()
+		{
+			count++;
+			if(count > duration)
+				removeSelf();
+		}
+		public void removeSelf()
+		{
+			for(int i = activeBeams.size()-1; i >=0 ; i--)
+			{
+				if(activeBeams.get(i) == this)
+				{
+					activeBeams.remove(i);
+					break;
+				}
+			}
+		}
+		public boolean isinKillZone(Actor a)
+		{
+			if(a.locX > (startx-width)&&a.locX < (startx+width))
+			{
+				if(direction)
+				{
+					if(a.locY < starty)
+						return true;
+				}
+				else
+					if(a.locY > starty)
+						return true;
+			}
+			return false;
+		}
+	}
+	public class PlayerBeam extends Beam
+	{
+		PlayerBeam(int locX,int locY)
+		{
+			super(locX,locY,true, 50);
 		}
 	}
 
