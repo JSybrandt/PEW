@@ -15,6 +15,9 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.content.res.AssetFileDescriptor;
 
+import android.content.Intent;
+import android.net.Uri;
+
 public class PEW extends PApplet{
 
 	AssetManager assetManager=null;// needed for sounds, has to be up in rank
@@ -261,12 +264,19 @@ public class PEW extends PApplet{
 				displayHeight * (3 / 5.0f));
 		text("Art Master: Josh \"Fa1seEcho\" Walton", displayWidth / 2,
 				displayHeight * (4 / 5.0f));
-
+		PImage art = loadImage("bandart.png");
+		art.resize((int)(displayWidth *(1/3.0)),(int)(displayHeight*(1/ 6.0)));
+		image(art,(int)(displayWidth *(5/6.0)),(int)(displayHeight*(11/ 12.0)));
 		// BULD A BACK BUTTON AT TOP OF SCREEN
 		if (mousePressed && mouseY < displayHeight / 6) {
 			showCredits = false;
 			showMenu = true;
 			playGame = false;
+		}
+		//go to band link
+		if(mousePressed && mouseY > displayHeight *(5/6.0)&& mouseX > displayWidth *(2/3.0))
+		{
+			makeWebPage();
 		}
 	}
 
@@ -1753,4 +1763,12 @@ public class PEW extends PApplet{
 		return displayHeight;
 	}
 
+	
+	public void makeWebPage()
+	{
+		String url = "http://www.8bitweapon.com/";
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		startActivity(i);
+	}
 }
