@@ -1586,6 +1586,7 @@ public class PEW extends PApplet{
 			new Bullet(xpos, ypos, -1, 4);
 			new Bullet(xpos, ypos, 2, 3);
 			new Bullet(xpos, ypos, -2, 3);
+			
 		}
 	}
 
@@ -1607,6 +1608,28 @@ public class PEW extends PApplet{
 		}
 	}
 
+	Gun getRandGun()
+	{
+		int i = gen.nextInt(8);
+		if(i == 0)
+		return new DinkyGun();
+		else if(i == 1)
+		return new StarGun();
+		else if(i == 2)
+		return new SpreadGunE();
+		else if(i == 3)
+		return new SpiralGun();
+		else if(i == 4)
+		return new doubleGun();
+		else if(i == 5)
+		return new tripleGun();
+		else if(i == 6)
+		return new BombLauncher();
+		else if(i == 7)
+		return new HelixGun();
+		else
+		return new DinkyGun();
+	}
 	class TestGun extends Gun {
 		public void shoot(int xpos, int ypos) {
 			new Bullet(xpos, ypos, 0, 5);
@@ -1808,34 +1831,6 @@ public class PEW extends PApplet{
 		}
 	}
 
-	// SoundPool soundPool;
-	// AssetManager assetManager;
-	// static public int PEW;
-	//
-	// public void setUp()
-	// {
-	// soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0); //(max #of
-	// streams, stream type, source quality) - see the android reference for
-	// details
-	// assetManager = this.getAssets();
-	// try
-	// {
-	// pew = soundPool.load(assetManager.openFd("\\sounds\\pew.mp3"), 0); //load
-	// the files
-	// }
-	// catch (IOException e) {
-	// print("Opps..");
-	// e.printStackTrace(); //you can leave this empty...or use some other way
-	// to notify the user/developer something went wrong
-	// }
-	// }
-	// public void play(int i)
-	// {
-	// // soundPool.play(i, 1, 1, 0, 0, 1);//no idea why this is to be quite
-	// honest
-	// }
-	//
-	// vdsv
 
 	public int sketchWidth() {
 		return displayWidth;
