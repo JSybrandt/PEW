@@ -112,31 +112,31 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion1.png");
+		img = loadImage("ShipExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion2.png");
+		img = loadImage("ShipExplosion2.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion3.png");
+		img = loadImage("ShipExplosion3.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion4.png");
+		img = loadImage("ShipExplosion4.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion5.png");
+		img = loadImage("ShipExplosion5.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion6.png");
+		img = loadImage("ShipExplosion6.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("\\animations\\ShipExplosion7.png");
+		img = loadImage("ShipExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 	}
@@ -768,6 +768,7 @@ public class PEW extends PApplet{
 			playerBullets.clear();
 			items.clear();
 			activePowerUps.clear();
+			animations.clear();
 			textAlign(LEFT);
 			textFont(f, 24);
 			fill(255);
@@ -1867,7 +1868,6 @@ public class PEW extends PApplet{
 		public void animate()
 		{
 			image(currentImg, locX, locY);
-			count++;
 			if(count%4 == 3)
 			{
 				current++;
@@ -1877,6 +1877,7 @@ public class PEW extends PApplet{
 			{
 				super.removeSelf();
 			}
+			count++;
 		}
 	}
 
