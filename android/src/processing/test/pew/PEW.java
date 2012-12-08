@@ -104,15 +104,15 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
-		img = loadImage("Drone.png");// #2
+		img = loadImage("Drone1.png");// #2
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
-		img = loadImage("EnemyMissileShip1.png");// #3
+		img = loadImage("Drone2.png");// #3
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
-		img = loadImage("HerpADerp.png");// #4
+		img = loadImage("Drone3.png");// #4
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
@@ -127,15 +127,15 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
-		img = loadImage("Drone-hit.png"); // #2
+		img = loadImage("Drone1-hit.png"); // #2
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
-		img = loadImage("EnemyMissileShip1-flash.png"); // #3
+		img = loadImage("Drone2-hit.png"); // #3
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
-		img = loadImage("HerpADerpOld.png"); // #4
+		img = loadImage("Drone3-hit.png"); // #4
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
