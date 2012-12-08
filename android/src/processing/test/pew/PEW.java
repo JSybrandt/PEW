@@ -57,14 +57,14 @@ public class PEW extends PApplet{
 		loadedPics.add(loadImage("playerbullet.png"));// #1
 		loadedPics.add(loadImage("coin.png"));// #2
 		loadedPics.add(loadImage("RocketE.png"));// #3
-		loadedPics.add(loadImage("Drone.png"));// #4
+		loadedPics.add(loadImage("EnemyMissileShip1.png"));// #4
 		loadedPics.add(loadImage("Cruiser.png"));// #5
 		loadedPics.add(loadImage("Turret.png"));// #6
 		loadedPics.add(loadImage("spaceship.png"));// #7
 		loadedPics.add(loadImage("PowerUp.png"));// #8
 		loadedPics.add(loadImage("HerpADerp.png"));// #9
 		loadedPics.add(loadImage("bomb.png"));// #10
-		loadedPics.add(loadImage("Drone-hit.png"));// *11
+		loadedPics.add(loadImage("EnemyMissileShip1-flash.png"));// *11
 		loadedPics.add(loadImage("MainMenu.png"));// #12
 		loadedPics.add(loadImage("PsychedelicPowerUp1.png"));// #13
 		
@@ -1319,7 +1319,7 @@ public class PEW extends PApplet{
 		Gun weapon;
 
 		Ship(int imageIndex) {
-			radius = 25;
+			radius = 40;
 			img = loadedPics.get(imageIndex);
 			img.resize((displayWidth/480)*img.width, (displayHeight/800)*img.height);
 		}
