@@ -165,27 +165,7 @@ public class PEW extends PApplet{
 
 			collisionDetection();
 
-//			if (tick == 100) {
-//				ArrayList<Turret> guns = new ArrayList<Turret>();
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//				guns.add(new Turret(new TestGun(), 50));
-//
-//				enemyShips.add(new Cruiser(guns));
-//			}
+
 
 			if (spawning)
 				level.spawn();
@@ -908,10 +888,14 @@ public class PEW extends PApplet{
 		
 		void spawn() {
 			if (inWave) {
-				if (waveType == 0)
-					spawnScissor();
-				if (waveType == 1)
-					spawnSideToSide();
+				if (waveNum%8 == 7 && enemyShips.size() == 0) {
+					spawnCruiser();
+				} else {
+					if (waveType == 0)
+						spawnScissor();
+					if (waveType == 1)
+						spawnSideToSide();
+				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
 			} else {
@@ -953,6 +937,27 @@ public class PEW extends PApplet{
 				enemyShips.add(s);
 				waveShipsSpawned++;
 			}
+		}
+		
+		void spawnCruiser() {
+			ArrayList<Turret> guns = new ArrayList<Turret>();
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			guns.add(new Turret(new TestGun(), 50));
+			enemyShips.add(new Cruiser(guns));
 		}
 		
 		void newWave() {
