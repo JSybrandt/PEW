@@ -224,7 +224,7 @@ public class PEW extends PApplet{
 				PowerUp p = activePowerUps.get(i);
 				p.increment();
 			}
-			for (int i = animations.size()-1; i>=0; i--) {
+			for (int i = 0; i < animations.size(); i++) {
 				Animation a = animations.get(i);
 				a.animate();
 			}
@@ -1796,6 +1796,8 @@ public class PEW extends PApplet{
 			if (randomInt == 1) {
 				makeRandPowerUp(locX,locY);
 			}
+			ShipExplosion s = new ShipExplosion(locX, locY);
+			animations.add(s);
 			removeSelf();
 		}
 
@@ -1843,7 +1845,7 @@ public class PEW extends PApplet{
 		
 		public  void removeSelf()
 		{
-			for(int i = animations.size(); i>=0; i--)
+			for(int i = animations.size()-1; i>=0; i--)
 			{
 				Animation a = (Animation) animations.get(i);
 				if (a == this)
@@ -1868,14 +1870,15 @@ public class PEW extends PApplet{
 		public void animate()
 		{
 			image(currentImg, locX, locY);
-			if(count%4 == 3)
+			if(count%3 == 2)
 			{
 				current++;
-				loadedShipExpPics.get(current);
-			}
-			if(current > loadedShipExpPics.size()-1)
-			{
-				super.removeSelf();
+				if(current <= loadedShipExpPics.size()-1)
+				{
+					currentImg = loadedShipExpPics.get(current);
+				} else {
+					super.removeSelf();
+				}
 			}
 			count++;
 		}
