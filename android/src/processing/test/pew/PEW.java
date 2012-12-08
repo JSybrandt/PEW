@@ -199,7 +199,7 @@ public class PEW extends PApplet{
 				p.increment();
 			}
 
-			text("Score: " + player.getScore(), displayWidth / 20,
+			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20,
 					displayHeight / 20);
 			// text("Bullet Count: " + (enemyBullets.size() +
 			// playerBullets.size()), 10, 50);
@@ -762,6 +762,11 @@ public class PEW extends PApplet{
 			super(locX, locY,13);
 
 		}
+		public void act()
+		{
+			player.incrementScoreMultiplyer(4);
+			super.act();
+		}
 
 		public void doEffect() {
 			psychedelicMode = true;
@@ -1198,7 +1203,7 @@ public class PEW extends PApplet{
 	}
 
 	class PlayerShip extends Ship {
-		int gunLev;
+		int gunLev, scoreMultiplyer;
 		public PlayerShip(int xpos, int ypos) {
 			super(7);
 			dir = true;
@@ -1208,6 +1213,7 @@ public class PEW extends PApplet{
 			speed = 25;
 			weapon = new PlayerGunLev1();
 			gunLev = 1;
+			scoreMultiplyer = 1;
 		}
 
 		public void move() {
@@ -1240,6 +1246,7 @@ public class PEW extends PApplet{
 		public void hit()
 		{
 			incrementGunLev(-1);
+			scoreMultiplyer=1;
 		}
 		public void incrementGunLev(int i)
 		{
@@ -1261,6 +1268,12 @@ public class PEW extends PApplet{
 		public void shoot() {
 			weapon.shoot(locX, locY);
 		}
+		public void incrementScoreMultiplyer(int i)
+		{
+			scoreMultiplyer+=i;
+			if(scoreMultiplyer<1)
+				scoreMultiplyer=1;
+		}
 
 		public void blowUp() {
 			println("THE PLAYER HAS DIED");
@@ -1271,7 +1284,7 @@ public class PEW extends PApplet{
 		}
 
 		public void addMoney(int p) {
-			points += p;
+			points += p*scoreMultiplyer;
 		}
 
 		public int getScore() {
