@@ -1131,7 +1131,7 @@ public class PEW extends PApplet{
 		boolean flip = false;
 
 		public void shoot(int xpos, int ypos) {
-			// Sounds.play(0);
+			sound.play(sound.pew);
 			if (flip)
 				new PlayerBullet(xpos + 12, ypos, 0, -30);
 			else
@@ -1141,8 +1141,7 @@ public class PEW extends PApplet{
 	}
 	public class PlayerGunLev2 extends Gun {
 		public void shoot(int xpos, int ypos) {
-			
-
+			sound.play(sound.pew);
 				new PlayerBullet(xpos + 12, ypos, 2, -30);
 				new PlayerBullet(xpos , ypos, 0, -30);
 				new PlayerBullet(xpos - 12, ypos, -2, -30);
@@ -1151,7 +1150,7 @@ public class PEW extends PApplet{
 	
 	public class PlayerGunLev3 extends Gun {
 		public void shoot(int xpos, int ypos) {
-
+			sound.play(sound.pew);
 			new PlayerBullet(xpos - 12, ypos, -3, -30);
 			new PlayerBullet(xpos + 12, ypos, 3, -30);
 			new PlayerBullet(xpos +12, ypos, 0, -30);
@@ -1469,7 +1468,7 @@ public class PEW extends PApplet{
 				soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
 			try { // loading these files can throw an exception and therefore
 					// you HAVE to have a way to handle those events
-				pew = soundPool.load(assetManager.openFd("pew.ogg"), 0); // load
+				pew = soundPool.load(assetManager.openFd("pew.ogg"), 1); // load
 																			// the
 																			// files
 				
