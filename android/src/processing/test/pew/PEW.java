@@ -234,14 +234,7 @@ public class PEW extends PApplet{
 		
 		img = loadImage("EnemyExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-<<<<<<< HEAD
 		loadedPlayerShipExpPics.add(img);
-=======
-		loadedShipExpPics.add(img);
-
-		
-
->>>>>>> 60c98cbb8a4cce42c8a6996d152de8fe00ba29bd
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
