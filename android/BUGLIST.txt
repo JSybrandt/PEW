@@ -1,0 +1,3 @@
+scale explosions
+beam does not stop displaying
+menu is borked after returning to app after 8bitWeapon website
