@@ -8,3 +8,6 @@ Enemy beam
 
 fix turrets 
 X1 X2 X3 power ups
+
+
+player health indicatior

@@ -225,7 +225,7 @@ public class PEW extends PApplet{
 
 		sound.setUp();
 
-		fontG = createFont("Constantia", (int)(displayWidth/480)*48);
+		fontG = createFont("Constantia", (int)((displayWidth/480.0)*48));
 
 		importHighscore();
 
@@ -244,7 +244,7 @@ public class PEW extends PApplet{
 		player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
 		orientation(PORTRAIT);
 		frameRate(30);
-		f = createFont("Impact", (int)((displayWidth/480)*24), true);
+		f = createFont("Impact", (int)((displayWidth/480.0)*24), true);
 		textFont(f, 24);
 		fill(255);
 	}
@@ -1332,24 +1332,26 @@ public class PEW extends PApplet{
 	}
 	public class PlayerBeamGun extends Gun {
 		int count = 0;
-		Beam correspondingBeam;
-		boolean toggledOn = false;
+		PlayerBeam correspondingBeam;
 		public void shoot(int xpos, int ypos) {
-			if(!toggledOn){
+			if(correspondingBeam ==null){
 			sound.play(sound.pew);
 			correspondingBeam = new PlayerBeam(xpos, ypos);
-			toggledOn  = true;
 			count = 0;
+			if(count % 100 == 0)
+				toggleOff();
 			}
 			
 		}
 		public void toggleOff()
 		{
-			toggledOn = false;
 			correspondingBeam.removeSelf();
+			correspondingBeam = null;
+			
 		}
 		public void moveBeam(int newX,int newY)
 		{
+			if(correspondingBeam != null)
 			correspondingBeam.moveBeam(newX,newY);
 		}
 	}
@@ -1410,7 +1412,7 @@ public class PEW extends PApplet{
 		}
 		public void increment()
 		{
-		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height/2,loadedPics.get(9).width, displayHeight);
+		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height,loadedPics.get(9).width, displayHeight);
 		}
 
 	}
