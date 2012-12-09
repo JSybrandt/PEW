@@ -899,6 +899,12 @@ public class PEW extends PApplet{
 	}
 
 	void GameOverMessage(String msg) {
+		for(int i = 0; i < activePowerUps.size(); i++)
+		{
+			activePowerUps.get(i).removeEffect();
+		}
+		bghandel.scroll();
+		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		textFont(fontG);
@@ -1516,12 +1522,13 @@ public class PEW extends PApplet{
 				secondary.moveBeam(locX,locY);
 				//for energy splash
 
+			
+			image(img, locX, locY);
 			if(flashed)
 			{
 				img = loadedShipPics.get(0);
 				flashed = false;
 			}
-			image(img, locX, locY);
 			
 		}
 
@@ -2158,7 +2165,7 @@ public class PEW extends PApplet{
 		}
 
 		public void blowUp() {
-			int w = gen.nextInt(20) + 1;
+			int w = gen.nextInt(6) + 20;
 			new Money(locX, locY, w);
 			int randomInt = gen.nextInt(7);
 			if (randomInt == 1) {
