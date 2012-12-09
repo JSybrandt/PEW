@@ -1438,8 +1438,8 @@ public class PEW extends PApplet{
 			locY += ydisp;
 			locX += xdisp;
 
-			if (locY < -100 || locY > displayHeight + 100 || locX < -100
-					|| locX > displayWidth + 100)
+			if (locY < -20 || locY > displayHeight + 20 || locX < -20
+					|| locX > displayWidth + 20)
 				removeSelf();
 
 			display();
