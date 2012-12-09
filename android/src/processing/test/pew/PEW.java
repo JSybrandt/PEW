@@ -275,18 +275,12 @@ public class PEW extends PApplet{
 		} else {
 			spawning = true;
 
-			for (int j = 0; j < playerBullets.size(); j++) {
-				Projectile p = (Projectile) playerBullets.get(j);
-				p.move();
-			}
+			
 			for (int j = 0; j < enemyShips.size(); j++) {
 				enemyShip s = (enemyShip) enemyShips.get(j);
 				s.act();
 			}
-			for (int j = 0; j < enemyBullets.size(); j++) {
-				Projectile p = (Projectile) enemyBullets.get(j);
-				p.move();
-			}
+			
 			for (int j = 0; j < items.size(); j++) {
 				Item p = (Item) items.get(j);
 				p.move();
@@ -302,6 +296,14 @@ public class PEW extends PApplet{
 			for (int i = activeBeams.size() - 1; i >= 0; i--) {
 				Beam p = activeBeams.get(i);
 				p.increment();
+			}
+			for (int j = 0; j < enemyBullets.size(); j++) {
+				Projectile p = (Projectile) enemyBullets.get(j);
+				p.move();
+			}
+			for (int j = 0; j < playerBullets.size(); j++) {
+				Projectile p = (Projectile) playerBullets.get(j);
+				p.move();
 			}
 			
 			textAlign(LEFT);
