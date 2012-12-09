@@ -987,6 +987,8 @@ public class PEW extends PApplet{
 						spawnScissor();
 					if (waveType == 1)
 						spawnSideToSide();
+					if (waveType == 2)
+						spawnSideways();
 				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
@@ -1023,6 +1025,13 @@ public class PEW extends PApplet{
 					path = 4;
 					flip = !flip;
 				}
+				spawnShip();
+			}
+		}
+		
+		void spawnSideways() {
+			if (count%spawnFreq == 0) {
+				path = 5;
 				spawnShip();
 			}
 		}
@@ -1065,12 +1074,12 @@ public class PEW extends PApplet{
 		void newWave() {
 			waveNum++;
 			inWave = true;
-			waveType = gen.nextInt(2);
+			waveType = gen.nextInt(3);
 			waveShipsSpawned = 0;
 			waveShipsEnd = waveNum * 2 + 10;
 			spawnFreq = 30 - waveNum / 2;
 			shipFreq = 25 - waveNum / 3;
-			shipHP = 3 + waveNum / 2;
+			shipHP = 4 + waveNum;
 			shipSpeed = 6 + waveNum / 2;
 			uniqueRarity =  5 + waveNum;
 			shipImage = gen.nextInt(3)+2;
@@ -1752,21 +1761,25 @@ public class PEW extends PApplet{
 			
 			if (path == 1) {
 				xinit = locX = displayWidth/4;
-				yinit = locY = 0;
+				yinit = locY = -100;
 			}
 			if (path == 2) {
 				xinit = locX = 3 * displayWidth/4;
-				yinit = locY = 0;
+				yinit = locY = -100;
 			}
 			if (path == 3) {
 				xinit = locX = displayWidth/5;
-				yinit = locY = 0;
+				yinit = locY = -100;
 				flip = true;
 			}
 			if (path == 4) {
 				xinit = locX = 4 * displayWidth/5;
-				yinit = locY = 0;
+				yinit = locY = -100;
 				flip = false;
+			}
+			if (path == 5) {
+				xinit = locX = -100;
+				yinit = locY = displayHeight/5;
 			}
 			
 			
@@ -1814,7 +1827,7 @@ public class PEW extends PApplet{
 			}
 			if (path == 3 || path == 4) {			// SIDE TO SIDE
 				if (count % 3 == 0)
-					locY += 1;
+					locY += speed / 2;
 				if (flip)
 					locX += speed;
 				else
@@ -1824,7 +1837,10 @@ public class PEW extends PApplet{
 					flip = !flip;
 				}
 			}
-			if (path == 5) {						// DOWN LEFT, THEN DOWN RIGHT, THEN DOWN
+			if (path == 5) {						// TO THE RIGHT TO THE RIGHT
+				locX += speed;
+			}
+			if (path == 9) {						// DOWN LEFT, THEN DOWN RIGHT, THEN DOWN
 				if (count < 50) {
 					locY += speed;
 					locX -= speed / 2;
@@ -1839,9 +1855,7 @@ public class PEW extends PApplet{
 				locY += speed;
 				locX += sin(count * 3.14f / 6) * 5;
 			}
-			if (path == 9) {						// TO THE RIGHT TO THE RIGHT
-				locX += speed;
-			}
+
 
 		}
 
