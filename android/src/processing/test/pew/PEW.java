@@ -112,6 +112,12 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
+		//img = loadImage("\\playerBeam\\beam4.png");// #13
+		//img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		//loadedPics.add(img);
+		
+		
+		
 		img = loadImage("ShipExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
