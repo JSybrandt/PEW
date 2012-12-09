@@ -1061,11 +1061,11 @@ public class PEW extends PApplet{
 			rando = gen.nextInt(100);
 			if (rando < uniqueRarity) {
 				rando = gen.nextInt(3)+2;
-				Drone s = new Drone(rando, shipFreq, shipHP, path, shipSpeed);
+				Drone s = new Drone(rando, shipFreq, 2*shipHP, path, shipSpeed);
 				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
-				Drone s = new Drone(shipImage, shipFreq, 2*shipHP, path, shipSpeed);
+				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
 				enemyShips.add(s);
 			}
 			waveShipsSpawned++;
