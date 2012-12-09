@@ -18,3 +18,27 @@ player health indicatior
 
 phycadelic score boost more
 cruiser level scale
+
+options buttons for toggle
+cruiser turrets random gun freq
+
+
+gun list
+
+		"if(i == 0)
+		return new DinkyGun();
+		else if(i == 1)
+		return new StarGun();
+		else if(i == 2)
+		return new SpreadGunE();
+		else if(i == 3)
+		return new SpiralGun();
+		else if(i == 4)
+		return new doubleGun();
+		else if(i == 5)
+		return new tripleGun();
+		else if(i == 6)
+		return new BombLauncher();
+		else if(i == 7)
+		return new HelixGun();"
+
