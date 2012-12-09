@@ -709,7 +709,7 @@ public class PEW extends PApplet{
 		}
 
 		Bullet(int xpos, int ypos) {
-			super(xpos, ypos, 0, 0, 4);
+			super(xpos, ypos, 0, 0,6);
 			enemyBullets.add(this);
 			radius = (int)((displayWidth/480.0)*7);
 		}
@@ -1731,8 +1731,8 @@ public class PEW extends PApplet{
 		}
 
 		public void move() {
-			locY += ydisp;
-			locX += xdisp;
+			locY += (int)((displayWidth/480.0)*ydisp);
+			locX += (int)((displayWidth/480.0)*xdisp);
 
 			if (locY < -20 || locY > displayHeight + 20 || locX < -20
 					|| locX > displayWidth + 20)
