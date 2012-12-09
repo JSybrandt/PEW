@@ -1,0 +1,6 @@
+3 new ships
+Shield powerup
+time slow powerup
+time speed powerup
+Enemy beam
+2 more bosses
