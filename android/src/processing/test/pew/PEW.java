@@ -146,31 +146,31 @@ public class PEW extends PApplet{
 		
 		
 		
-		img = loadImage("ShipExplosion1.png");
+		img = loadImage("EnemyExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("ShipExplosion2.png");
+		img = loadImage("EnemyExplosion2.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("ShipExplosion3.png");
+		img = loadImage("EnemyExplosion3.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("ShipExplosion4.png");
+		img = loadImage("EnemyExplosion4.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("ShipExplosion5.png");
+		img = loadImage("EnemyExplosion5.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("ShipExplosion6.png");
+		img = loadImage("EnemyExplosion6.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
-		img = loadImage("ShipExplosion7.png");
+		img = loadImage("EnemyExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 	}
@@ -1832,14 +1832,14 @@ public class PEW extends PApplet{
 				}
 			}
 			if (path == 3 || path == 4) {			// SIDE TO SIDE
-				if (count % 3 == 0)
-					locY += speed / 2;
+				if (count%2 == 0)
+					locY += speed;
 				if (flip)
 					locX += speed;
 				else
 					locX -= speed;
 				if (locX > 8 * displayWidth / 9 || locX < displayWidth / 9) {
-					locY += speed * 3;
+					locY += 3*speed;
 					flip = !flip;
 				}
 			}
