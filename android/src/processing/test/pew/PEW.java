@@ -253,7 +253,7 @@ public class PEW extends PApplet{
 
 		sound.setUp();
 
-		fontG = createFont("Constantia", (int)((displayWidth/480.0)*48));
+		fontG = createFont("Constantia", ((int)((displayWidth/480.0)*48)));
 
 		importHighscore();
 
@@ -272,7 +272,7 @@ public class PEW extends PApplet{
 		player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
 		orientation(PORTRAIT);
 		frameRate(30);
-		f = createFont("Impact", (int)((displayWidth/480.0)*24), true);
+		f = createFont("Impact", ((int)((displayWidth/480.0)*24)), true);
 		textFont(f, 24);
 		fill(255);
 	}
@@ -662,7 +662,7 @@ public class PEW extends PApplet{
 			super(locX, locY, 6, 0, 5);
 			count = 0;
 			lifeSpan = 75;
-			speed = (int)(displayWidth/480.0)*5;
+			speed = (int)((displayWidth/480.0)*5);
 			enemyBullets.add(this);
 		}
 
@@ -670,7 +670,7 @@ public class PEW extends PApplet{
 			super(locX, locY, 10, dispx, dispy);
 			count = 0;
 			lifeSpan = 25;
-			speed = (int)(displayWidth/480.0)*5;
+			speed = (int)((displayWidth/480.0)*5);
 			enemyBullets.add(this);
 		}
 
@@ -705,13 +705,13 @@ public class PEW extends PApplet{
 		Bullet(int xpos, int ypos, int h, int s) {
 			super(xpos, ypos, 0, h, s);
 			enemyBullets.add(this);
-			radius = (int)(displayWidth/480.0)*7;
+			radius = (int)((displayWidth/480.0)*7);
 		}
 
 		Bullet(int xpos, int ypos) {
 			super(xpos, ypos, 0, 0, 4);
 			enemyBullets.add(this);
-			radius = (int)(displayWidth/480.0)*7;
+			radius = (int)((displayWidth/480.0)*7);
 		}
 
 	}
@@ -1003,7 +1003,7 @@ public class PEW extends PApplet{
 
 	abstract class Item extends Actor {
 		int worth;
-		int speed = (int)(displayWidth/480.0)*3;
+		int speed = (int)((displayWidth/480.0)*3);
 
 		Item(int posx, int posy, int imageIndex) {
 			locX = posx;
@@ -1189,7 +1189,7 @@ public class PEW extends PApplet{
 			spawnFreq = 30 - waveNum / 2;
 			shipFreq = 25 - waveNum / 3;
 			shipHP = 4 + waveNum;
-			shipSpeed = (int)(displayWidth/480.0)*6 + waveNum / 2;
+			shipSpeed = (int)((displayWidth/480.0)*6) + waveNum / 2;
 			uniqueRarity =  5 + waveNum;
 			shipImage = gen.nextInt(3)+2;
 		}
@@ -1294,7 +1294,7 @@ public class PEW extends PApplet{
 		Money(int posx, int posy, int w) {
 			super(posx, posy, 2);
 			worth = w;
-			radius = (int)(displayWidth/480.0)*10;
+			radius = (int)((displayWidth/480.0)*10);
 		}
 
 		public void act() {
@@ -1361,39 +1361,16 @@ public class PEW extends PApplet{
 	public class PlayerBeamGun extends Gun {
 		boolean gunAround = false;
 		int count = 0;
-<<<<<<< HEAD
-		public void shoot(int xpos, int ypos) {
-			if(!gunAround){
-			sound.play(sound.pew);
-			new PlayerBeam(xpos, ypos);
-			gunAround  = true;
-=======
+
 		PlayerBeam correspondingBeam;
 		public void shoot(int xpos, int ypos) {
 			if(correspondingBeam ==null){
 			sound.play(sound.pew);
 			correspondingBeam = new PlayerBeam(xpos, ypos);
->>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 			count = 0;
 			if(count % 100 == 0)
 				toggleOff();
 			}
-<<<<<<< HEAD
-			else
-			{
-				count++;
-				if(count > 25)
-				{
-					count = 0;
-					gunAround = false;
-				}
-				
-			}
-			new PlayerBullet(xpos, ypos, 4, -30);
-			new PlayerBullet(xpos, ypos, -4, -30);
-			new PlayerBullet(xpos + 12, ypos, 8, -30);
-			new PlayerBullet(xpos - 12, ypos, -8, -30);
-=======
 			
 		}
 		public void toggleOff()
@@ -1406,7 +1383,6 @@ public class PEW extends PApplet{
 		{
 			if(correspondingBeam != null)
 			correspondingBeam.moveBeam(newX,newY);
->>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 		}
 	}
 	public class Beam
@@ -1467,19 +1443,7 @@ public class PEW extends PApplet{
 		}
 		public void increment()
 		{
-<<<<<<< HEAD
-		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height/2);
-		//count++;
-		//if(count > duration)
-		//	removeSelf();
-		}
-		public void removeSelf()
-		{
-			playersBeam = null;
-			super.removeSelf();
-=======
 		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height,loadedPics.get(9).width, displayHeight);
->>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 		}
 	}
 
@@ -1503,17 +1467,16 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
-<<<<<<< HEAD
-=======
+
 		PlayerBeamGun secondary;
->>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
+
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
 			dir = true;
-			radius = (int)(displayWidth/480.0)*25;
+			radius = (int)((displayWidth/480.0)*25);
 			locX = xpos;
 			locY = ypos;
-			speed = (int)(displayWidth/480.0)*25;
+			speed = (int)((displayWidth/480.0)*25);
 			weapon = new PlayerGunLev1();
 			flashed = false;
 			gunLev = 1;
@@ -1525,7 +1488,7 @@ public class PEW extends PApplet{
 			int dX, dY;
 			float magnitude;
 			dX = mouseX - locX;
-			dY = (int)(mouseY - (displayWidth/480.0)*80 - locY);
+			dY = (int)(mouseY - ((displayWidth/480.0)*80) - locY);
 			if (abs(dX) > 15 || abs(dY) > 15) {
 				magnitude = sqrt(dX * dX + dY * dY);
 				locX += PApplet.parseInt(speed * dX / (magnitude));
@@ -1543,14 +1506,10 @@ public class PEW extends PApplet{
 			if (locY > displayHeight)
 				locY = displayHeight;
 
-<<<<<<< HEAD
-			if(weapon instanceof PlayerBeamGun)
-				image(loadedPics.get(10),locX,locY);
-=======
 			if(secondary != null)
 				secondary.moveBeam(locX,locY);
 				//for energy splash
->>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
+
 			if(flashed)
 			{
 				img = loadedShipPics.get(0);
@@ -1627,7 +1586,7 @@ public class PEW extends PApplet{
 
 		PowerUp(int posx, int posy,int imgIndex) {
 			super(posx, posy, imgIndex);
-			radius = (int)(displayWidth/480.0)*10;
+			radius = (int)((displayWidth/480.0)*10);
 			activePowerUps.add(this);
 			counter = 0;
 			lifeSpan = 250;
@@ -1755,7 +1714,7 @@ public class PEW extends PApplet{
 			this.img = loadedPics.get(imageIndex);
 			xdisp = delx;
 			ydisp = dely;
-			radius = (int)(displayWidth/480.0)*7;
+			radius = (int)((displayWidth/480.0)*7);
 		}
 
 		public void move() {
@@ -1795,7 +1754,7 @@ public class PEW extends PApplet{
 		Gun weapon;
 
 		Ship(int imageIndex) {
-			radius = (int)(displayWidth/480.0)*40;
+			radius = (int)((displayWidth/480.0)*40);
 			img = loadedShipPics.get(imageIndex);
 
 		}
@@ -1937,7 +1896,7 @@ public class PEW extends PApplet{
 
 	public class SpiralGun extends Gun {
 		float degree = 0;
-		int speed = (int)(displayWidth/480.0)*5;
+		int speed = (int)((displayWidth/480.0)*5);
 		int dispx, dispy;
 
 		SpiralGun() {
@@ -1985,7 +1944,7 @@ public class PEW extends PApplet{
 
 	public class StarGun extends Gun {
 		float degree = 0;
-		int speed = (int)(displayWidth/480.0)*5;
+		int speed = (int)((displayWidth/480.0)*5);
 		int dispx, dispy;
 
 		StarGun() {
@@ -2035,7 +1994,7 @@ public class PEW extends PApplet{
 
 		Turret(Gun g, int hlth) {
 			health = hlth;
-			radius = (int)(displayWidth/480.0)* 15;
+			radius = (int)((displayWidth/480.0)* 15);
 			weapon = g;
 			img = loadedPics.get(4);
 			freq = gen.nextInt(10) + 10;
