@@ -634,7 +634,7 @@ public class PEW extends PApplet{
 			super(locX, locY, 6, 0, 5);
 			count = 0;
 			lifeSpan = 75;
-			speed = 5;
+			speed = (int)(displayWidth/480.0)*5;
 			enemyBullets.add(this);
 		}
 
@@ -642,7 +642,7 @@ public class PEW extends PApplet{
 			super(locX, locY, 10, dispx, dispy);
 			count = 0;
 			lifeSpan = 25;
-			speed = 5;
+			speed = (int)(displayWidth/480.0)*5;
 			enemyBullets.add(this);
 		}
 
@@ -975,7 +975,7 @@ public class PEW extends PApplet{
 
 	abstract class Item extends Actor {
 		int worth;
-		int speed = 3;
+		int speed = (int)(displayWidth/480.0)*3;
 
 		Item(int posx, int posy, int imageIndex) {
 			locX = posx;
@@ -1161,7 +1161,7 @@ public class PEW extends PApplet{
 			spawnFreq = 30 - waveNum / 2;
 			shipFreq = 25 - waveNum / 3;
 			shipHP = 4 + waveNum;
-			shipSpeed = 6 + waveNum / 2;
+			shipSpeed = (int)(displayWidth/480.0)*6 + waveNum / 2;
 			uniqueRarity =  5 + waveNum;
 			shipImage = gen.nextInt(3)+2;
 		}
@@ -1432,7 +1432,7 @@ public class PEW extends PApplet{
 			radius = (int)(displayWidth/480.0)*25;
 			locX = xpos;
 			locY = ypos;
-			speed = 25;
+			speed = (int)(displayWidth/480.0)*25;
 			weapon = new PlayerGunLev1();
 			flashed = false;
 			gunLev = 1;
@@ -1842,7 +1842,7 @@ public class PEW extends PApplet{
 
 	public class SpiralGun extends Gun {
 		float degree = 0;
-		int speed = 5;
+		int speed = (int)(displayWidth/480.0)*5;
 		int dispx, dispy;
 
 		SpiralGun() {
@@ -1890,7 +1890,7 @@ public class PEW extends PApplet{
 
 	public class StarGun extends Gun {
 		float degree = 0;
-		int speed = 5;
+		int speed = (int)(displayWidth/480.0)*5;
 		int dispx, dispy;
 
 		StarGun() {
