@@ -144,7 +144,7 @@ public class PEW extends PApplet{
 		
 		
 		
-		img = loadImage("bomb.png"); // #0
+		img = loadImage("playerFlash.png"); // #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
@@ -530,6 +530,11 @@ public class PEW extends PApplet{
 
 	public void onResume()
 	{
+		showCredits = false;
+		playGame = false;
+		showHighScore = false;
+		showInstructions = false;
+		showOptions = false;
 		if(!startUp && !musicReady)
 		{
 		sound.setUp();
@@ -1440,6 +1445,7 @@ public class PEW extends PApplet{
 
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
+		boolean flashed;
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
 			dir = true;
@@ -1448,7 +1454,7 @@ public class PEW extends PApplet{
 			locY = ypos;
 			speed = 25;
 			weapon = new PlayerGunLev1();
-			
+			flashed = false;
 			gunLev = 1;
 			scoreMultiplyer = 1;
 		}
@@ -1478,6 +1484,11 @@ public class PEW extends PApplet{
 
 			if(weapon instanceof PlayerBeamGun)
 				image(loadedPics.get(10),locX,locY);
+			if(flashed)
+			{
+				img = loadedShipPics.get(0);
+				flashed = false;
+			}
 			image(img, locX, locY);
 			
 		}
@@ -1486,6 +1497,8 @@ public class PEW extends PApplet{
 		public void hit()
 		{
 			incrementGunLev(-1);
+			img = loadedShipFlashPics.get(0);
+			flashed = true;
 			scoreMultiplyer=1;
 		}
 		public void addBeam()
