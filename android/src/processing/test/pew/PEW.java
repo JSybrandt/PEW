@@ -55,8 +55,9 @@ public class PEW extends PApplet{
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedShipPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedShipFlashPics = new ArrayList<PImage>();
-	ArrayList<PImage> loadedShipExpPics = new ArrayList<PImage>();
-
+	ArrayList<PImage> loadedEnemyShipExpPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedPlayerShipExpPics = new ArrayList<PImage>();
+	
 	public void loadImages() {
 		PImage img;
 		
@@ -175,11 +176,41 @@ public class PEW extends PApplet{
 		
 		img = loadImage("EnemyExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
+		loadedEnemyShipExpPics.add(img);
 		
 		img = loadImage("EnemyExplosion2.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
+		loadedEnemyShipExpPics.add(img);
+		
+		img = loadImage("EnemyExplosion3.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedEnemyShipExpPics.add(img);
+		
+		img = loadImage("EnemyExplosion4.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedEnemyShipExpPics.add(img);
+		
+		img = loadImage("EnemyExplosion5.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedEnemyShipExpPics.add(img);
+		
+		img = loadImage("EnemyExplosion6.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedEnemyShipExpPics.add(img);
+		
+		img = loadImage("EnemyExplosion7.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedEnemyShipExpPics.add(img);
+		
+		
+		
+		img = loadImage("EnemyExplosion1.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPlayerShipExpPics.add(img);
+		;
+		img = loadImage("EnemyExplosion2.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPlayerShipExpPics.add(img);
 		
 
 		
@@ -187,26 +218,23 @@ public class PEW extends PApplet{
 
 		img = loadImage("EnemyExplosion3.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
+		loadedPlayerShipExpPics.add(img);
 		
 		img = loadImage("EnemyExplosion4.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
+		loadedPlayerShipExpPics.add(img);
 		
 		img = loadImage("EnemyExplosion5.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
+		loadedPlayerShipExpPics.add(img);
 		
 		img = loadImage("EnemyExplosion6.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
+		loadedPlayerShipExpPics.add(img);
 		
 		img = loadImage("EnemyExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipExpPics.add(img);
-
-		
-
+		loadedPlayerShipExpPics.add(img);
 	}
 
 	BackgroundHandler bghandel = new BackgroundHandler();
@@ -470,7 +498,7 @@ public class PEW extends PApplet{
 
 	public void printOptions() {
 		textAlign(CENTER);
-		textSize((int)(displayWidth/480)*50);
+		textSize((int)(displayWidth/480)*42);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		text("YOU AINT SEEN NOTHING YET!", displayWidth / 2, displayHeight / 4);
@@ -1331,15 +1359,29 @@ public class PEW extends PApplet{
 		}
 	}
 	public class PlayerBeamGun extends Gun {
+		boolean gunAround = false;
 		int count = 0;
-		boolean toggledOn;
 		public void shoot(int xpos, int ypos) {
-			if(!toggledOn){
+			if(!gunAround){
 			sound.play(sound.pew);
 			new PlayerBeam(xpos, ypos);
-			toggledOn  = true;
+			gunAround  = true;
 			count = 0;
 			}
+			else
+			{
+				count++;
+				if(count > 25)
+				{
+					count = 0;
+					gunAround = false;
+				}
+				
+			}
+			new PlayerBullet(xpos, ypos, 4, -30);
+			new PlayerBullet(xpos, ypos, -4, -30);
+			new PlayerBullet(xpos + 12, ypos, 8, -30);
+			new PlayerBullet(xpos - 12, ypos, -8, -30);
 		}
 	}
 	public class Beam
@@ -1396,13 +1438,20 @@ public class PEW extends PApplet{
 		PlayerBeam(int locX,int locY)
 		{
 			super(locX,locY,true, 50);
+			playersBeam = this;
 		}
 		public void increment()
 		{
 		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height/2);
-
+		//count++;
+		//if(count > duration)
+		//	removeSelf();
 		}
-
+		public void removeSelf()
+		{
+			playersBeam = null;
+			super.removeSelf();
+		}
 	}
 
 	public class PlayerBullet extends Projectile {
@@ -1425,7 +1474,6 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
-		Gun secondary;
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
 			dir = true;
@@ -1462,8 +1510,8 @@ public class PEW extends PApplet{
 			if (locY > displayHeight)
 				locY = displayHeight;
 
-			if(secondary != null)
-				image(loadedPics.get(10),locX,locY);//for energy splash
+			if(weapon instanceof PlayerBeamGun)
+				image(loadedPics.get(10),locX,locY);
 			if(flashed)
 			{
 				img = loadedShipPics.get(0);
@@ -1483,7 +1531,8 @@ public class PEW extends PApplet{
 		}
 		public void addBeam()
 		{
-			secondary = new PlayerBeamGun();
+			weapon = new PlayerBeamGun();
+			gunLev++;
 		}
 		public void incrementGunLev(int i)
 		{
@@ -1514,9 +1563,8 @@ public class PEW extends PApplet{
 
 		public void blowUp() {
 			println("THE PLAYER HAS DIED");
-			super.blowUp();
-			showDeath = true;
-			playGame = false;
+			PlayerExplosion ps = new PlayerExplosion(locX, locY);
+			animations.add(ps);
 			updateHighscore();
 		}
 
@@ -1725,8 +1773,6 @@ public class PEW extends PApplet{
 		}
 
 		public void blowUp() {
-			ShipExplosion s = new ShipExplosion(locX, locY);
-			animations.add(s);
 			removeSelf();
 		}
 
@@ -2104,7 +2150,7 @@ public class PEW extends PApplet{
 			if (randomInt == 1) {
 				makeRandPowerUp(locX,locY);
 			}
-			ShipExplosion s = new ShipExplosion(locX, locY);
+			EnemyExplosion s = new EnemyExplosion(locX, locY);
 			animations.add(s);
 			removeSelf();
 		}
@@ -2136,8 +2182,7 @@ public class PEW extends PApplet{
 		}
 	}
 	
-	public class Animation
-	{
+	public class Animation {
 		int locX, locY, current, count;
 		PImage currentImg;
 		Animation(int xLoc, int yLoc)
@@ -2165,24 +2210,43 @@ public class PEW extends PApplet{
 		}
 	}
 
-	public class ShipExplosion extends Animation
-	{
-		ShipExplosion(int x,int y)
-		{
+	public class EnemyExplosion extends Animation {
+		EnemyExplosion(int x,int y) {
 			super(x, y);
 			current = 0;
-			currentImg = loadedShipExpPics.get(0);
+			currentImg = loadedEnemyShipExpPics.get(0);
 		}
 		
-		public void animate()
-		{
+		public void animate() {
 			image(currentImg, locX, locY);
 			current++;
-			if(current <= loadedShipExpPics.size()-1)
+			if(current <= loadedEnemyShipExpPics.size()-1)
 			{
-				currentImg = loadedShipExpPics.get(current);
+				currentImg = loadedEnemyShipExpPics.get(current);
 			} else {
 				super.removeSelf();
+			}
+		}
+	}
+	
+	public class PlayerExplosion extends Animation {
+		PlayerExplosion(int x, int y) {
+			super(x,y);
+			current = 0;
+			currentImg = loadedPlayerShipExpPics.get(0);
+		}
+		
+		public void animate() {
+			image(currentImg, locX, locY);
+			current++;
+			if(current <= loadedPlayerShipExpPics.size()-1)
+			{
+				currentImg = loadedPlayerShipExpPics.get(current);
+			} else {
+				super.removeSelf();
+				player.removeSelf();
+				playGame = false;
+				showDeath = true;
 			}
 		}
 	}
