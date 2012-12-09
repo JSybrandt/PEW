@@ -49,7 +49,7 @@ public class PEW extends PApplet{
 	boolean psychedelicMode = false;
 	boolean playGame, showMenu, showCredits, showHighScore, showDeath,
 			showInstructions, showOptions;
-	boolean musicReady = false, startUp = true;
+	boolean musicReady = false, startUp = true, musicPlaying = false;
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -531,6 +531,7 @@ public class PEW extends PApplet{
 			mediaPlayer.release();
 			mediaPlayer=null;
 			musicReady=false;
+			musicPlaying  = false;
 			}
 		
 		super.onStop();
@@ -549,6 +550,7 @@ public class PEW extends PApplet{
 			mediaPlayer.release();
 			musicReady=false;
 			mediaPlayer=null;
+			musicPlaying =false;
 			}
 			
 			playGame = false;
@@ -558,6 +560,7 @@ public class PEW extends PApplet{
 
 	public void onResume()
 	{
+		image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
 		showCredits = false;
 		playGame = false;
 		showHighScore = false;
@@ -959,7 +962,6 @@ public class PEW extends PApplet{
 			psychedelicMode = false;
 			player.incrementScoreMultiplyer(-10);
 		}
-
 	}
 
 	public class HelixGun extends Gun {
@@ -1215,6 +1217,7 @@ public class PEW extends PApplet{
 		float scoreX, scoreY, scoreSizeX, scoreSizeY;
 		float tutX, tutY, tutSizeX, tutSizeY;
 		float opX, opY, opSizeX, opSizeY;
+		
 
 		Menu() {
 			playGame = false;
@@ -1249,7 +1252,11 @@ public class PEW extends PApplet{
 
 		public void showMenu() {
 			if(musicReady)
+				if(musicPlaying)
+				{
 			mediaPlayer.start();
+			musicPlaying = true;
+				}
 			else
 				sound.buildPlayer();
 
