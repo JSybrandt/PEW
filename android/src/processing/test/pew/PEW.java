@@ -50,6 +50,7 @@ public class PEW extends PApplet{
 	boolean playGame, showMenu, showCredits, showHighScore, showDeath,
 			showInstructions, showOptions;
 	boolean musicReady = false, startUp = true;
+	boolean alreadyStartedMusic = false;
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -545,6 +546,7 @@ public class PEW extends PApplet{
 			mediaPlayer.release();
 			mediaPlayer=null;
 			musicReady=false;
+			alreadyStartedMusic = false;
 			}
 		
 		super.onStop();
@@ -563,6 +565,7 @@ public class PEW extends PApplet{
 			mediaPlayer.release();
 			musicReady=false;
 			mediaPlayer=null;
+			alreadyStartedMusic = false;
 			}
 			
 			playGame = false;
@@ -1229,7 +1232,7 @@ public class PEW extends PApplet{
 		float scoreX, scoreY, scoreSizeX, scoreSizeY;
 		float tutX, tutY, tutSizeX, tutSizeY;
 		float opX, opY, opSizeX, opSizeY;
-		boolean alreadyStartedMusic = false;
+		
 
 		Menu() {
 			playGame = false;
