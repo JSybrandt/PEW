@@ -502,6 +502,12 @@ public class PEW extends PApplet{
 		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
+		image(loadImage("backgroundmusicon.png"), displayWidth / 2, (int)(displayHeight*(4 / 12.0)),
+				(int)(displayWidth*(5/6.0)), displayHeight / 6);
+		image(loadImage("backgroundmusicoff.png"), displayWidth / 2, (int)(displayHeight*(6 / 12.0)),
+				(int)(displayWidth*(5/6.0)), displayHeight / 6);
+		
+		
 		text("YOU AINT SEEN NOTHING YET!", displayWidth / 2, displayHeight / 4);
 
 		text("...seriously, we have yet to code this...", displayWidth / 2,
@@ -1253,7 +1259,7 @@ public class PEW extends PApplet{
 
 		public void showMenu() {
 			if(musicReady)
-				if(musicPlaying)
+				if(!musicPlaying)
 				{
 			mediaPlayer.start();
 			musicPlaying = true;
