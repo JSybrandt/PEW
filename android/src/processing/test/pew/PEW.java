@@ -2126,8 +2126,7 @@ public class PEW extends PApplet{
 				}
 			}
 			if (path == 3 || path == 4) {			// SIDE TO SIDE
-				if (count%2 == 0)
-					locY += speed;
+				locY += speed/2;
 				if (flip)
 					locX += speed;
 				else
