@@ -1065,7 +1065,7 @@ public class PEW extends PApplet{
 				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
-				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
+				Drone s = new Drone(shipImage, shipFreq, 2*shipHP, path, shipSpeed);
 				enemyShips.add(s);
 			}
 			waveShipsSpawned++;
