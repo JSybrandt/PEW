@@ -185,7 +185,7 @@ public class PEW extends PApplet{
 		
 		
 
-		img = loadImage("ShipExplosion3.png");
+		img = loadImage("EnemyExplosion3.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipExpPics.add(img);
 		
@@ -1379,7 +1379,6 @@ public class PEW extends PApplet{
 				if(activeBeams.get(i) == this)
 				{
 					activeBeams.remove(i);
-					break;
 				}
 			}
 		}
