@@ -154,7 +154,7 @@ public class PEW extends PApplet{
 
 		sound.setUp();
 
-		fontG = createFont("Constantia", 48);
+		fontG = createFont("Constantia", (int)(displayWidth/480)*48);
 
 		importHighscore();
 
@@ -173,7 +173,7 @@ public class PEW extends PApplet{
 		player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
 		orientation(PORTRAIT);
 		frameRate(30);
-		f = createFont("Impact", 24, true);
+		f = createFont("Impact", (int)((displayWidth/480)*24), true);
 		textFont(f, 24);
 		fill(255);
 	}
@@ -347,19 +347,17 @@ public class PEW extends PApplet{
 	}
 
 	public void printHighScores() {
-		for (int i = 1; i == 1; i++) {
-			importHighscore();
-
-		}
 		textAlign(CENTER);
+		textSize((int)(displayWidth/480)*50);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text(" " + highscoretop, displayWidth / 2, displayHeight / 4);
+		text("Your Highscore is:\n" + highscoretop, displayWidth / 2, displayHeight / 4);
 
-		text("AND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)",
+		text("\nAND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)",
 				displayWidth / 2, displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
+			textSize((int)(displayWidth/480)*24);
 			showMenu = true;
 			showHighScore = false;
 		}
@@ -367,6 +365,7 @@ public class PEW extends PApplet{
 
 	public void printOptions() {
 		textAlign(CENTER);
+		textSize((int)(displayWidth/480)*50);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		text("YOU AINT SEEN NOTHING YET!", displayWidth / 2, displayHeight / 4);
@@ -375,7 +374,8 @@ public class PEW extends PApplet{
 				displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
-
+			
+			textSize((int)(displayWidth/480)*24);
 			showMenu = true;
 			showOptions = false;
 		}
@@ -567,13 +567,13 @@ public class PEW extends PApplet{
 		Bullet(int xpos, int ypos, int h, int s) {
 			super(xpos, ypos, 0, h, s);
 			enemyBullets.add(this);
-			radius = 7;
+			radius = (int)(displayWidth/480.0)*7;
 		}
 
 		Bullet(int xpos, int ypos) {
 			super(xpos, ypos, 0, 0, 4);
 			enemyBullets.add(this);
-			radius = 7;
+			radius = (int)(displayWidth/480.0)*7;
 		}
 
 	}
@@ -1166,7 +1166,7 @@ public class PEW extends PApplet{
 		Money(int posx, int posy, int w) {
 			super(posx, posy, 2);
 			worth = w;
-			radius = 10;
+			radius = (int)(displayWidth/480.0)*10;
 		}
 
 		public void act() {
@@ -1253,7 +1253,7 @@ public class PEW extends PApplet{
 		public PlayerShip(int xpos, int ypos) {
 			super(7);
 			dir = true;
-			radius = 25;
+			radius = (int)(displayWidth/480.0)*25;
 			locX = xpos;
 			locY = ypos;
 			speed = 25;
@@ -1267,7 +1267,7 @@ public class PEW extends PApplet{
 			int dX, dY;
 			float magnitude;
 			dX = mouseX - locX;
-			dY = mouseY - 80 - locY;
+			dY = (int)(mouseY - (displayWidth/480.0)*80 - locY);
 			if (abs(dX) > 15 || abs(dY) > 15) {
 				magnitude = sqrt(dX * dX + dY * dY);
 				locX += PApplet.parseInt(speed * dX / (magnitude));
@@ -1343,7 +1343,7 @@ public class PEW extends PApplet{
 
 		PowerUp(int posx, int posy,int imgIndex) {
 			super(posx, posy, imgIndex);
-			radius = 10;
+			radius = (int)(displayWidth/480.0)*10;
 			activePowerUps.add(this);
 			counter = 0;
 			lifeSpan = 250;
@@ -1407,7 +1407,7 @@ public class PEW extends PApplet{
 			this.img = loadedPics.get(imageIndex);
 			xdisp = delx;
 			ydisp = dely;
-			radius = 7;
+			radius = (int)(displayWidth/480.0)*7;
 		}
 
 		public void move() {
@@ -1447,7 +1447,7 @@ public class PEW extends PApplet{
 		Gun weapon;
 
 		Ship(int imageIndex) {
-			radius = 40;
+			radius = (int)(displayWidth/480.0)*40;
 			img = loadedPics.get(imageIndex);
 		}
 
@@ -1688,7 +1688,7 @@ public class PEW extends PApplet{
 
 		Turret(Gun g, int hlth) {
 			health = hlth;
-			radius = 15;
+			radius = (int)(displayWidth/480.0)* 15;
 			weapon = g;
 			img = loadedPics.get(6);
 			freq = gen.nextInt(10) + 10;
