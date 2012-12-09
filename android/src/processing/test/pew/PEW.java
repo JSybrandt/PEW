@@ -1176,22 +1176,9 @@ public class PEW extends PApplet{
 		
 		void spawnCruiser() {
 			ArrayList<Turret> guns = new ArrayList<Turret>();
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new SpiralGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new BombLauncher(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new doubleGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
-			guns.add(new Turret(new tripleGun(), 50));
-			guns.add(new Turret(new TestGun(), 50));
+			for (int i=0; i<16; i++) {
+				guns.add(new Turret(getRandGun(), 50));
+			}
 			enemyShips.add(new Cruiser(guns));
 		}
 		
@@ -1217,7 +1204,7 @@ public class PEW extends PApplet{
 			waveShipsEnd = waveNum * 2 + 10;
 			spawnFreq = 30 - waveNum / 2;
 			shipFreq = 25 - waveNum / 3;
-			shipHP = 4 + waveNum;
+			shipHP = 2 + waveNum;
 			shipSpeed = (int)((displayWidth/480.0)*6) + waveNum / 2;
 			uniqueRarity =  5 + waveNum;
 			shipImage = gen.nextInt(3)+2;
