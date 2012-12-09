@@ -1332,14 +1332,25 @@ public class PEW extends PApplet{
 	}
 	public class PlayerBeamGun extends Gun {
 		int count = 0;
-		boolean toggledOn;
+		Beam correspondingBeam;
+		boolean toggledOn = false;
 		public void shoot(int xpos, int ypos) {
 			if(!toggledOn){
 			sound.play(sound.pew);
-			new PlayerBeam(xpos, ypos);
+			correspondingBeam = new PlayerBeam(xpos, ypos);
 			toggledOn  = true;
 			count = 0;
 			}
+			
+		}
+		public void toggleOff()
+		{
+			toggledOn = false;
+			correspondingBeam.removeSelf();
+		}
+		public void moveBeam(int newX,int newY)
+		{
+			correspondingBeam.moveBeam(newX,newY);
 		}
 	}
 	public class Beam
@@ -1399,8 +1410,7 @@ public class PEW extends PApplet{
 		}
 		public void increment()
 		{
-		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height/2);
-
+		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height/2,loadedPics.get(9).width, displayHeight);
 		}
 
 	}
@@ -1425,7 +1435,7 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
-		Gun secondary;
+		PlayerBeamGun secondary;
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
 			dir = true;
@@ -1463,7 +1473,8 @@ public class PEW extends PApplet{
 				locY = displayHeight;
 
 			if(secondary != null)
-				image(loadedPics.get(10),locX,locY);//for energy splash
+				secondary.moveBeam(locX,locY);
+				//for energy splash
 			if(flashed)
 			{
 				img = loadedShipPics.get(0);
@@ -1485,6 +1496,10 @@ public class PEW extends PApplet{
 		{
 			secondary = new PlayerBeamGun();
 		}
+		public void removeBeam()
+		{
+			secondary = null;
+		}
 		public void incrementGunLev(int i)
 		{
 			gunLev += i;
@@ -1504,6 +1519,8 @@ public class PEW extends PApplet{
 		}
 		public void shoot() {	
 			weapon.shoot(locX, locY);
+			if(secondary!=null)
+				secondary.shoot(locX, locY);
 		}
 		public void incrementScoreMultiplyer(int i)
 		{
@@ -1577,6 +1594,10 @@ public class PEW extends PApplet{
 		{
 			player.addBeam();
 			this.removeSelf();
+		}
+		public void removeEffect()
+		{
+			player.removeBeam();
 		}
 	}
 	public class GunUp extends PowerUp
