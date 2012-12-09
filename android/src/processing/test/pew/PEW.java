@@ -51,6 +51,8 @@ public class PEW extends PApplet{
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedShipPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedShipFlashPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedShipExpPics = new ArrayList<PImage>();
 
 	public void loadImages() {
@@ -72,45 +74,71 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Drone.png");// #4
+		img = loadImage("Turret.png");// #4
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Cruiser.png");// #5
+		img = loadImage("GunUpgrade.png");// #5
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("Turret.png");// #6
+		img = loadImage("bomb.png"); // #6
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("spaceship.png");// #7
+		img = loadImage("MainMenu.png");// #7
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("GunUpgrade.png");// #8
+		img = loadImage("PsychedelicPowerUp1.png");// #8
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("HerpADerp.png");// #9
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
 		
-		img = loadImage("bomb.png"); // #10
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
 		
-		img = loadImage("Drone-hit.png"); // #11
+		img = loadImage("spaceship.png");// #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		loadedShipPics.add(img);
 		
-		img = loadImage("MainMenu.png");// #12
+		img = loadImage("Cruiser.png");// #1
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		loadedShipPics.add(img);
 		
-		img = loadImage("PsychedelicPowerUp1.png");// #13
+		img = loadImage("Drone1.png");// #2
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		loadedShipPics.add(img);
+		
+		img = loadImage("Drone2.png");// #3
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
+		
+		img = loadImage("Drone3.png");// #4
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
+		
+		
+		
+		img = loadImage("bomb.png"); // #0
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("BossBody.png"); // #1
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("Drone1-hit.png"); // #2
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("Drone2-hit.png"); // #3
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("Drone3-hit.png"); // #4
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		
 		
 		//img = loadImage("\\playerBeam\\beam4.png");// #13
 		//img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
@@ -237,7 +265,7 @@ public class PEW extends PApplet{
 			
 			textAlign(LEFT);
 			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20, displayHeight / 20);
-			
+
 			// text("Bullet Count: " + (enemyBullets.size() +
 			// playerBullets.size()), 10, 50);
 			// text("Ship Count: " + enemyShips.size(), 10, 75);
@@ -527,7 +555,7 @@ public class PEW extends PApplet{
 		int speed;
 
 		Bomb(int locX, int locY) {
-			super(locX, locY, 10, 0, 5);
+			super(locX, locY, 6, 0, 5);
 			count = 0;
 			lifeSpan = 75;
 			speed = 5;
@@ -597,7 +625,7 @@ public class PEW extends PApplet{
 		int destinationX, destinationY;
 
 		Cruiser(ArrayList<Turret> g) {
-			super(5, 7, 1000, 1000, 3);
+			super(1, 7, 1000, 1000, 3);
 			guns = g;
 			prepairTurrets();
 			count = 0;
@@ -798,7 +826,7 @@ public class PEW extends PApplet{
 
 	public class Hallucinate extends PowerUp {
 		Hallucinate(int locX, int locY) {
-			super(locX, locY,13);
+			super(locX, locY,8);
 
 		}
 		public void act()
@@ -830,26 +858,6 @@ public class PEW extends PApplet{
 				new SinShot(xpos, ypos - 10, 2, 2);
 			else
 				new SinShot(xpos, ypos + 10, -2, 2);
-		}
-	}
-
-	class HelixShip extends enemyShip {
-		boolean flip, shooting;
-
-		HelixShip(int startx, int starty) {
-
-			super(9, 10, 10, 9, 3);
-			flip = false;
-
-			weapon = new HelixGun();
-		}
-
-		public void shoot() {
-			if (flip)
-				weapon.shoot(locX + 40, locY);
-			else
-				weapon.shoot(locX - 40, locY);
-			flip = !flip;
 		}
 	}
 
@@ -984,6 +992,8 @@ public class PEW extends PApplet{
 						spawnScissor();
 					if (waveType == 1)
 						spawnSideToSide();
+					if (waveType == 2)
+						spawnSideways();
 				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
@@ -1024,6 +1034,13 @@ public class PEW extends PApplet{
 			}
 		}
 		
+		void spawnSideways() {
+			if (count%spawnFreq == 0) {
+				path = 5;
+				spawnShip();
+			}
+		}
+		
 		void spawnCruiser() {
 			ArrayList<Turret> guns = new ArrayList<Turret>();
 			guns.add(new Turret(new TestGun(), 50));
@@ -1048,7 +1065,8 @@ public class PEW extends PApplet{
 		void spawnShip() {
 			rando = gen.nextInt(100);
 			if (rando < uniqueRarity) {
-				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
+				rando = gen.nextInt(3)+2;
+				Drone s = new Drone(rando, shipFreq, 2*shipHP, path, shipSpeed);
 				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
@@ -1061,15 +1079,15 @@ public class PEW extends PApplet{
 		void newWave() {
 			waveNum++;
 			inWave = true;
-			waveType = gen.nextInt(2);
+			waveType = gen.nextInt(3);
 			waveShipsSpawned = 0;
 			waveShipsEnd = waveNum * 2 + 10;
 			spawnFreq = 30 - waveNum / 2;
 			shipFreq = 25 - waveNum / 3;
-			shipHP = 3 + waveNum / 2;
+			shipHP = 4 + waveNum;
 			shipSpeed = 6 + waveNum / 2;
 			uniqueRarity =  5 + waveNum;
-			shipImage = 4;
+			shipImage = gen.nextInt(3)+2;
 		}
 	}
 
@@ -1084,7 +1102,7 @@ public class PEW extends PApplet{
 
 		Menu() {
 			playGame = false;
-			MenuImage = loadedPics.get(12);
+			MenuImage = loadedPics.get(7);
 
 			PlayX = displayWidth / 13.2f;
 			PlayY = (displayHeight / 1.865f);
@@ -1257,7 +1275,7 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		public PlayerShip(int xpos, int ypos) {
-			super(7);
+			super(0);
 			dir = true;
 			radius = (int)(displayWidth/480.0)*25;
 			locX = xpos;
@@ -1385,7 +1403,7 @@ public class PEW extends PApplet{
 	{
 		GunUp(int posX, int posY)
 		{
-			super(posX,posY,8);
+			super(posX,posY,5);
 			lifeSpan = 0;
 		}
 		public void act()
@@ -1454,7 +1472,8 @@ public class PEW extends PApplet{
 
 		Ship(int imageIndex) {
 			radius = (int)(displayWidth/480.0)*40;
-			img = loadedPics.get(imageIndex);
+			img = loadedShipPics.get(imageIndex);
+
 		}
 
 		public void display() {
@@ -1696,7 +1715,7 @@ public class PEW extends PApplet{
 			health = hlth;
 			radius = (int)(displayWidth/480.0)* 15;
 			weapon = g;
-			img = loadedPics.get(6);
+			img = loadedPics.get(4);
 			freq = gen.nextInt(10) + 10;
 			count = 0;
 		}
@@ -1748,21 +1767,25 @@ public class PEW extends PApplet{
 			
 			if (path == 1) {
 				xinit = locX = displayWidth/4;
-				yinit = locY = 0;
+				yinit = locY = -100;
 			}
 			if (path == 2) {
 				xinit = locX = 3 * displayWidth/4;
-				yinit = locY = 0;
+				yinit = locY = -100;
 			}
 			if (path == 3) {
 				xinit = locX = displayWidth/5;
-				yinit = locY = 0;
+				yinit = locY = -100;
 				flip = true;
 			}
 			if (path == 4) {
 				xinit = locX = 4 * displayWidth/5;
-				yinit = locY = 0;
+				yinit = locY = -100;
 				flip = false;
+			}
+			if (path == 5) {
+				xinit = locX = -100;
+				yinit = locY = displayHeight/5;
 			}
 			
 			
@@ -1810,7 +1833,7 @@ public class PEW extends PApplet{
 			}
 			if (path == 3 || path == 4) {			// SIDE TO SIDE
 				if (count % 3 == 0)
-					locY += 1;
+					locY += speed / 2;
 				if (flip)
 					locX += speed;
 				else
@@ -1820,7 +1843,10 @@ public class PEW extends PApplet{
 					flip = !flip;
 				}
 			}
-			if (path == 5) {						// DOWN LEFT, THEN DOWN RIGHT, THEN DOWN
+			if (path == 5) {						// TO THE RIGHT TO THE RIGHT
+				locX += speed;
+			}
+			if (path == 9) {						// DOWN LEFT, THEN DOWN RIGHT, THEN DOWN
 				if (count < 50) {
 					locY += speed;
 					locX -= speed / 2;
@@ -1835,9 +1861,7 @@ public class PEW extends PApplet{
 				locY += speed;
 				locX += sin(count * 3.14f / 6) * 5;
 			}
-			if (path == 9) {						// TO THE RIGHT TO THE RIGHT
-				locX += speed;
-			}
+
 
 		}
 
@@ -1874,13 +1898,13 @@ public class PEW extends PApplet{
 		}
 
 		public void flash() {
-			img = loadedPics.get(11);
+			img = loadedShipFlashPics.get(imageIndex);
 			flashing = true;
 			// s.play(1);
 		}
 
 		public void revert() {
-			img = loadedPics.get(imageIndex);
+			img = loadedShipPics.get(imageIndex);
 			flashing = false;
 		}
 	}
@@ -1920,24 +1944,19 @@ public class PEW extends PApplet{
 		{
 			super(x, y);
 			current = 0;
-			count = 0;
 			currentImg = loadedShipExpPics.get(0);
 		}
 		
 		public void animate()
 		{
 			image(currentImg, locX, locY);
-			if(count%2 == 1)
+			current++;
+			if(current <= loadedShipExpPics.size()-1)
 			{
-				current++;
-				if(current <= loadedShipExpPics.size()-1)
-				{
-					currentImg = loadedShipExpPics.get(current);
-				} else {
-					super.removeSelf();
-				}
+				currentImg = loadedShipExpPics.get(current);
+			} else {
+				super.removeSelf();
 			}
-			count++;
 		}
 	}
 
