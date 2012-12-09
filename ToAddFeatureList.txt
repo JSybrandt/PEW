@@ -4,7 +4,3 @@ time slow powerup
 time speed powerup
 Enemy beam
 2 more bosses
-
-
-fix turrets 
-X1 X2 X3 power ups
