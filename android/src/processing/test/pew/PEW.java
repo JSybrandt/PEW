@@ -684,7 +684,7 @@ public class PEW extends PApplet{
 		}
 
 		public void detonate() {
-			for (float degree = 0; degree < 2 * PI; degree += PI / 12) {
+			for (float degree = 0; degree < 2 * PI; degree += PI / 6) {
 				int dispx = (int) (speed * sin(degree));
 				int dispy = (int) (speed * cos(degree));
 				new Bullet(locX, locY, dispx, dispy);
@@ -947,7 +947,7 @@ public class PEW extends PApplet{
 		}
 		public void act()
 		{
-			player.incrementScoreMultiplyer(4);
+			player.incrementScoreMultiplyer(10);
 			super.act();
 		}
 
@@ -957,7 +957,7 @@ public class PEW extends PApplet{
 
 		public void removeEffect() {
 			psychedelicMode = false;
-			player.incrementScoreMultiplyer(-4);
+			player.incrementScoreMultiplyer(-10);
 		}
 
 	}
@@ -1964,7 +1964,7 @@ public class PEW extends PApplet{
 		}
 
 		public void shoot(int locX, int locY) {
-			for (degree = 0; degree < 2 * PI; degree += PI / 12) {
+			for (degree = 0; degree < 2 * PI; degree += PI / 6) {
 				dispx = (int) (speed * sin(degree));
 				dispy = (int) (speed * cos(degree));
 				new Bullet(locX, locY, dispx, dispy);
