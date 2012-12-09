@@ -464,14 +464,15 @@ public class PEW extends PApplet{
 
 	public void printInstructions() {
 		textAlign(CENTER);
-		
-		image(loadImage("Instructions.png"), displayWidth /2 , displayHeight / 2,
-				displayWidth, displayHeight);
+		textSize((int)((displayWidth/480.0)*25));
+		text("Instructions\n\nFirst: do not DIE QUICKLY\nPretty self explantory\n\nSecond: Moving\nTouch to move\n\nThird: Shooting\nTouch to shoot\n(did not see that one coming)\n\nFourth: SURVIVE\nFight to the last!\n(When you lose all upgrades)\n\nSo, lets review\nMove\nShoot\nSURVIVE",
+				displayWidth / 2, displayHeight / 5);
 		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
+			textSize((int)(displayWidth/480.0)*24);
 			showCredits = false;
 			showMenu = true;
 			playGame = false;
@@ -662,7 +663,7 @@ public class PEW extends PApplet{
 			super(locX, locY, 6, 0, 5);
 			count = 0;
 			lifeSpan = 75;
-			speed = (int)((displayWidth/480.0)*5);
+			speed = (int)((displayWidth/480.0)*4);
 			enemyBullets.add(this);
 		}
 
@@ -874,15 +875,15 @@ public class PEW extends PApplet{
 	}
 	public class doubleGun extends Gun {
 		public void shoot(int locX, int locY) {
-			new Bullet(locX, locY,-1,2);
-			new Bullet(locX, locY,1,2);
+			new Bullet(locX, locY,-1,4);
+			new Bullet(locX, locY,1,4);
 		}
 	}
 	public class tripleGun extends Gun {
 		public void shoot(int locX, int locY) {
-			new Bullet(locX, locY,-1,2);
-			new Bullet(locX, locY,1,2);
-			new Bullet(locX, locY,0,2);
+			new Bullet(locX, locY,-1,4);
+			new Bullet(locX, locY,1,4);
+			new Bullet(locX, locY,0,4);
 		}
 	}
 
@@ -971,9 +972,9 @@ public class PEW extends PApplet{
 		public void shoot(int xpos, int ypos) {
 			left = !left;
 			if (left)
-				new SinShot(xpos, ypos - 10, 2, 2);
+				new SinShot(xpos, ypos - 10, 2, 3);
 			else
-				new SinShot(xpos, ypos + 10, -2, 2);
+				new SinShot(xpos, ypos + 10, -2, 3);
 		}
 	}
 
@@ -1946,18 +1947,18 @@ public class PEW extends PApplet{
 
 	class SpreadGunE extends Gun {
 		public void shoot(int xpos, int ypos) {
-			new Bullet(xpos, ypos, 0, 5);
-			new Bullet(xpos, ypos, 1, 4);
-			new Bullet(xpos, ypos, -1, 4);
-			new Bullet(xpos, ypos, 2, 3);
-			new Bullet(xpos, ypos, -2, 3);
+			new Bullet(xpos, ypos, 0, 6);
+			new Bullet(xpos, ypos, 1, 5);
+			new Bullet(xpos, ypos, -1, 5);
+			new Bullet(xpos, ypos, 2, 4);
+			new Bullet(xpos, ypos, -2, 4);
 			
 		}
 	}
 
 	public class StarGun extends Gun {
 		float degree = 0;
-		int speed = (int)((displayWidth/480.0)*5);
+		int speed = (int)((displayWidth/480.0)*4);
 		int dispx, dispy;
 
 		StarGun() {
@@ -1997,7 +1998,7 @@ public class PEW extends PApplet{
 	}
 	class TestGun extends Gun {
 		public void shoot(int xpos, int ypos) {
-			new Bullet(xpos, ypos, 0, 5);
+			new Bullet(xpos, ypos, 0, 6);
 		}
 	}
 
