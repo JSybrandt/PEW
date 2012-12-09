@@ -470,7 +470,7 @@ public class PEW extends PApplet{
 
 	public void printOptions() {
 		textAlign(CENTER);
-		textSize((int)(displayWidth/480)*50);
+		textSize((int)(displayWidth/480)*42);
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		text("YOU AINT SEEN NOTHING YET!", displayWidth / 2, displayHeight / 4);
