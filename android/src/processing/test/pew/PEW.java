@@ -903,7 +903,7 @@ public class PEW extends PApplet{
 		{
 			activePowerUps.get(i).removeEffect();
 		}
-		bghandel.scroll();
+		bghandle.scroll();
 		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
