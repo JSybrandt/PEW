@@ -237,7 +237,7 @@ public class PEW extends PApplet{
 		loadedPlayerShipExpPics.add(img);
 	}
 
-	BackgroundHandler bghandel = new BackgroundHandler();
+	BackgroundHandler bghandle = new BackgroundHandler();
 
 	Sounds sound = new Sounds();
 	MediaPlayer mediaPlayer = null;
@@ -261,7 +261,7 @@ public class PEW extends PApplet{
 		menu = new Menu();
 		showMenu = true;
 		playGame = false;
-		bghandel.setBG("spaceBackground.png");
+		bghandle.setBG("spaceBackground.png");
 
 		imageMode(CENTER);
 		smooth();
@@ -285,7 +285,7 @@ public class PEW extends PApplet{
 
 		if (!psychedelicMode) {
 			background(0xff000000);
-			bghandel.scroll();
+			bghandle.scroll();
 		}
 		if (playGame == false) {
 			if (showCredits)
