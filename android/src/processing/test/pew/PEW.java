@@ -1857,7 +1857,7 @@ public class PEW extends PApplet{
 	}
 
 	public class Sounds {
-		public int pew;
+		public int pew, boom;
 
 		public void setUp() {
 			if(assetManager ==null)
@@ -1867,8 +1867,8 @@ public class PEW extends PApplet{
 				soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
 			try { // loading these files can throw an exception and therefore
 					// you HAVE to have a way to handle those events
-				pew = soundPool.load(assetManager.openFd("pew.ogg"), 1); // load
-																			// the
+				pew = soundPool.load(assetManager.openFd("pew.ogg"), 0); // load
+				boom = soundPool.load(assetManager.openFd("boom.ogg"), 1);															// the
 																			// files
 				
 			} catch (IOException e) {
@@ -2187,6 +2187,7 @@ public class PEW extends PApplet{
 		}
 
 		public void blowUp() {
+			
 			int w = gen.nextInt(6) + 20;
 			new Money(locX, locY, w);
 			int randomInt = gen.nextInt(7);
@@ -2194,6 +2195,7 @@ public class PEW extends PApplet{
 				makeRandPowerUp(locX,locY);
 			}
 			EnemyExplosion s = new EnemyExplosion(locX, locY);
+			sound.play(sound.boom);
 			animations.add(s);
 			removeSelf();
 		}
