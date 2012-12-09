@@ -244,7 +244,7 @@ public class PEW extends PApplet{
 
 	public void onStart()
 	{
-		image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
+		//image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
 		super.onStart();
 	}
 	public void setup() {
@@ -439,10 +439,17 @@ public class PEW extends PApplet{
 	}
 
 	public void printCredits() {
-		PImage credit = loadImage("credit.png");
-		credit.resize(displayWidth, displayHeight);
-		image(credit,displayWidth/2,displayHeight/2);
-		
+		textAlign(CENTER);
+		text("Lead Designer -- \nJustin \"Nalta\" Sybrandt\n\n" +
+				"Code Monkey -- \nCaelan \"Darkfire16\" Mayberry\n\n" +
+				"Code Alpaca -- \nMike \"reason\" Boom\n\n"+
+				"Art Master -- \nJosh \"Fa1seEcho\" Walton\n\n" +
+				"Test Phone -- \nGeorge's LG      ",
+				displayWidth / 2, displayHeight / 4);
+		text("AND SPECIAL THANKS TO\n" +
+				"8 BIT WEAPON\n" +
+				"(Click album for link)",
+				(int)(displayWidth *(2/3.0)),(int)(displayHeight * (5/6.0)));
 		PImage art = loadImage("bandart.png");
 		art.resize((int)(displayWidth *(1/3.0)),(int)(displayHeight*(1/ 6.0)));
 		image(art,(int)(displayWidth *(1/6.0)),(int)(displayHeight*(11/ 12.0)));
@@ -1222,6 +1229,7 @@ public class PEW extends PApplet{
 		float scoreX, scoreY, scoreSizeX, scoreSizeY;
 		float tutX, tutY, tutSizeX, tutSizeY;
 		float opX, opY, opSizeX, opSizeY;
+		boolean alreadyStartedMusic = false;
 
 		Menu() {
 			playGame = false;
@@ -1255,13 +1263,11 @@ public class PEW extends PApplet{
 		}
 
 		public void showMenu() {
-			if(musicReady)
-<<<<<<< HEAD
-				if(!musicPlaying)
-				{
-=======
->>>>>>> parent of 62c62d5... fixed media player overcall
+			if(musicReady && !alreadyStartedMusic)
+			{
 			mediaPlayer.start();
+			alreadyStartedMusic = true;
+			}
 			else
 				sound.buildPlayer();
 
@@ -1878,6 +1884,7 @@ public class PEW extends PApplet{
 
 		public void buildPlayer() {
 			if(mediaPlayer==null)
+			{
 				mediaPlayer = new MediaPlayer();
 			AssetFileDescriptor fd = null;
 
@@ -1915,6 +1922,7 @@ public class PEW extends PApplet{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 		}
 
 	}
