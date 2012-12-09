@@ -4,3 +4,13 @@ time slow powerup
 time speed powerup
 Enemy beam
 2 more bosses
+<<<<<<< HEAD
+=======
+
+
+fix turrets 
+X1 X2 X3 power ups
+
+
+player health indicatior
+>>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0

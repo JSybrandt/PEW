@@ -253,7 +253,7 @@ public class PEW extends PApplet{
 
 		sound.setUp();
 
-		fontG = createFont("Constantia", (int)(displayWidth/480)*48);
+		fontG = createFont("Constantia", (int)((displayWidth/480.0)*48));
 
 		importHighscore();
 
@@ -272,7 +272,7 @@ public class PEW extends PApplet{
 		player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
 		orientation(PORTRAIT);
 		frameRate(30);
-		f = createFont("Impact", (int)((displayWidth/480)*24), true);
+		f = createFont("Impact", (int)((displayWidth/480.0)*24), true);
 		textFont(f, 24);
 		fill(255);
 	}
@@ -1361,13 +1361,24 @@ public class PEW extends PApplet{
 	public class PlayerBeamGun extends Gun {
 		boolean gunAround = false;
 		int count = 0;
+<<<<<<< HEAD
 		public void shoot(int xpos, int ypos) {
 			if(!gunAround){
 			sound.play(sound.pew);
 			new PlayerBeam(xpos, ypos);
 			gunAround  = true;
+=======
+		PlayerBeam correspondingBeam;
+		public void shoot(int xpos, int ypos) {
+			if(correspondingBeam ==null){
+			sound.play(sound.pew);
+			correspondingBeam = new PlayerBeam(xpos, ypos);
+>>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 			count = 0;
+			if(count % 100 == 0)
+				toggleOff();
 			}
+<<<<<<< HEAD
 			else
 			{
 				count++;
@@ -1382,6 +1393,20 @@ public class PEW extends PApplet{
 			new PlayerBullet(xpos, ypos, -4, -30);
 			new PlayerBullet(xpos + 12, ypos, 8, -30);
 			new PlayerBullet(xpos - 12, ypos, -8, -30);
+=======
+			
+		}
+		public void toggleOff()
+		{
+			correspondingBeam.removeSelf();
+			correspondingBeam = null;
+			
+		}
+		public void moveBeam(int newX,int newY)
+		{
+			if(correspondingBeam != null)
+			correspondingBeam.moveBeam(newX,newY);
+>>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 		}
 	}
 	public class Beam
@@ -1442,6 +1467,7 @@ public class PEW extends PApplet{
 		}
 		public void increment()
 		{
+<<<<<<< HEAD
 		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height/2);
 		//count++;
 		//if(count > duration)
@@ -1451,6 +1477,9 @@ public class PEW extends PApplet{
 		{
 			playersBeam = null;
 			super.removeSelf();
+=======
+		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height,loadedPics.get(9).width, displayHeight);
+>>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 		}
 	}
 
@@ -1474,6 +1503,10 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
+<<<<<<< HEAD
+=======
+		PlayerBeamGun secondary;
+>>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
 			dir = true;
@@ -1510,8 +1543,14 @@ public class PEW extends PApplet{
 			if (locY > displayHeight)
 				locY = displayHeight;
 
+<<<<<<< HEAD
 			if(weapon instanceof PlayerBeamGun)
 				image(loadedPics.get(10),locX,locY);
+=======
+			if(secondary != null)
+				secondary.moveBeam(locX,locY);
+				//for energy splash
+>>>>>>> cee84ef62a5d32e3c09c9445cbe7a207c49907a0
 			if(flashed)
 			{
 				img = loadedShipPics.get(0);
@@ -1534,6 +1573,10 @@ public class PEW extends PApplet{
 			weapon = new PlayerBeamGun();
 			gunLev++;
 		}
+		public void removeBeam()
+		{
+			secondary = null;
+		}
 		public void incrementGunLev(int i)
 		{
 			gunLev += i;
@@ -1553,6 +1596,8 @@ public class PEW extends PApplet{
 		}
 		public void shoot() {	
 			weapon.shoot(locX, locY);
+			if(secondary!=null)
+				secondary.shoot(locX, locY);
 		}
 		public void incrementScoreMultiplyer(int i)
 		{
@@ -1625,6 +1670,10 @@ public class PEW extends PApplet{
 		{
 			player.addBeam();
 			this.removeSelf();
+		}
+		public void removeEffect()
+		{
+			player.removeBeam();
 		}
 	}
 	public class GunUp extends PowerUp
