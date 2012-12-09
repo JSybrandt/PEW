@@ -34,8 +34,6 @@ public class PEW extends PApplet{
 	ArrayList<Item> items = new ArrayList<Item>();// misc stuff and items
 	ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 	ArrayList<Animation> animations = new ArrayList<Animation>();
-	ArrayList<Beam> activeBeams = new ArrayList<Beam>();
-	PlayerBeam playersBeam = null;
 
 	PFont fontG;
 	String highscoreFile = "highscore.txt";
@@ -98,27 +96,15 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-		img = loadImage("beam4.png"); //9
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);//##14
-		
-		img = loadImage("splash4.png"); //10
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
-		
-		
-		img = loadImage("beamUp.png"); //11
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
 		
 		//change for score multiplyers
-		img = loadImage("scorex1.png"); //12
+		img = loadImage("scorex1.png"); //10
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-		img = loadImage("scorex2.png"); //12
+		img = loadImage("scorex2.png"); //11
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-		img = loadImage("scorex3.png"); //13
+		img = loadImage("scorex3.png"); //12
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
@@ -169,9 +155,7 @@ public class PEW extends PApplet{
 		
 		
 		
-		//img = loadImage("\\playerBeam\\beam4.png");// #13
-		//img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		//loadedPics.add(img);
+	
 		
 		
 		
@@ -322,10 +306,7 @@ public class PEW extends PApplet{
 				Animation a = animations.get(i);
 				a.animate();
 			}
-			for (int i = activeBeams.size() - 1; i >= 0; i--) {
-				Beam p = activeBeams.get(i);
-				p.increment();
-			}
+
 			for (int j = 0; j < enemyBullets.size(); j++) {
 				Projectile p = (Projectile) enemyBullets.get(j);
 				p.move();
@@ -355,8 +336,6 @@ public class PEW extends PApplet{
 
 			if (mousePressed) {
 				player.move();
-				if(playersBeam != null)
-					playersBeam.moveBeam(player.locX,player.locY);
 				if (tick % 3 == 0)
 					player.shoot();
 			}
@@ -388,30 +367,7 @@ public class PEW extends PApplet{
 			}
 		}
 		
-		for (int i = 0; i < activeBeams.size(); i++) {
-			Beam p = (Beam) activeBeams.get(i);
-			if(p instanceof PlayerBeam)
-			{
-				for (int j = 0; j < enemyShips.size(); j++) {
-					Ship s = (Ship) enemyShips.get(j);
-					if (p.isinKillZone(s)) {
-						s.hit();
-					}
-					if (s instanceof Cruiser) {
-						Cruiser t = (Cruiser) s;
-						ArrayList<Turret> guns = t.getTurretList();
-						for (int k = 0; k < guns.size(); k++) {
-							Turret g = guns.get(k);
-							if (p.isinKillZone(g)) {
-								g.hit();
-							}
-						}
-					}
-				}
-			}
-			else if( p.isinKillZone(player))
-				player.hit();
-		}
+	
 				
 
 		for (int i = 0; i < enemyBullets.size(); i++) {
@@ -1378,94 +1334,7 @@ public class PEW extends PApplet{
 			new PlayerBullet(xpos - 12, ypos, -8, -30);
 		}
 	}
-	public class PlayerBeamGun extends Gun {
-		boolean gunAround = false;
-		int count = 0;
-
-		PlayerBeam correspondingBeam;
-		public void shoot(int xpos, int ypos) {
-			if(correspondingBeam ==null){
-			sound.play(sound.pew);
-			correspondingBeam = new PlayerBeam(xpos, ypos);
-			count = 0;
-			if(count % 100 == 0)
-				toggleOff();
-			}
-			
-		}
-		public void toggleOff()
-		{
-			correspondingBeam.removeSelf();
-			correspondingBeam = null;
-			
-		}
-		public void moveBeam(int newX,int newY)
-		{
-			if(correspondingBeam != null)
-			correspondingBeam.moveBeam(newX,newY);
-		}
-	}
-	public class Beam
-	{
-		int startx,starty, width, duration , count;
-		boolean direction; //true:  up 
-		Beam(int locX, int locY, boolean dir,int w)
-		{
-			startx = locX;
-			starty = locY;
-			width = w;//width is like radius
-			duration = 50;
-			activeBeams.add(this);
-		}
-		public void increment()
-		{
-			count++;
-			if(count > duration)
-				removeSelf();
-		}
-		public void moveBeam(int newX,int newY)
-		{
-			startx = newX;
-			starty = newY;
-		}
-		public void removeSelf()
-		{
-			for(int i = activeBeams.size()-1; i >=0 ; i--)
-			{
-				if(activeBeams.get(i) == this)
-				{
-					activeBeams.remove(i);
-				}
-			}
-		}
-		public boolean isinKillZone(Actor a)
-		{
-			if(a.locX > (startx-width)&&a.locX < (startx+width))
-			{
-				if(direction)
-				{
-					if(a.locY > starty)
-						return true;
-				}
-				else
-					if(a.locY < starty)
-						return true;
-			}
-			return false;
-		}
-	}
-	public class PlayerBeam extends Beam
-	{
-		PlayerBeam(int locX,int locY)
-		{
-			super(locX,locY,true, 50);
-			playersBeam = this;
-		}
-		public void increment()
-		{
-		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height,loadedPics.get(9).width, displayHeight);
-		}
-	}
+	
 
 	public class PlayerBullet extends Projectile {
 		PlayerBullet(int locX, int locY, int xdisp, int ydisp) {
@@ -1487,8 +1356,6 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
-
-		PlayerBeamGun secondary;
 
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
@@ -1526,9 +1393,7 @@ public class PEW extends PApplet{
 			if (locY > displayHeight)
 				locY = displayHeight;
 
-			if(secondary != null)
-				secondary.moveBeam(locX,locY);
-				//for energy splash
+		
 
 			
 			image(img, locX, locY);
@@ -1548,15 +1413,7 @@ public class PEW extends PApplet{
 			flashed = true;
 			scoreMultiplyer=1;
 		}
-		public void addBeam()
-		{
-			weapon = new PlayerBeamGun();
-			gunLev++;
-		}
-		public void removeBeam()
-		{
-			secondary = null;
-		}
+		
 		public void incrementGunLev(int i)
 		{
 			gunLev += i;
@@ -1576,8 +1433,6 @@ public class PEW extends PApplet{
 		}
 		public void shoot() {	
 			weapon.shoot(locX, locY);
-			if(secondary!=null)
-				secondary.shoot(locX, locY);
 		}
 		public void incrementScoreMultiplyer(int i)
 		{
@@ -1639,23 +1494,6 @@ public class PEW extends PApplet{
 		public void removeEffect() {
 		}
 	}
-	public class BeamUp extends PowerUp
-	{
-		BeamUp(int posX, int posY)
-		{
-			super(posX,posY,11);
-			lifeSpan = 200;
-		}
-		public void act()
-		{
-			player.addBeam();
-			this.removeSelf();
-		}
-		public void removeEffect()
-		{
-			player.removeBeam();
-		}
-	}
 	public class GunUp extends PowerUp
 	{
 		GunUp(int posX, int posY)
@@ -1673,7 +1511,7 @@ public class PEW extends PApplet{
 	{
 		scoreX1(int posX, int posY)
 		{
-			super(posX,posY,12);
+			super(posX,posY,9);
 			lifeSpan = 0;
 		}
 		public void act()
@@ -1686,7 +1524,7 @@ public class PEW extends PApplet{
 	{
 		scoreX2(int posX, int posY)
 		{
-			super(posX,posY,13);
+			super(posX,posY,10);
 			lifeSpan = 0;
 		}
 		public void act()
@@ -1699,7 +1537,7 @@ public class PEW extends PApplet{
 	{
 		scoreX3(int posX, int posY)
 		{
-			super(posX,posY,14);
+			super(posX,posY,11);
 			lifeSpan = 0;
 		}
 		public void act()
