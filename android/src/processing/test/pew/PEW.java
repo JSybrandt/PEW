@@ -111,13 +111,13 @@ public class PEW extends PApplet{
 		loadedPics.add(img);
 		
 		//change for score multiplyers
-		img = loadImage("PowerUp.png"); //12
+		img = loadImage("scorex1.png"); //12
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-		img = loadImage("PowerUp.png"); //12
+		img = loadImage("scorex2.png"); //12
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-		img = loadImage("PowerUp.png"); //13
+		img = loadImage("scorex3.png"); //13
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
@@ -481,7 +481,7 @@ public class PEW extends PApplet{
 
 	public void printHighScores() {
 		textAlign(CENTER);
-		textSize((int)(displayWidth/480)*50);
+		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		text("Your Highscore is:\n" + highscoretop, displayWidth / 2, displayHeight / 4);
@@ -490,7 +490,7 @@ public class PEW extends PApplet{
 				displayWidth / 2, displayHeight / 3);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
-			textSize((int)(displayWidth/480)*24);
+			textSize((int)(displayWidth/480.0)*24);
 			showMenu = true;
 			showHighScore = false;
 		}
@@ -498,7 +498,7 @@ public class PEW extends PApplet{
 
 	public void printOptions() {
 		textAlign(CENTER);
-		textSize((int)(displayWidth/480)*42);
+		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		text("YOU AINT SEEN NOTHING YET!", displayWidth / 2, displayHeight / 4);
@@ -508,7 +508,7 @@ public class PEW extends PApplet{
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			
-			textSize((int)(displayWidth/480)*24);
+			textSize((int)(displayWidth/480.0)*24);
 			showMenu = true;
 			showOptions = false;
 		}
@@ -742,6 +742,12 @@ public class PEW extends PApplet{
 		}
 
 		public void prepairTurrets() {
+			double ratiox = displayWidth/480.0;
+			double ratioy = displayHeight/800.0;
+			for(int i = 0 ; i < 16; i++ )
+				turretsX[i]=(int)(turretsX[i]*ratiox);
+			for(int i = 0 ; i < 16; i++ )
+				turretsY[i]=(int)(turretsY[i]*ratioy);
 			double gunRange = 0;
 			if (guns.size() > 0)
 				gunRange = 800 / guns.size();
@@ -1696,7 +1702,7 @@ public class PEW extends PApplet{
 		if (b>=1&&b<=5)
 			new GunUp(i,j);
 		if(b ==6)
-			new BeamUp(i,j);
+			print("lolol");//new BeamUp(i,j);
 		if(b ==7)
 			new scoreX1(i,j);
 		if(b ==8)
