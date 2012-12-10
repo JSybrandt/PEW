@@ -42,3 +42,6 @@ gun list
 		else if(i == 7)
 		return new HelixGun();"
 
+
+shield power up, time power ups
+

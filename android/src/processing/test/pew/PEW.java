@@ -98,16 +98,25 @@ public class PEW extends PApplet{
 		
 		
 		//change for score multiplyers
-		img = loadImage("scorex1.png"); //10
+		img = loadImage("scorex1.png"); //9
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-		img = loadImage("scorex2.png"); //11
+		img = loadImage("scorex2.png"); //10
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-		img = loadImage("scorex3.png"); //12
+		img = loadImage("scorex3.png"); //11
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
+		//going to be shield up
+		img = loadImage("PowerUp.png"); //12
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+		
+		img = loadImage("Shield.png"); //13
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
+			
 		
 		
 		img = loadImage("spaceship.png");// #0
@@ -298,10 +307,7 @@ public class PEW extends PApplet{
 				Item p = (Item) items.get(j);
 				p.move();
 			}
-			for (int i = activePowerUps.size()-1; i>=0; i--) {
-				PowerUp p = activePowerUps.get(i);
-				p.increment();
-			}
+			
 			for (int i = 0; i < animations.size(); i++) {
 				Animation a = animations.get(i);
 				a.animate();
@@ -340,6 +346,11 @@ public class PEW extends PApplet{
 					player.shoot();
 			}
 			player.display();
+			
+			for (int i = activePowerUps.size()-1; i>=0; i--) {
+				PowerUp p = activePowerUps.get(i);
+				p.increment();
+			}
 		}
 	}
 
@@ -1459,11 +1470,11 @@ public class PEW extends PApplet{
 
 	public class PowerUp extends Item {
 		int counter, lifeSpan;
+		boolean activated;
 
 		PowerUp(int posx, int posy,int imgIndex) {
 			super(posx, posy, imgIndex);
 			radius = (int)((displayWidth/480.0)*10);
-			activePowerUps.add(this);
 			counter = 0;
 			lifeSpan = 250;
 
@@ -1471,11 +1482,13 @@ public class PEW extends PApplet{
 
 		public void act() {
 			this.removeSelf();
-			doEffect();
+			activated = true;
+			activePowerUps.add(this);
 		}
 
 		public void increment() {
 			counter++;
+			doEffect();
 			if (counter > lifeSpan) {
 				for (int i = activePowerUps.size() - 1; i >= 0; i--) {
 					PowerUp p = activePowerUps.get(i);
@@ -1492,6 +1505,37 @@ public class PEW extends PApplet{
 		}
 
 		public void removeEffect() {
+		}
+	}
+	public class ShieldUp extends PowerUp
+	{
+		Shield shield = new Shield();
+		ShieldUp(int posx, int posy)
+		{
+			super(posx,posy,12);
+		}
+		public void doEffect() {
+			shield.move();
+			for (int i = 0; i < enemyBullets.size(); i++) {
+				Projectile p = (Projectile) enemyBullets.get(i);
+				if (p.isTouching(shield)) {
+					p.removeSelf();
+				}
+			}	
+		}
+		public void removeEffect() {
+			shield = null;
+		}
+		
+	}
+	public class Shield extends Actor
+	{
+		public void move()
+		{
+			radius = (int)(100 * displayWidth/480.0);
+			locX = player.locX;
+			locY = player.locY;
+			image(loadedPics.get(13),player.locX,player.locY);
 		}
 	}
 	public class GunUp extends PowerUp
@@ -1546,16 +1590,16 @@ public class PEW extends PApplet{
 			this.removeSelf();
 		}
 	}
-	
+	//CHANGE THIS LATER
 	void makeRandPowerUp(int i, int j)
 	{
 		int b = gen.nextInt(10);
 		if (b == 0)
 			new Hallucinate(i,j);
-		if (b>=1&&b<=5)
+		if (b>=1&&b<=4)
 			new GunUp(i,j);
-		if(b ==6)
-			print("lolol");//new BeamUp(i,j);
+		if(b ==5||b==6)
+			new ShieldUp(i,j);
 		if(b ==7)
 			new scoreX1(i,j);
 		if(b ==8)
@@ -2015,8 +2059,8 @@ public class PEW extends PApplet{
 			
 			int w = gen.nextInt(6) + 20;
 			new Money(locX, locY, w);
-			int randomInt = gen.nextInt(7);
-			if (randomInt == 1) {
+			int randomInt = gen.nextInt(5);
+			if (randomInt == 3) {
 				makeRandPowerUp(locX,locY);
 			}
 			EnemyExplosion s = new EnemyExplosion(locX, locY);
