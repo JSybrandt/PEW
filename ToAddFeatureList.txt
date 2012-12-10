@@ -45,3 +45,5 @@ gun list
 
 shield power up, time power ups
 
+
+time power ups, new backgrounds, link ship images to guns, fix turret tihngies make them sync more
