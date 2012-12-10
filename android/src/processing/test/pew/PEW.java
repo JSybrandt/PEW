@@ -507,8 +507,8 @@ public class PEW extends PApplet{
 		}
 		public void checkClick()
 		{
-			if(mouseY>locY-onImage.height/2&&mouseY<locY+onImage.height/2
-					&&mouseX<locX+onImage.width/2&&mouseX>locX-onImage.width/2)
+			if(mouseY>locY-(onImage.height/2.0)&&mouseY<locY+(onImage.height/2.0)
+					&&mouseX<locX+(onImage.width/2.0)&&mouseX>locX-(onImage.width/2.0))
 			{
 				this.doSomething();
 			}
@@ -771,6 +771,7 @@ public class PEW extends PApplet{
 			destinationY = displayHeight / 4;
 			moving = true;
 			shooting = false;
+			radius  = 0;
 			selectNewGun();
 
 		}
