@@ -1084,7 +1084,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawn() {
-			if (inWave) {
+			if (inWave && count%spawnFreq == 0) {
 				if (waveNum%8 == 7 && enemyShips.size() == 0) {
 					spawnCruiser();
 				} else {
@@ -1093,7 +1093,11 @@ public class PEW extends PApplet{
 					if (waveType == 1)
 						spawnSideToSide();
 					if (waveType == 2)
-						spawnSideways();
+						spawnSidewaysRight();
+					if (waveType == 3)
+						spawnSidewaysLeft();
+					if (waveType == 4)
+						spawnWildcard();
 				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
@@ -1108,50 +1112,56 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnScissor() {
-			if (count%spawnFreq == 0)
-			{
-				if (flip) {
-					path = 1;
-					flip = !flip;
-				} else {
-					path = 2;
-					flip = !flip;
-				}
-				spawnShip();
+			if (flip) {
+				path = 1;
+				flip = !flip;
+			} else {
+				path = 2;
+				flip = !flip;
 			}
+			spawnShip();
 		}
 		
 		void spawnSideToSide() {
-			if (count%spawnFreq == 0) {
-				if (flip) {
-					path = 3;
-					flip = !flip;
-				} else {
-					path = 4;
-					flip = !flip;
-				}
-				spawnShip();
+			if (flip) {
+				path = 3;
+				flip = !flip;
+			} else {
+				path = 4;
+				flip = !flip;
 			}
+			spawnShip();
 		}
 		
-		void spawnSideways() {
-			if (count%spawnFreq == 0) {
-				path = 5;
-				spawnShip();
-			}
+		void spawnSidewaysRight() {
+			path = 5;
+			spawnShip();
+		}
+		
+		void spawnSidewaysLeft() {
+			path = 6;
+			spawnShip();
+		}
+		
+		void spawnWildcard() {
+			path = gen.nextInt(5)+1;
+			spawnShip();
 		}
 		
 		void spawnCruiser() {
 			ArrayList<Turret> guns = new ArrayList<Turret>();
 			for (int i=0; i<16; i++) {
-				guns.add(new Turret(getRandGun(), 50));
+				if (gen.nextInt(100) < uniqueRarity) {
+					guns.add(new Turret(getRandGun(), 3*shipHP+10));
+				} else {
+					guns.add(new Turret(new DinkyGun(), 2*shipHP+5));
+				}
 			}
 			enemyShips.add(new Cruiser(guns));
 		}
 		
 		void spawnShip() {
-			rando = gen.nextInt(100);
-			if (rando < uniqueRarity) {
+			if (gen.nextInt(100) < uniqueRarity) {
 				rando = gen.nextInt(3)+2;
 				Drone s = new Drone(rando, shipFreq, 2*shipHP, path, shipSpeed);
 				s.setGun(getRandGun());
@@ -1973,6 +1983,10 @@ public class PEW extends PApplet{
 				xinit = locX = -100;
 				yinit = locY = displayHeight/5;
 			}
+			if (path == 6) {
+				xinit = locX = displayWidth + 100;
+				yinit = locY = displayHeight/5;
+			}
 			
 			
 		}
@@ -2031,6 +2045,9 @@ public class PEW extends PApplet{
 			if (path == 5) {						// TO THE RIGHT TO THE RIGHT
 				locX += speed;
 			}
+			if (path == 6) {						// TO THE LEFT TO THE LEFT
+				locX -= speed;
+			}
 			if (path == 9) {						// DOWN LEFT, THEN DOWN RIGHT, THEN DOWN
 				if (count < 50) {
 					locY += speed;
@@ -2042,7 +2059,7 @@ public class PEW extends PApplet{
 					locY += speed / 2;
 				}
 			}
-			if (path == 6) {						// SOME WEIRD SINE SHIT
+			if (path == 8) {						// SOME WEIRD SINE SHIT
 				locY += speed;
 				locX += sin(count * 3.14f / 6) * 5;
 			}
