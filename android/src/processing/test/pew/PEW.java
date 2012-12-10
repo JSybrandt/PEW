@@ -14,12 +14,19 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.content.res.AssetFileDescriptor;
+import android.os.Vibrator;
+import android.content.Context;
 
 import android.content.Intent;
 import android.net.Uri;
 
 public class PEW extends PApplet{
 
+	
+	
+	boolean canVibrate = false;
+	
+	
 	AssetManager assetManager=null;// needed for sounds, has to be up in rank
 	SoundPool soundPool=null;
 
@@ -41,7 +48,7 @@ public class PEW extends PApplet{
 	PrintWriter output;
 	BufferedReader reader;
 	int highscoretop, highscoremid, highscorebottom, points;
-
+	Vibrator v;
 	Random gen = new Random();
 
 	boolean psychedelicMode = false;
@@ -59,6 +66,7 @@ public class PEW extends PApplet{
 	ArrayList<PImage> loadedPlayerShipExpPics = new ArrayList<PImage>();
 	
 	public void loadImages() {
+		 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		PImage img;
 		
 		img = loadImage("bullet.png");//#0
@@ -110,7 +118,7 @@ public class PEW extends PApplet{
 		loadedPics.add(img);
 		
 		//going to be shield up
-		img = loadImage("PowerUp.png"); //12
+		img = loadImage("ShieldUp.png"); //12
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
@@ -243,6 +251,9 @@ public class PEW extends PApplet{
 		super.onStart();
 	}
 	public void setup() {
+	//	Vibrator.hasVibrator();
+		if(true)
+			canVibrate = true;
 		startUp = false;
 
 
@@ -497,7 +508,7 @@ public class PEW extends PApplet{
 		public void checkClick()
 		{
 			if(mouseY>locY-onImage.height/2&&mouseY<locY+onImage.height/2
-					&&mouseX<locX-onImage.width/2&&mouseX>locX+onImage.width/2)
+					&&mouseX<locX+onImage.width/2&&mouseX>locX-onImage.width/2)
 			{
 				this.doSomething();
 			}
@@ -752,7 +763,7 @@ public class PEW extends PApplet{
 		int destinationX, destinationY;
 
 		Cruiser(ArrayList<Turret> g) {
-			super(1, 7, 1000, 1000, 3);
+			super(1, 7, 1000, 2000, 3);
 			guns = g;
 			prepairTurrets();
 			count = 0;
@@ -790,10 +801,16 @@ public class PEW extends PApplet{
 			else if (guns.size() > 0)
 				selectNewGun();
 			else
-				super.blowUp();
+				blowUp();
 
 		}
-
+		public void blowUp()
+		{
+			for(int i = 0; i < img.width; i+=20)
+			{
+				new Money(locX+img.width/2-i,locY, 50);
+			}
+		}
 		public void selectNewGun() {
 			int selection = gen.nextInt(guns.size());
 			activeTurret = guns.get(selection);
@@ -1474,6 +1491,8 @@ public class PEW extends PApplet{
 			img = loadedShipFlashPics.get(0);
 			flashed = true;
 			scoreMultiplyer=1;
+			if(canVibrate)
+			v.vibrate(300);
 		}
 		
 		public void incrementGunLev(int i)
@@ -1491,7 +1510,10 @@ public class PEW extends PApplet{
 				weapon = new PlayerGunLev4();
 			else if(gunLev==5)
 				weapon = new PlayerGunLev5();
-			else gunLev -=i;
+			else 
+				{gunLev -=i;
+				incrementScoreMultiplyer(1);
+				}
 		}
 		public void shoot() {	
 			weapon.shoot(locX, locY);
