@@ -49,6 +49,7 @@ public class PEW extends PApplet{
 			showInstructions, showOptions;
 	boolean musicReady = false, startUp = true;
 	boolean alreadyStartedMusic = false;
+	boolean playerWantsbgSound = true;
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -472,22 +473,60 @@ public class PEW extends PApplet{
 		}
 	}
 
+	public class ToggleButton
+	{
+		int locX, locY;
+		PImage onImage, offImage;
+		boolean on;
+		ToggleButton(PImage img,PImage img2 , int locX,int locY)
+		{
+			img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+			img2.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+			onImage = img;
+			offImage = img2;
+			this.locX = locX;
+			this.locY = locY;
+		}
+		public void print()
+		{
+			if(on)
+			image(onImage, locX,locY);
+			else
+			image(offImage,locX,locY);
+		}
+		public void checkClick()
+		{
+			if(mouseY>locY-onImage.height/2&&mouseY<locY+onImage.height/2
+					&&mouseX<locX-onImage.width/2&&mouseX>locX+onImage.width/2)
+			{
+				this.doSomething();
+			}
+		}
+		public void doSomething()
+		{
+			on = !on;
+		}
+	}
+	public class BackgroundSoundButton extends ToggleButton
+	{
+		BackgroundSoundButton()
+		{
+		super(loadImage("backgroundmusicon.png"),loadImage("backgroundmusicon.png") ,
+				displayWidth / 2,(int)(displayHeight*(4 / 12.0)));
+		}
+		public void doSomething()
+		{
+			playerWantsbgSound = !playerWantsbgSound;
+		}
+	}
+	
 	public void printOptions() {
-		textAlign(CENTER);
-		textSize((int)((displayWidth/480.0)*25));
-		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
-				displayWidth, displayHeight / 6);
-		image(loadImage("backgroundmusicon.png"), displayWidth / 2, (int)(displayHeight*(4 / 12.0)),
-				(int)(displayWidth*(5/6.0)), displayHeight / 6);
-		image(loadImage("backgroundmusicoff.png"), displayWidth / 2, (int)(displayHeight*(6 / 12.0)),
-				(int)(displayWidth*(5/6.0)), displayHeight / 6);
+			image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
+						displayWidth, displayHeight / 6);
+		BackgroundSoundButton bgbutton = new BackgroundSoundButton();
+		bgbutton.print();
+		bgbutton.checkClick();
 		
-		
-		text("YOU AINT SEEN NOTHING YET!", displayWidth / 2, displayHeight / 4);
-
-		text("...seriously, we have yet to code this...", displayWidth / 2,
-				displayHeight / 3);
-
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			
 			textSize((int)(displayWidth/480.0)*24);
