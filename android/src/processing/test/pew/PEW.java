@@ -86,7 +86,7 @@ public class PEW extends PApplet{
 		loadedPics.add(img);
 		
 		img = loadImage("Turret.png");// #4
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
 		loadedPics.add(img);
 		
 		img = loadImage("GunUpgrade.png");// #5
@@ -126,7 +126,9 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 			
-		
+		img = loadImage("hpblip.png"); //14
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
 		
 		img = loadImage("spaceship.png");// #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
@@ -244,6 +246,7 @@ public class PEW extends PApplet{
 
 	Sounds sound = new Sounds();
 	MediaPlayer mediaPlayer = null;
+	
 
 	public void onStart()
 	{
@@ -352,12 +355,7 @@ public class PEW extends PApplet{
 			if (tick == 100000)
 				tick = 0;
 
-			if (mousePressed) {
-				player.move();
-				if (tick % 3 == 0)
-					player.shoot();
-			}
-			player.display();
+			player.act();
 			
 			for (int i = activePowerUps.size()-1; i>=0; i--) {
 				PowerUp p = activePowerUps.get(i);
@@ -497,8 +495,9 @@ public class PEW extends PApplet{
 			offImage = img2;
 			this.locX = locX;
 			this.locY = locY;
+			
 		}
-		public void print()
+		public void printSelf()
 		{
 			if(on)
 			image(onImage, locX,locY);
@@ -507,9 +506,11 @@ public class PEW extends PApplet{
 		}
 		public void checkClick()
 		{
-			if(mouseY>locY-(onImage.height/2.0)&&mouseY<locY+(onImage.height/2.0)
+			if(mousePressed && mouseY>locY-(onImage.height/2.0)&&mouseY<locY+(onImage.height/2.0)
 					&&mouseX<locX+(onImage.width/2.0)&&mouseX>locX-(onImage.width/2.0))
 			{
+				
+				if(!mousePressed)
 				this.doSomething();
 			}
 		}
@@ -522,20 +523,24 @@ public class PEW extends PApplet{
 	{
 		BackgroundSoundButton()
 		{
-		super(loadImage("backgroundmusicon.png"),loadImage("backgroundmusicon.png") ,
+		super(loadImage("backgroundmusicon.png"),loadImage("backgroundmusicoff.png") ,
 				displayWidth / 2,(int)(displayHeight*(4 / 12.0)));
 		}
 		public void doSomething()
 		{
+			print("EXPLOSION!");
 			playerWantsbgSound = !playerWantsbgSound;
+			super.doSomething();
 		}
 	}
 	
+	BackgroundSoundButton bgbutton = null;
 	public void printOptions() {
 			image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 						displayWidth, displayHeight / 6);
-		BackgroundSoundButton bgbutton = new BackgroundSoundButton();
-		bgbutton.print();
+		if(bgbutton == null)
+			bgbutton = new BackgroundSoundButton();
+		bgbutton.printSelf();
 		bgbutton.checkClick();
 		
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
@@ -763,7 +768,7 @@ public class PEW extends PApplet{
 		int destinationX, destinationY;
 
 		Cruiser(ArrayList<Turret> g) {
-			super(1, 7, 1000, 2000, 3);
+			super(1, 7, 1000, 2000, 6);
 			guns = g;
 			prepairTurrets();
 			count = 0;
@@ -809,7 +814,8 @@ public class PEW extends PApplet{
 		{
 			for(int i = 0; i < img.width; i+=20)
 			{
-				new Money(locX+img.width/2-i,locY, 50);
+				int tempY = gen.nextInt(50)-25;
+				new Money(locX-img.width/2-i,locY+tempY, 50);
 			}
 		}
 		public void selectNewGun() {
@@ -895,7 +901,7 @@ public class PEW extends PApplet{
 				}
 			}
 			if (guns.size() < 1) {
-				super.blowUp();
+				blowUp();
 			}
 		}
 
@@ -1449,7 +1455,24 @@ public class PEW extends PApplet{
 			gunLev = 1;
 			scoreMultiplyer = 1;
 		}
-
+		public void act()
+		{
+			if (mousePressed) {
+				player.move();
+				if (tick % 3 == 0)
+					player.shoot();
+			}
+			player.display();
+			player.displayHealth();
+		}
+		public void displayHealth()
+		{
+			PImage tick = loadedPics.get(14);
+			for(int i = 0; i < gunLev; i++)
+			{
+				image(tick,displayWidth - tick.width*i-tick.width/2, tick.height/2);
+			}
+		}
 		public void move() {
 			boolean flag = true;
 			int dX, dY;
