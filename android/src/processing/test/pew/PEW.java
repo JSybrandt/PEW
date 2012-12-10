@@ -1477,6 +1477,7 @@ public class PEW extends PApplet{
 		public void increment()
 		{
 		image(loadedPics.get(9),startx, starty-loadedPics.get(9).height,loadedPics.get(9).width, displayHeight);
+		super.increment();
 		}
 	}
 
@@ -1514,6 +1515,7 @@ public class PEW extends PApplet{
 			flashed = false;
 			gunLev = 1;
 			scoreMultiplyer = 1;
+			secondary = new PlayerBeamGun();
 		}
 
 		public void move() {
