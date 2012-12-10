@@ -1084,20 +1084,22 @@ public class PEW extends PApplet{
 		}
 		
 		void spawn() {
-			if (inWave && count%spawnFreq == 0) {
+			if (inWave) {
 				if (waveNum%8 == 7 && enemyShips.size() == 0) {
 					spawnCruiser();
 				} else {
-					if (waveType == 0)
-						spawnScissor();
-					if (waveType == 1)
-						spawnSideToSide();
-					if (waveType == 2)
-						spawnSidewaysRight();
-					if (waveType == 3)
-						spawnSidewaysLeft();
-					if (waveType == 4)
-						spawnWildcard();
+					if (count%spawnFreq == 0) {
+						if (waveType == 0)
+							spawnScissor();
+						if (waveType == 1)
+							spawnSideToSide();
+						if (waveType == 2)
+							spawnSidewaysRight();
+						if (waveType == 3)
+							spawnSidewaysLeft();
+						if (waveType == 4)
+							spawnWildcard();
+					}
 				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
@@ -1182,7 +1184,7 @@ public class PEW extends PApplet{
 			spawnFreq = 30 - waveNum / 2;
 			shipFreq = 25 - waveNum / 3;
 			shipHP = 2 + waveNum;
-			shipSpeed = (int)((displayWidth/480.0)*6) + waveNum / 2;
+			shipSpeed = (int)((displayWidth/480.0)*5 + waveNum / 2);
 			uniqueRarity =  5 + waveNum;
 			shipImage = gen.nextInt(3)+2;
 		}
