@@ -130,6 +130,11 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
+		img = loadImage("Turret flash.png"); //15
+		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		loadedPics.add(img);
+		
+		
 		img = loadImage("spaceship.png");// #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
@@ -450,7 +455,23 @@ public class PEW extends PApplet{
 	public void printInstructions() {
 		textAlign(CENTER);
 		textSize((int)((displayWidth/480.0)*25));
-		text("Instructions\n\nFirst: do not DIE QUICKLY\nPretty self explantory\n\nSecond: Moving\nTouch to move\n\nThird: Shooting\nTouch to shoot\n(did not see that one coming)\n\nFourth: SURVIVE\nFight to the last!\n(When you lose all upgrades)\n\nSo, lets review\nMove\nShoot\nSURVIVE",
+		text("Holding down on the touch screen\n" +
+				" both moves and shoots\n" +
+				"\n" +
+				"Collect coins to increase your score and\n" +
+				"look out for score multipliers,\n" +
+				" they are important!\n" +
+				"Phycadelic Mode temporarily\n" +
+				"increases your multiplier by 10\n" +
+				"you will know it when you see it!" +
+				"\n" +
+				"Weapon Powerups are your friend!\n" +
+				"Your health is dependant\n" +
+				"on your gun's level.'\n" +
+				"\n" +
+				"\n" +
+				"DON'T DIE!\n" +
+				"GOOD LUCK!",
 				displayWidth / 2, displayHeight / 5);
 		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
@@ -815,7 +836,7 @@ public class PEW extends PApplet{
 			for(int i = 0; i < img.width; i+=20)
 			{
 				int tempY = gen.nextInt(50)-25;
-				new Money(locX-img.width/2-i,locY+tempY, 50);
+				new Money(locX+img.width/2-i,locY+tempY, 50);
 			}
 		}
 		public void selectNewGun() {
@@ -1380,6 +1401,18 @@ public class PEW extends PApplet{
 		}
 	}
 	public class PlayerGunLev2 extends Gun {
+		boolean flip = false;
+		public void shoot(int xpos, int ypos) {
+			sound.play(sound.pew);
+			if(flip)
+				new PlayerBullet(xpos + 12, ypos, 1, -30);
+			else
+				new PlayerBullet(xpos - 12, ypos, -1, -30);
+			new PlayerBullet(xpos , ypos, 0, -30);
+			flip  = !flip;
+		}
+	}
+	public class PlayerGunLev3 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
 				new PlayerBullet(xpos + 12, ypos, 2, -30);
@@ -1388,7 +1421,7 @@ public class PEW extends PApplet{
 		}
 	}
 	
-	public class PlayerGunLev3 extends Gun {
+	public class PlayerGunLev4 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
 			new PlayerBullet(xpos - 12, ypos, -3, -30);
@@ -1398,7 +1431,7 @@ public class PEW extends PApplet{
 		}
 	}
 
-	public class PlayerGunLev4 extends Gun {
+	public class PlayerGunLev5 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
 			new PlayerBullet(xpos, ypos, 0, -30);
@@ -1408,7 +1441,7 @@ public class PEW extends PApplet{
 			new PlayerBullet(xpos - 12, ypos, -6, -30);
 		}
 	}
-	public class PlayerGunLev5 extends Gun {
+	public class PlayerGunLev6 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
 
@@ -1418,6 +1451,19 @@ public class PEW extends PApplet{
 			new PlayerBullet(xpos - 12, ypos, -4, -30);
 			new PlayerBullet(xpos + 12, ypos, 8, -30);
 			new PlayerBullet(xpos - 12, ypos, -8, -30);
+		}
+	}
+	public class PlayerGunLev7 extends Gun {
+		public void shoot(int xpos, int ypos) {
+			sound.play(sound.pew);
+			for(int i = -10; i <= 10; i+=5)
+			{
+				new PlayerBullet(xpos+i, ypos, 0, -30);
+			}
+			new PlayerBullet(xpos + 12, ypos, 6, -30);
+			new PlayerBullet(xpos - 12, ypos, -6, -30);
+			new PlayerBullet(xpos + 12, ypos, 10, -30);
+			new PlayerBullet(xpos - 12, ypos, -10, -30);
 		}
 	}
 	
@@ -1534,6 +1580,10 @@ public class PEW extends PApplet{
 				weapon = new PlayerGunLev4();
 			else if(gunLev==5)
 				weapon = new PlayerGunLev5();
+			else if (gunLev == 6)
+				weapon = new PlayerGunLev6();
+			else if (gunLev == 7)
+				weapon = new PlayerGunLev7();
 			else 
 				{gunLev -=i;
 				incrementScoreMultiplyer(1);
@@ -2007,6 +2057,9 @@ public class PEW extends PApplet{
 			count++;
 			if (count % freq == 0)
 				shoot();
+			if(img == loadedPics.get(15))
+			
+				img = loadedPics.get(4);
 		}
 
 		public void increment(int delX, int delY) {
@@ -2031,6 +2084,7 @@ public class PEW extends PApplet{
 		public void hit() {
 			// s.play(2);
 			health--;
+			img = loadedPics.get(15);
 		}
 	}
 
