@@ -1193,9 +1193,9 @@ public class PEW extends PApplet{
 			ArrayList<Turret> guns = new ArrayList<Turret>();
 			for (int i=0; i<16; i++) {
 				if (gen.nextInt(100) < uniqueRarity) {
-					guns.add(new Turret(getRandGun(), 3*shipHP+10));
+					guns.add(new Turret(getRandGun(), 3*shipHP+15));
 				} else {
-					guns.add(new Turret(new DinkyGun(), 2*shipHP+5));
+					guns.add(new Turret(new DinkyGun(), 2*shipHP+10));
 				}
 			}
 			enemyShips.add(new Cruiser(guns));
