@@ -1185,7 +1185,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnWildcard() {
-			path = gen.nextInt(5)+1;
+			path = gen.nextInt(7);
 			spawnShip();
 		}
 		
@@ -1217,7 +1217,7 @@ public class PEW extends PApplet{
 		void newWave() {
 			waveNum++;
 			inWave = true;
-			waveType = gen.nextInt(3);
+			waveType = gen.nextInt(5);
 			waveShipsSpawned = 0;
 			waveShipsEnd = waveNum * 2 + 10;
 			spawnFreq = 30 - waveNum / 2;
@@ -2002,6 +2002,10 @@ public class PEW extends PApplet{
 			health = h;
 			weapon = new DinkyGun();
 			
+			if (path == 0) {
+				xinit = locX = gen.nextInt(displayWidth);
+				yinit = locY = -100;
+			}
 			if (path == 1) {
 				xinit = locX = displayWidth/4;
 				yinit = locY = -100;
