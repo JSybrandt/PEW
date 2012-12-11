@@ -268,35 +268,31 @@ public class PEW extends PApplet{
 		
 		
 		
-		img = loadImage("EnemyExplosion1.png");
+		img = loadImage("PlayerExplosion1.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 		;
-		img = loadImage("EnemyExplosion2.png");
+		img = loadImage("PlayerExplosion2.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
-		
 
-		
-		
-
-		img = loadImage("EnemyExplosion3.png");
+		img = loadImage("PlayerExplosion3.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 		
-		img = loadImage("EnemyExplosion4.png");
+		img = loadImage("PlayerExplosion4.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 		
-		img = loadImage("EnemyExplosion5.png");
+		img = loadImage("PlayerExplosion5.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 		
-		img = loadImage("EnemyExplosion6.png");
+		img = loadImage("PlayerExplosion6.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 		
-		img = loadImage("EnemyExplosion7.png");
+		img = loadImage("PlayerExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 	}
