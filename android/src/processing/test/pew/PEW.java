@@ -1198,34 +1198,30 @@ public class PEW extends PApplet{
 		}
 		
 		void spawn() {
-			
-			if (enemyShips.size()==0)
-				spawnLotus();
-			
-//			if (inWave) {
-//				if (count%spawnFreq == 0) {
-//					if (waveType == 0)
-//						spawnScissor();
-//					if (waveType == 1)
-//						spawnSideToSide();
-//					if (waveType == 2)
-//						spawnSidewaysRight();
-//					if (waveType == 3)
-//						spawnSidewaysLeft();
-//					if (waveType == 4)
-//						spawnWildcard();
-//				}
-//				if (waveShipsSpawned >= waveShipsEnd)
-//					inWave = false;
-//			} else if (enemyShips.size() == 0) {
-//				if (waveNum%8 == 7) 
-//					spawnBoss();
-//				else
-//					newWave();
-//			}
-//			count++;
-//			if (count == 10000)
-//				count = 0;
+			if (inWave) {
+				if (count%spawnFreq == 0) {
+					if (waveType == 0)
+						spawnScissor();
+					if (waveType == 1)
+						spawnSideToSide();
+					if (waveType == 2)
+						spawnSidewaysRight();
+					if (waveType == 3)
+						spawnSidewaysLeft();
+					if (waveType == 4)
+						spawnWildcard();
+				}
+				if (waveShipsSpawned >= waveShipsEnd)
+					inWave = false;
+			} else if (enemyShips.size() == 0) {
+				if (waveNum%8 == 7) 
+					spawnBoss();
+				else
+					newWave();
+			}
+			count++;
+			if (count == 10000)
+				count = 0;
 		}
 		
 		void spawnScissor() {
