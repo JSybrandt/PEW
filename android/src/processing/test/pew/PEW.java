@@ -2026,22 +2026,22 @@ public class PEW extends PApplet{
 	//CHANGE THIS LATER
 	void makeRandPowerUp(int i, int j)
 	{
-		int b = gen.nextInt(12);
+		int b = gen.nextInt(13);
 		if (b == 0)
 			new Hallucinate(i,j);
-		if (b>=1&&b<=4)
+		if (b>=1&&b<=5)
 			new GunUp(i,j);
-		if(b ==5||b==6)
+		if(b ==6||b==7)
 			new ShieldUp(i,j);
-		if(b ==7)
-			new scoreX1(i,j);
 		if(b ==8)
-			new scoreX2(i,j);
+			new scoreX1(i,j);
 		if(b ==9)
-			new scoreX3(i,j);
+			new scoreX2(i,j);
 		if(b ==10)
-			new TimeUp(i,j);
+			new scoreX3(i,j);
 		if(b ==11)
+			new TimeUp(i,j);
+		if(b ==12)
 			new TimeDown(i,j);
 	}
 	
