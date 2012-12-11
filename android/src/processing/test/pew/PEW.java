@@ -940,7 +940,7 @@ public class PEW extends PApplet{
 			super.display();
 			if (moving) {
 				move();
-				if (locY <= displayHeight/3)
+				if (locY >= displayHeight/3)
 					moving = false;
 					shooting = true;
 			} else if (shooting) {
