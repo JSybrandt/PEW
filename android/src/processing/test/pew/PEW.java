@@ -823,7 +823,7 @@ public class PEW extends PApplet{
 				new Money(locX-img.width/2-i,locY+tempY, 50);
 			}
 			level.setBossFalse();
-			super.blowUp();
+			super.removeSelf();
 		}
 		public void selectNewGun() {
 			int selection = gen.nextInt(guns.size());
@@ -922,7 +922,7 @@ public class PEW extends PApplet{
 	}
 	
 	public class DeathLotus extends enemyShip {
-		int pausetime, phasetime, rando, baseFreq;
+		int pausetime, phasetime, currentWep, baseFreq;
 		boolean flyingIn, moving, shooting, flip;
 		ArrayList<Gun> weapons = new ArrayList<Gun>();
 		DeathLotus(int hp, int shotFreq, int wait, int phase) {
@@ -954,7 +954,8 @@ public class PEW extends PApplet{
 				shooting = true;
 				count = 0;
 			}
-			move();
+			if (currentWep != 2)
+				move();
 			count++;
 			if (count > 10000)
 				count = 0;
@@ -978,9 +979,9 @@ public class PEW extends PApplet{
 		}
 		
 		public void getNewGun() {
-			rando = gen.nextInt(3);
-			weapon = weapons.get(rando);
-			if (rando == 3) {
+			currentWep = gen.nextInt(3);
+			weapon = weapons.get(currentWep);
+			if (currentWep == 2) {
 				freq = baseFreq/4; 
 			} else {
 				freq = baseFreq;
@@ -990,9 +991,9 @@ public class PEW extends PApplet{
 		public void blowUp() {
 			level.setBossFalse();
 			removeSelf();
-			for (int i=locX-50; i<locX+50; i+=5) {
-				for (int j=locY-50; i<locY+50; i+=5) {
-					new Money(i, j, 10);
+			for (int i=locX-50; i<locX+50; i+=10) {
+				for (int j=locY-50; i<locY+50; i+=10) {
+					new Money(i, j, 8);
 				}
 			}
 		}
@@ -1314,7 +1315,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnLotus() {
-			enemyShips.add(new DeathLotus(50*shipHP, shipFreq/4, 20, 300));
+			enemyShips.add(new DeathLotus(70*shipHP, shipFreq/4, 20, 300));
 		}
 		
 		void spawnShip() {
