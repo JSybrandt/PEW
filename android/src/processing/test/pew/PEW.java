@@ -134,15 +134,15 @@ public class PEW extends PApplet{
 		loadedPics.add(img);
 		
 		img = loadImage("Turret flash.png"); //15
-		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
 		img = loadImage("TimeUp.png"); //16
-		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
 		img = loadImage("TimeDown.png"); //17
-		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 
 		
@@ -481,7 +481,7 @@ public class PEW extends PApplet{
 				"Code Alpaca -- \nMike \"reason\" Boom\n\n"+
 				"Art Master -- \nJosh \"Fa1seEcho\" Walton\n\n" +
 				"Test Phone -- \nGeorge's LG      ",
-				displayWidth / 2, displayHeight / 4);
+				displayWidth / 2, displayHeight / 4 );
 		text("AND SPECIAL THANKS TO\n" +
 				"8 BIT WEAPON\n" +
 				"(Click album for link)",
