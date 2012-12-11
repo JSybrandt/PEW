@@ -1272,10 +1272,12 @@ public class PEW extends PApplet{
 			super.act();
 		}
 		public void doEffect() {
-			
+		player.incrementScoreMultiplyer(5);
+
 		}
 		public void removeEffect() {
 			frameRate(30);
+			player.incrementScoreMultiplyer(-5);
 		}
 	}
 	
