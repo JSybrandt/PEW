@@ -187,7 +187,9 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
-		
+		img = loadImage("DeathLotus.png");// #10
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
 		
 		img = loadImage("playerFlash.png"); // #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
@@ -228,7 +230,11 @@ public class PEW extends PApplet{
 		
 		img = loadImage("EnemyShipMissileFlash.png");// #9
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("DeathLotusFlash.png");// #10
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
 		
 		
 		
@@ -1073,7 +1079,7 @@ public class PEW extends PApplet{
 		boolean flyingIn, moving, shooting, flip;
 		ArrayList<Gun> weapons = new ArrayList<Gun>();
 		DeathLotus(int hp, int shotFreq, int wait, int phase) {
-			super(3, shotFreq, hp, 10, 7);
+			super(10, shotFreq, hp, 10, 7);
 			baseFreq = shotFreq;
 			weapons.add(new StarGun());
 			weapons.add(new SpreadGunE());
@@ -1516,7 +1522,7 @@ public class PEW extends PApplet{
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
 
-				rando = gen.nextInt(8);
+				rando = gen.nextInt(7)+1;
 				Drone s = new Drone(rando+2, shipFreq, 2*shipHP, path, shipSpeed);
 				s.setGun(selectGun(rando));
 
