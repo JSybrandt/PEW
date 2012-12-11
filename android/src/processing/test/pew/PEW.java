@@ -543,7 +543,7 @@ public class PEW extends PApplet{
 		ToggleButton(PImage img,PImage img2 , int locX,int locY)
 		{
 			img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-			img2.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+			img2.resize((int)((displayWidth/480.0)*img2.width),(int)((displayHeight/800.0)*img2.height));
 			onImage = img;
 			offImage = img2;
 			this.locX = locX;
@@ -580,7 +580,7 @@ public class PEW extends PApplet{
 	{
 		BackgroundSoundButton()
 		{
-		super(loadImage("backgroundmusicon.png"),loadImage("backgroundmusicoff.png") ,
+		super(loadImage("OptionsMusicOn.png"),loadImage("OptionsMusicOff.png") ,
 				displayWidth / 2,(int)(displayHeight*(4 / 12.0)));
 		}
 		public void doSomething()
@@ -603,7 +603,7 @@ public class PEW extends PApplet{
 	{
 		CuedSoundButton()
 		{
-		super(loadImage("cuedmusicon.png"),loadImage("cuedmusicoff.png") ,
+		super(loadImage("OptionsSoundEffectsOn.png"),loadImage("OptionsSoundEffectsOff.png") ,
 				displayWidth / 2,(int)(displayHeight*(6 / 12.0)));
 		}
 		public void doSomething()
@@ -617,7 +617,7 @@ public class PEW extends PApplet{
 	{
 		VibrationButton()
 		{
-		super(loadImage("vibrationon.png"),loadImage("vibrationoff.png") ,
+		super(loadImage("OptionsVibrationOn.png"),loadImage("OptionsVibrationOff.png") ,
 				displayWidth / 2,(int)(displayHeight*(8 / 12.0)));
 		}
 		public void doSomething()
