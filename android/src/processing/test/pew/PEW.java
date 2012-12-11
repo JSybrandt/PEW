@@ -183,12 +183,17 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
+		img = loadImage("EnemyShipMissile.png");// #9
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
+		
+		
 		
 		img = loadImage("playerFlash.png"); // #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
-		img = loadImage("BossBody.png"); // #1
+		img = loadImage("bullet.png"); // #1 THIS IS A PLACEHOLDER
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
@@ -221,7 +226,9 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipFlashPics.add(img);
 		
-	
+		img = loadImage("EnemyShipMissileFlash.png");// #9
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
 		
 		
 		
@@ -864,7 +871,7 @@ public class PEW extends PApplet{
 		}
 
 		public void detonate() {
-			for (float degree = 0; degree < 2 * PI; degree += PI / 6) {
+			for (float degree = 0; degree < 2 * PI; degree += PI / 12) {
 				int dispx = (int) (speed * sin(degree));
 				int dispy = (int) (speed * cos(degree));
 				new Bullet(locX, locY, dispx, dispy);
@@ -2282,7 +2289,7 @@ public class PEW extends PApplet{
 		}
 
 		public void shoot(int locX, int locY) {
-			for (degree = 0; degree < 2 * PI; degree += PI / 6) {
+			for (degree = 0; degree < 2 * PI; degree += PI / 12) {
 				dispx = (int) (speed * sin(degree));
 				dispy = (int) (speed * cos(degree));
 				new Bullet(locX, locY, dispx, dispy);
