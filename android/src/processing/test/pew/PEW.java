@@ -822,6 +822,7 @@ public class PEW extends PApplet{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX-img.width/2-i,locY+tempY, 50);
 			}
+			level.setBossFalse();
 		}
 		public void selectNewGun() {
 			int selection = gen.nextInt(guns.size());
@@ -962,6 +963,16 @@ public class PEW extends PApplet{
 		
 		public void move() {
 			locY += speed;
+		}
+		
+		public void blowUp() {
+			level.setBossFalse();
+			removeSelf();
+			for (int i=locX-50; i<locX+50; i+=5) {
+				for (int j=locY-50; i<locY+50; i+=5) {
+					new Money(i, j, 10);
+				}
+			}
 		}
 	}
 
@@ -1169,7 +1180,7 @@ public class PEW extends PApplet{
 
 	public class Level {
 		int waveNum, count, rando;
-		boolean flip, inWave;
+		boolean flip, inWave, bossWave;
 		int waveShipsSpawned, waveShipsEnd, waveType;
 		int path, spawnFreq, shipFreq, shipHP, shipSpeed, uniqueRarity, shipImage;
 		
@@ -1197,7 +1208,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawn() {
-			if (inWave) {
+			if (inWave && !bossWave) {
 				if (count%spawnFreq == 0) {
 					if (waveType == 0)
 						spawnScissor();
@@ -1213,10 +1224,9 @@ public class PEW extends PApplet{
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
 			} else if (enemyShips.size() == 0) {
-				if (waveNum%8 == 7) 
+				newWave();
+				if (waveNum%8 == 7)
 					spawnBoss();
-				else
-					newWave();
 			}
 			count++;
 			if (count == 10000)
@@ -1261,6 +1271,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnBoss() {
+			bossWave = true;
 			rando = gen.nextInt(2);
 			if (rando == 0)
 				spawnCruiser();
@@ -1281,7 +1292,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnLotus() {
-			enemyShips.add(new DeathLotus(50*shipHP, 3*shipFreq, 60, 300));
+			enemyShips.add(new DeathLotus(50*shipHP, shipFreq/5, 60, 300));
 		}
 		
 		void spawnShip() {
@@ -1309,6 +1320,10 @@ public class PEW extends PApplet{
 			shipSpeed = (int)((displayWidth/480.0)*5 + waveNum / 2);
 			uniqueRarity =  5 + 2*waveNum;
 			shipImage = gen.nextInt(3)+2;
+		}
+		
+		public void setBossFalse() {
+			bossWave = false;
 		}
 	}
 
