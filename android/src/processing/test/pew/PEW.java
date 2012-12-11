@@ -166,6 +166,21 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedShipPics.add(img);
 		
+		img = loadImage("EnemyShipHelixGun.png");// #5
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
+		
+		img = loadImage("EnemyShipSpiralGun.png");// #6
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
+		
+		img = loadImage("EnemyShipSpreadGun.png");// #7
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
+		
+		img = loadImage("EnemyShipStarGun.png");// #8
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipPics.add(img);
 		
 		
 		img = loadImage("playerFlash.png"); // #0
@@ -189,7 +204,21 @@ public class PEW extends PApplet{
 		loadedShipFlashPics.add(img);
 		
 		
+		img = loadImage("EnemyShipHelixGunFlash.png");// #5
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
 		
+		img = loadImage("EnemyShipSpiralGunFlash.png");// #6
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("EnemyShipSpreadGunFlash.png");// #7
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
+		
+		img = loadImage("EnemyShipStarGunFlash.png");// #8
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedShipFlashPics.add(img);
 		
 	
 		
@@ -1381,9 +1410,9 @@ public class PEW extends PApplet{
 		
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
-				rando = gen.nextInt(3)+2;
-				Drone s = new Drone(rando, shipFreq, 2*shipHP, path, shipSpeed);
-				s.setGun(getRandGun());
+				rando = gen.nextInt(8);
+				Drone s = new Drone(rando+2, shipFreq, 2*shipHP, path, shipSpeed);
+				s.setGun(selectGun(rando));
 				enemyShips.add(s);
 			} else {
 				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
@@ -2177,6 +2206,31 @@ public class PEW extends PApplet{
 		return new BombLauncher();
 		else if(i == 7)
 		return new HelixGun();
+		else
+		return new DinkyGun();
+	}
+	
+	
+	Gun selectGun(int i)
+	{
+		if(i == 0)
+		return new DinkyGun();
+		else if(i == 1)
+			return new doubleGun();
+		else if(i == 2)
+			return new tripleGun();
+		else if(i == 3)
+			return new HelixGun();
+		else if(i == 4)
+			return new SpiralGun();
+		else if(i == 5)
+			return new SpreadGunE();
+		else if(i == 6)
+			return new StarGun();
+		else if(i == 7)
+			return new BombLauncher();
+		
+		
 		else
 		return new DinkyGun();
 	}
