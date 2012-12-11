@@ -508,16 +508,17 @@ public class PEW extends PApplet{
 		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text("Your #1 Highscore is: " + highscore.get(0) + "\n"
-				+ "Your #2 Highscore is: " + highscore.get(1) + "\n"
-				+ "Your #3 Highscore is: " + highscore.get(2) + "\n"
-				+ "Your #4 Highscore is: " + highscore.get(3) + "\n"
-				+ "Your #5 Highscore is: " + highscore.get(4) + "\n"
-				+ "Your #6 Highscore is: " + highscore.get(5) + "\n"
-				+ "Your #7 Highscore is: " + highscore.get(6) + "\n"
-				+ "Your #8 Highscore is: " + highscore.get(7) + "\n"
-				+ "Your #9 Highscore is: " + highscore.get(8) + "\n"
-				+ "Your #10 Highscore is: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
+		text("Your Highscores are\n"
+				+ "#1: " + highscore.get(0) + "\n"
+				+ "#2: " + highscore.get(1) + "\n"
+				+ "#3: " + highscore.get(2) + "\n"
+				+ "#4: " + highscore.get(3) + "\n"
+				+ "#5: " + highscore.get(4) + "\n"
+				+ "#6: " + highscore.get(5) + "\n"
+				+ "#7: " + highscore.get(6) + "\n"
+				+ "#8: " + highscore.get(7) + "\n"
+				+ "#9: " + highscore.get(8) + "\n"
+				+ "#10: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			textSize((int)(displayWidth/480.0)*24);
@@ -1054,13 +1055,31 @@ public class PEW extends PApplet{
 		}
 		bghandle.scroll();
 		
+		int number;
+		String sign = "";
+		for(number = 0; number < 10; number++)
+		{
+			if (points >= highscore.get(number))
+			{
+				sign = "#";
+				break;
+			}
+			if(number == 9)
+			{
+				sign = "less than #";
+				break;
+			}
+			
+		}
+		
+		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		textFont(fontG);
 		fill(110, 50, 255);
 		textAlign(CENTER);
-		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore.get(0),
-				displayWidth / 2, displayHeight / 2);
+		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore.get(0) + "\n" +
+		"Your Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 2);
 
 		if (mousePressed && mouseY < displayHeight / 6) {
 			level.reset();
@@ -1153,7 +1172,7 @@ public class PEW extends PApplet{
 
 		public void updateHighscore() {
 			for(int i = 0; i < 10; i++) {
-				if (points > highscore.get(i)) {
+				if (points >= highscore.get(i)) {
 					highscore.add(i, points);
 					saveScore();
 					break;
@@ -1641,13 +1660,8 @@ public class PEW extends PApplet{
 			img = loadedShipFlashPics.get(0);
 			flashed = true;
 			scoreMultiplyer=1;
-<<<<<<< HEAD
-			if(playerWantsvib)
-			v.vibrate(300);
-=======
-//			if(canVibrate)
+//			if(playerWantsvib)
 //			v.vibrate(300);
->>>>>>> origin/CaelansBranch
 		}
 		
 		public void incrementGunLev(int i)
