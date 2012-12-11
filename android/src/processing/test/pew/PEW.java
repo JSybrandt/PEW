@@ -900,9 +900,9 @@ public class PEW extends PApplet{
 				if (guns.get(i).getHealth() < 1) {
 					if (guns.get(i) == activeTurret)
 						shooting = false;
-
 					guns.remove(i);
-
+					EnemyExplosion s = new EnemyExplosion(guns.get(i).locX, guns.get(i).locY);
+					animations.add(s);
 				}
 			}
 			if (guns.size() < 1) {
@@ -1182,7 +1182,6 @@ public class PEW extends PApplet{
 			waveShipsEnd = 0;
 			waveType = 0;
 			path = 1;
-			newWave();
 		}
 		
 		void reset() {
@@ -2087,7 +2086,7 @@ public class PEW extends PApplet{
 		public int getHealth() {
 			return health;
 		}
-
+		
 		public void hit() {
 			// s.play(2);
 			health--;
