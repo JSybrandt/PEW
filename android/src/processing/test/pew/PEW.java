@@ -133,7 +133,6 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
-<<<<<<< HEAD
 		img = loadImage("Turret flash.png"); //15
 		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
 		loadedPics.add(img);
@@ -145,8 +144,7 @@ public class PEW extends PApplet{
 		img = loadImage("TimeDown.png"); //17
 		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
 		loadedPics.add(img);
-=======
->>>>>>> origin/new-boss
+
 		
 		
 		img = loadImage("spaceship.png");// #0
@@ -933,10 +931,7 @@ public class PEW extends PApplet{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX+img.width/2-i,locY+tempY, 50);
 			}
-<<<<<<< HEAD
-=======
 			level.bossDeath();
->>>>>>> origin/new-boss
 			super.blowUp();
 		}
 		public void selectNewGun() {
