@@ -1101,6 +1101,7 @@ public class PEW extends PApplet{
 			flashed = false;
 			radius = 175;
 			flip = gen.nextBoolean();
+			getNewGun();
 		}
 		
 		public void act() {
