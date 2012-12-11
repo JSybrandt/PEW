@@ -838,6 +838,7 @@ public class PEW extends PApplet{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX+img.width/2-i,locY+tempY, 50);
 			}
+			super.blowUp();
 		}
 		public void selectNewGun() {
 			int selection = gen.nextInt(guns.size());
@@ -1456,7 +1457,7 @@ public class PEW extends PApplet{
 	public class PlayerGunLev7 extends Gun {
 		public void shoot(int xpos, int ypos) {
 			sound.play(sound.pew);
-			for(int i = -10; i <= 10; i+=5)
+			for(int i = -10; i <= 10; i+=10)
 			{
 				new PlayerBullet(xpos+i, ypos, 0, -30);
 			}
@@ -2058,7 +2059,6 @@ public class PEW extends PApplet{
 			if (count % freq == 0)
 				shoot();
 			if(img == loadedPics.get(15))
-			
 				img = loadedPics.get(4);
 		}
 
@@ -2085,6 +2085,12 @@ public class PEW extends PApplet{
 			// s.play(2);
 			health--;
 			img = loadedPics.get(15);
+		}
+		public void display()
+		{
+			super.display();
+			if(img == loadedPics.get(15))
+				img = loadedPics.get(4);
 		}
 	}
 
