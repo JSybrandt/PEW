@@ -875,8 +875,8 @@ public class PEW extends PApplet{
 
 		public void detonate() {
 			for (float degree = 0; degree < 2 * PI; degree += PI / 12) {
-				int dispx = (int) (speed * sin(degree));
-				int dispy = (int) (speed * cos(degree));
+				int dispx = (int) (speed * sin(degree)*3);
+				int dispy = (int) (speed * cos(degree)*3);
 				new Bullet(locX, locY, dispx, dispy);
 			}
 		}
@@ -1072,7 +1072,7 @@ public class PEW extends PApplet{
 	
 	public class DeathLotus extends enemyShip {
 		int pausetime, phasetime, currentWep, baseFreq;
-		boolean flyingIn, moving, shooting, flip;
+		boolean flyingIn, moving, shooting, flip, flashed;
 		ArrayList<Gun> weapons = new ArrayList<Gun>();
 		DeathLotus(int hp, int shotFreq, int wait, int phase) {
 			super(10, shotFreq, hp, 10, 7);
@@ -1086,6 +1086,8 @@ public class PEW extends PApplet{
 			flyingIn = true;
 			shooting = false;
 			moving = false;
+			flashed = false;
+			radius = 175;
 			flip = gen.nextBoolean();
 		}
 		
@@ -1108,11 +1110,20 @@ public class PEW extends PApplet{
 			count++;
 			if (count > 10000)
 				count = 0;
+			if(flashed)
+			{
+				super.img = loadedShipPics.get(10);
+			}
 		}
-		
+		public void hit()
+		{
+			super.img = loadedShipFlashPics.get(10);
+			flashed = true;
+			super.hit();
+		}
 		public void move() {
 			if (flyingIn) {
-				locY += 3*speed;
+				locY += 1.5*speed;
 				if (locY >= displayHeight/3)
 					flyingIn = false;
 			} else {
@@ -1269,6 +1280,7 @@ public class PEW extends PApplet{
 		}
 		public void act() {
 			frameRate(40);
+			player.incrementScoreMultiplyer(5);
 			super.act();
 		}
 		public void doEffect() {
@@ -1276,6 +1288,7 @@ public class PEW extends PApplet{
 
 		}
 		public void removeEffect() {
+			player.incrementScoreMultiplyer(-5);
 			frameRate(30);
 			player.incrementScoreMultiplyer(-5);
 		}
@@ -1520,7 +1533,7 @@ public class PEW extends PApplet{
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
 
-				rando = gen.nextInt(7)+1;
+				rando = gen.nextInt(6)+1;
 				Drone s = new Drone(rando+2, shipFreq, 2*shipHP, path, shipSpeed);
 				s.setGun(selectGun(rando));
 
@@ -1543,7 +1556,7 @@ public class PEW extends PApplet{
 			shipHP = 2 + 2*waveNum / 3;
 			shipSpeed = (int)((displayWidth/480.0)*5 + waveNum / 2);
 			uniqueRarity =  5 + 2*waveNum;
-			shipImage = gen.nextInt(3)+2;
+			shipImage = 2;
 		}
 		
 		public void bossDeath() {
@@ -2239,7 +2252,7 @@ public class PEW extends PApplet{
 
 	public class SpiralGun extends Gun {
 		float degree = 0;
-		int speed = (int)((displayWidth/480.0)*5);
+		int speed = (int)((displayWidth/480.0)*7);
 		int dispx, dispy;
 
 		SpiralGun() {
@@ -2295,8 +2308,8 @@ public class PEW extends PApplet{
 
 		public void shoot(int locX, int locY) {
 			for (degree = 0; degree < 2 * PI; degree += PI / 12) {
-				dispx = (int) (speed * sin(degree));
-				dispy = (int) (speed * cos(degree));
+				dispx = (int) (speed * sin(degree)*3);
+				dispy = (int) (speed * cos(degree)*3);
 				new Bullet(locX, locY, dispx, dispy);
 				// print(""+dispx +","+ dispy);
 			}
