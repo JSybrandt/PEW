@@ -922,30 +922,27 @@ public class PEW extends PApplet{
 	}
 	
 	public class DeathLotus extends enemyShip {
-		int pausetime, phasetime;
-		boolean moving, shooting;
+		int pausetime, phasetime, rando, baseFreq;
+		boolean flyingIn, moving, shooting, flip;
 		ArrayList<Gun> weapons = new ArrayList<Gun>();
-		DeathLotus(int hp, int shotfreq, int wait, int phase) {
-			super(3, shotfreq, hp, 10, 7);
+		DeathLotus(int hp, int shotFreq, int wait, int phase) {
+			super(3, shotFreq, hp, 10, 7);
+			baseFreq = shotFreq;
 			weapons.add(new StarGun());
 			weapons.add(new SpreadGunE());
 			weapons.add(new SpiralGun());
-			weapon = weapons.get(gen.nextInt(3));
 			count = 0;
 			pausetime = wait;
 			phasetime = phase;
-			moving = true;
+			flyingIn = true;
 			shooting = false;
+			moving = false;
+			flip = gen.nextBoolean();
 		}
 		
 		public void act() {
 			super.display();
-			if (moving) {
-				move();
-				if (locY >= displayHeight/3)
-					moving = false;
-					shooting = true;
-			} else if (shooting) {
+			if (shooting) {
 				if (count%freq == 0)
 					super.shoot();
 				if (count > phasetime) {
@@ -957,13 +954,37 @@ public class PEW extends PApplet{
 				shooting = true;
 				count = 0;
 			}
+			move();
 			count++;
 			if (count > 10000)
 				count = 0;
 		}
 		
 		public void move() {
-			locY += speed;
+			if (flyingIn) {
+				locY += 3*speed;
+				if (locY >= displayHeight/3)
+					flyingIn = false;
+			} else {
+				if (flip) {
+					locX += speed;
+				} else {
+					locX -= speed;
+				}
+				if (locX < displayWidth/4 || locX > 3*displayWidth/4) {
+					flip = !flip;
+				}
+			}
+		}
+		
+		public void getNewGun() {
+			rando = gen.nextInt(3);
+			weapon = weapons.get(rando);
+			if (rando == 3) {
+				freq = baseFreq/4; 
+			} else {
+				freq = baseFreq;
+			}
 		}
 		
 		public void blowUp() {
@@ -1293,7 +1314,7 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnLotus() {
-			enemyShips.add(new DeathLotus(50*shipHP, shipFreq/5, 60, 300));
+			enemyShips.add(new DeathLotus(50*shipHP, shipFreq/4, 20, 300));
 		}
 		
 		void spawnShip() {
