@@ -337,7 +337,7 @@ public class PEW extends PApplet{
 		menu = new Menu();
 		showMenu = true;
 		playGame = false;
-		bghandle.setBG("spaceBackground.png");
+		bghandle.setBG("Background.png");
 
 		imageMode(CENTER);
 		smooth();
@@ -828,6 +828,16 @@ public class PEW extends PApplet{
 			if (upcomingScrolly >= displayHeight)
 				flip();
 		}
+		public void getNewBG()
+		{
+			int i = gen.nextInt(3);
+			if(i == 0)
+				loadNewImg("Background");
+			if(i == 1)
+				loadNewImg("Background2");
+			if(i == 2)
+				loadNewImg("Background3");
+		}
 
 		public void loadNewImg(String img) {
 			upcomingImg = loadImage(img);
@@ -972,7 +982,9 @@ public class PEW extends PApplet{
 				new Money(locX+img.width/2-i,locY+tempY, 50);
 			}
 			level.bossDeath();
+			bghandle.getNewBG();
 			super.blowUp();
+			
 		}
 		public void selectNewGun() {
 			int selection = gen.nextInt(guns.size());
@@ -1155,6 +1167,7 @@ public class PEW extends PApplet{
 				for (int j=locY-50; i<locY+50; i+=10) {
 					new Money(i, j, 8);
 				}
+				bghandle.getNewBG();
 			}
 		}
 	}
@@ -1284,7 +1297,6 @@ public class PEW extends PApplet{
 			super.act();
 		}
 		public void doEffect() {
-		player.incrementScoreMultiplyer(5);
 
 		}
 		public void removeEffect() {
