@@ -1142,12 +1142,13 @@ public class PEW extends PApplet{
 	public class TimeUp extends PowerUp {
 		TimeUp(int locX, int locY) {
 			super(locX, locY, 16);
+			lifeSpan = 333;
 		}
-		public void act()
-		{
+		public void act() {
 			frameRate(40);
+			super.act();
 		}
-		public void doEffect(){
+		public void doEffect() {
 			
 		}
 		public void removeEffect() {
@@ -1158,10 +1159,12 @@ public class PEW extends PApplet{
 	public class TimeDown extends PowerUp {
 		TimeDown(int locX, int locY) {
 			super(locX, locY, 17);
+			lifeSpan = 167;
 		}
 		public void act()
 		{
 			frameRate(20);
+			super.act();
 		}
 		public void doEffect(){
 			
