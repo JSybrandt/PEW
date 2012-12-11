@@ -133,6 +133,7 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
+<<<<<<< HEAD
 		img = loadImage("Turret flash.png"); //15
 		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
 		loadedPics.add(img);
@@ -144,6 +145,8 @@ public class PEW extends PApplet{
 		img = loadImage("TimeDown.png"); //17
 		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
 		loadedPics.add(img);
+=======
+>>>>>>> origin/new-boss
 		
 		
 		img = loadImage("spaceship.png");// #0
@@ -872,13 +875,13 @@ public class PEW extends PApplet{
 		int[] turretsY = { 136, 136, 136, 90, 18, 90, 18, 162, 162, 162, 162,
 				166, 82, 82, 82, 82 };
 		int count;
-		boolean moving, shooting;
+		boolean moving, shooting, flyingIn;
 		int activeGun;
 		Turret activeTurret;
 		int destinationX, destinationY;
 
 		Cruiser(ArrayList<Turret> g) {
-			super(1, 7, 1000, 2000, 6);
+			super(1, 7, 1000, 10, 6);
 			guns = g;
 			prepairTurrets();
 			count = 0;
@@ -909,16 +912,19 @@ public class PEW extends PApplet{
 		public void act() {
 			display();
 			displayTurrets();
-			checkTurrentHealths();
-			if (moving)
-				move();
-			else if (shooting)
-				shoot();
-			else if (guns.size() > 0)
-				selectNewGun();
-			else
-				blowUp();
-
+			if (flyingIn) {
+				locY -= speed;
+			} else {
+				checkTurrentHealths();
+				if (moving)
+					move();
+				else if (shooting)
+					shoot();
+				else if (guns.size() > 0)
+					selectNewGun();
+				else if (guns.size() == 0)
+					blowUp();
+			}
 		}
 		public void blowUp()
 		{
@@ -927,6 +933,10 @@ public class PEW extends PApplet{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX+img.width/2-i,locY+tempY, 50);
 			}
+<<<<<<< HEAD
+=======
+			level.bossDeath();
+>>>>>>> origin/new-boss
 			super.blowUp();
 		}
 		public void selectNewGun() {
@@ -1006,9 +1016,9 @@ public class PEW extends PApplet{
 				if (guns.get(i).getHealth() < 1) {
 					if (guns.get(i) == activeTurret)
 						shooting = false;
-
+					EnemyExplosion s = new EnemyExplosion(guns.get(i).locX, guns.get(i).locY);
+					animations.add(s);
 					guns.remove(i);
-
 				}
 			}
 			if (guns.size() < 1) {
@@ -1022,6 +1032,84 @@ public class PEW extends PApplet{
 
 		public void hit() {
 			// do nothing;
+		;}
+	}
+	
+	public class DeathLotus extends enemyShip {
+		int pausetime, phasetime, currentWep, baseFreq;
+		boolean flyingIn, moving, shooting, flip;
+		ArrayList<Gun> weapons = new ArrayList<Gun>();
+		DeathLotus(int hp, int shotFreq, int wait, int phase) {
+			super(3, shotFreq, hp, 10, 7);
+			baseFreq = shotFreq;
+			weapons.add(new StarGun());
+			weapons.add(new SpreadGunE());
+			weapons.add(new SpiralGun());
+			count = 0;
+			pausetime = wait;
+			phasetime = phase;
+			flyingIn = true;
+			shooting = false;
+			moving = false;
+			flip = gen.nextBoolean();
+		}
+		
+		public void act() {
+			super.display();
+			if (shooting) {
+				if (count%freq == 0)
+					super.shoot();
+				if (count > phasetime) {
+					shooting = false;
+					getNewGun();
+					count = 0;
+				}
+			} else if (count > pausetime) {
+				shooting = true;
+				count = 0;
+			}
+			if (currentWep != 2)
+				move();
+			count++;
+			if (count > 10000)
+				count = 0;
+		}
+		
+		public void move() {
+			if (flyingIn) {
+				locY += 3*speed;
+				if (locY >= displayHeight/3)
+					flyingIn = false;
+			} else {
+				if (flip) {
+					locX += speed;
+				} else {
+					locX -= speed;
+				}
+				if (locX < displayWidth/4 || locX > 3*displayWidth/4) {
+					flip = !flip;
+				}
+			}
+		}
+		
+		public void getNewGun() {
+			currentWep = gen.nextInt(3);
+			weapon = weapons.get(currentWep);
+			if (currentWep == 2) {
+				freq = baseFreq/4; 
+			} else {
+				freq = baseFreq;
+			}
+		}
+		
+		public void blowUp() {
+			level.bossDeath();
+			removeSelf();
+			for (int i=locX-50; i<locX+50; i+=10) {
+				for (int j=locY-50; i<locY+50; i+=10) {
+					new Money(i, j, 8);
+				}
+			}
 		}
 	}
 
@@ -1271,18 +1359,17 @@ public class PEW extends PApplet{
 	}
 
 	public class Level {
-		int waveNum, count;
-		boolean flip, inWave;
+		int waveNum, count, rando;
+		boolean flip, inWave, bossWave;
 		int waveShipsSpawned, waveShipsEnd, waveType;
-		int path;
-		int spawnFreq, shipFreq, shipHP, shipSpeed, uniqueRarity, shipImage;
-		int rando;
+		int path, spawnFreq, shipFreq, shipHP, shipSpeed, uniqueRarity, shipImage;
 		
 		Level() {
 			count = 0;
 			waveNum = 0;
 			flip = true;
 			inWave = false;
+			bossWave = false;
 			waveShipsSpawned = 0;
 			waveShipsEnd = 0;
 			waveType = 0;
@@ -1294,35 +1381,36 @@ public class PEW extends PApplet{
 			waveNum = 0;
 			flip = true;
 			inWave = false;
+			bossWave = false;
 			waveShipsSpawned = 0;
 			waveShipsEnd = 0;
 			waveType = 0;
 			path = 1;
+			newWave();
 		}
 		
 		void spawn() {
-			if (inWave) {
-				if (waveNum%8 == 7 && enemyShips.size() == 0) {
-					spawnCruiser();
-				} else {
-					if (count%spawnFreq == 0) {
-						if (waveType == 0)
-							spawnScissor();
-						if (waveType == 1)
-							spawnSideToSide();
-						if (waveType == 2)
-							spawnSidewaysRight();
-						if (waveType == 3)
-							spawnSidewaysLeft();
-						if (waveType == 4)
-							spawnWildcard();
-					}
+			if (inWave && !bossWave) {
+				if (count%spawnFreq == 0) {
+					if (waveType == 0)
+						spawnScissor();
+					if (waveType == 1)
+						spawnSideToSide();
+					if (waveType == 2)
+						spawnSidewaysRight();
+					if (waveType == 3)
+						spawnSidewaysLeft();
+					if (waveType == 4)
+						spawnWildcard();
 				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
-			} else {
+			}
+			if (!inWave && !bossWave) {
 				if (enemyShips.size() == 0) {
 					newWave();
+					if (waveNum%8 == 7)
+						spawnBoss();
 				}
 			}
 			count++;
@@ -1367,6 +1455,15 @@ public class PEW extends PApplet{
 			spawnShip();
 		}
 		
+		void spawnBoss() {
+			bossWave = true;
+			rando = gen.nextInt(2);
+			if (rando == 0)
+				spawnCruiser();
+			if (rando == 1)
+				spawnLotus();
+		}
+		
 		void spawnCruiser() {
 			ArrayList<Turret> guns = new ArrayList<Turret>();
 			for (int i=0; i<16; i++) {
@@ -1379,10 +1476,14 @@ public class PEW extends PApplet{
 			enemyShips.add(new Cruiser(guns));
 		}
 		
+		void spawnLotus() {
+			enemyShips.add(new DeathLotus(70*shipHP, shipFreq/4, 20, 300));
+		}
+		
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
 				rando = gen.nextInt(3)+2;
-				Drone s = new Drone(rando, shipFreq, 2*shipHP, path, shipSpeed);
+				Drone s = new Drone(rando, shipFreq, 3*shipHP/2, path, shipSpeed);
 				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
@@ -1397,13 +1498,18 @@ public class PEW extends PApplet{
 			inWave = true;
 			waveType = gen.nextInt(5);
 			waveShipsSpawned = 0;
-			waveShipsEnd = waveNum * 2 + 10;
-			spawnFreq = 30 - waveNum / 2;
-			shipFreq = 25 - waveNum / 3;
-			shipHP = 2 + waveNum;
+			waveShipsEnd = waveNum * 2 + 8;
+			spawnFreq = 25 - waveNum / 2;
+			shipFreq = 25 - waveNum / 2;
+			shipHP = 2 + 2*waveNum / 3;
 			shipSpeed = (int)((displayWidth/480.0)*5 + waveNum / 2);
-			uniqueRarity =  5 + waveNum;
+			uniqueRarity =  5 + 2*waveNum;
 			shipImage = gen.nextInt(3)+2;
+		}
+		
+		public void bossDeath() {
+			bossWave = false;
+			inWave = false;
 		}
 	}
 
@@ -2225,7 +2331,7 @@ public class PEW extends PApplet{
 		public int getHealth() {
 			return health;
 		}
-
+		
 		public void hit() {
 			// s.play(2);
 			health--;
@@ -2283,8 +2389,10 @@ public class PEW extends PApplet{
 				xinit = locX = displayWidth + 100;
 				yinit = locY = displayHeight/5;
 			}
-			
-			
+			if (path == 10) {						//cruiser & lotus
+				xinit = locX = displayWidth/2;
+				yinit = locY = -300;
+			}
 		}
 
 		public void act() {
