@@ -396,6 +396,7 @@ public class PEW extends PApplet{
 			}
 			
 			textAlign(LEFT);
+			textSize((int)((displayWidth/480.0)*24));
 			text("Score: " + player.getScore() +"   X"+player.scoreMultiplyer, displayWidth / 20, displayHeight / 20);
 
 			// text("Bullet Count: " + (enemyBullets.size() +
