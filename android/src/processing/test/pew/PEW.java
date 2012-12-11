@@ -137,6 +137,14 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
 		loadedPics.add(img);
 		
+		img = loadImage("TimeUp.png"); //16
+		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		loadedPics.add(img);
+		
+		img = loadImage("TimeDown.png"); //17
+		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		loadedPics.add(img);
+		
 		
 		img = loadImage("spaceship.png");// #0
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
@@ -1130,6 +1138,38 @@ public class PEW extends PApplet{
 		}
 
 	}
+	
+	public class TimeUp extends PowerUp {
+		TimeUp(int locX, int locY) {
+			super(locX, locY, 16);
+		}
+		public void act()
+		{
+			frameRate(40);
+		}
+		public void doEffect(){
+			
+		}
+		public void removeEffect() {
+			frameRate(30);
+		}
+	}
+	
+	public class TimeDown extends PowerUp {
+		TimeDown(int locX, int locY) {
+			super(locX, locY, 17);
+		}
+		public void act()
+		{
+			frameRate(20);
+		}
+		public void doEffect(){
+			
+		}
+		public void removeEffect() {
+			frameRate(30);
+		}
+	}
 
 	public class HelixGun extends Gun {
 		HelixGun() {
@@ -1838,7 +1878,7 @@ public class PEW extends PApplet{
 	//CHANGE THIS LATER
 	void makeRandPowerUp(int i, int j)
 	{
-		int b = gen.nextInt(10);
+		int b = gen.nextInt(12);
 		if (b == 0)
 			new Hallucinate(i,j);
 		if (b>=1&&b<=4)
@@ -1851,6 +1891,10 @@ public class PEW extends PApplet{
 			new scoreX2(i,j);
 		if(b ==9)
 			new scoreX3(i,j);
+		if(b ==10)
+			new TimeUp(i,j);
+		if(b ==11)
+			new TimeDown(i,j);
 	}
 	
 	abstract class Projectile extends Actor {
