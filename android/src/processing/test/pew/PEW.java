@@ -476,6 +476,7 @@ public class PEW extends PApplet{
 
 	public void printCredits() {
 		textAlign(CENTER);
+		textSize((int)((displayWidth/480.0)*25));
 		text("Lead Designer -- \nJustin \"Nalta\" Sybrandt\n\n" +
 				"Code Monkey -- \nCaelan \"Darkfire16\" Mayberry\n\n" +
 				"Code Alpaca -- \nMike \"reason\" Boom\n\n"+
