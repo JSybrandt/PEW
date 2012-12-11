@@ -822,8 +822,8 @@ public class PEW extends PApplet{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX-img.width/2-i,locY+tempY, 50);
 			}
-			level.setBossFalse();
-			super.removeSelf();
+			level.bossDeath();
+			super.blowUp();
 		}
 		public void selectNewGun() {
 			int selection = gen.nextInt(guns.size());
@@ -902,9 +902,9 @@ public class PEW extends PApplet{
 				if (guns.get(i).getHealth() < 1) {
 					if (guns.get(i) == activeTurret)
 						shooting = false;
-					guns.remove(i);
 					EnemyExplosion s = new EnemyExplosion(guns.get(i).locX, guns.get(i).locY);
 					animations.add(s);
+					guns.remove(i);
 				}
 			}
 			if (guns.size() < 1) {
@@ -989,7 +989,7 @@ public class PEW extends PApplet{
 		}
 		
 		public void blowUp() {
-			level.setBossFalse();
+			level.bossDeath();
 			removeSelf();
 			for (int i=locX-50; i<locX+50; i+=10) {
 				for (int j=locY-50; i<locY+50; i+=10) {
@@ -1212,6 +1212,7 @@ public class PEW extends PApplet{
 			waveNum = 0;
 			flip = true;
 			inWave = false;
+			bossWave = false;
 			waveShipsSpawned = 0;
 			waveShipsEnd = 0;
 			waveType = 0;
@@ -1223,6 +1224,7 @@ public class PEW extends PApplet{
 			waveNum = 0;
 			flip = true;
 			inWave = false;
+			bossWave = false;
 			waveShipsSpawned = 0;
 			waveShipsEnd = 0;
 			waveType = 0;
@@ -1246,10 +1248,13 @@ public class PEW extends PApplet{
 				}
 				if (waveShipsSpawned >= waveShipsEnd)
 					inWave = false;
-			} else if (enemyShips.size() == 0) {
-				newWave();
-				if (waveNum%8 == 7)
-					spawnBoss();
+			}
+			if (!inWave && !bossWave) {
+				if (enemyShips.size() == 0) {
+					newWave();
+					if (waveNum%8 == 7)
+						spawnBoss();
+				}
 			}
 			count++;
 			if (count == 10000)
@@ -1345,8 +1350,9 @@ public class PEW extends PApplet{
 			shipImage = gen.nextInt(3)+2;
 		}
 		
-		public void setBossFalse() {
+		public void bossDeath() {
 			bossWave = false;
+			inWave = false;
 		}
 	}
 
