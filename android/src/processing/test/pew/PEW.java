@@ -1506,15 +1506,11 @@ public class PEW extends PApplet{
 		
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
-<<<<<<< HEAD
+
 				rando = gen.nextInt(8);
 				Drone s = new Drone(rando+2, shipFreq, 2*shipHP, path, shipSpeed);
 				s.setGun(selectGun(rando));
-=======
-				rando = gen.nextInt(3)+2;
-				Drone s = new Drone(rando, shipFreq, 3*shipHP/2, path, shipSpeed);
-				s.setGun(getRandGun());
->>>>>>> 4d7aeb57e18b989f2a93dc45566ffa0839bc5a8e
+
 				enemyShips.add(s);
 			} else {
 				Drone s = new Drone(shipImage, shipFreq, shipHP, path, shipSpeed);
