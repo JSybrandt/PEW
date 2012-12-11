@@ -41,13 +41,16 @@ public class PEW extends PApplet{
 	ArrayList<Item> items = new ArrayList<Item>();// misc stuff and items
 	ArrayList<PowerUp> activePowerUps = new ArrayList<PowerUp>();
 	ArrayList<Animation> animations = new ArrayList<Animation>();
+	ArrayList<Integer> highscore = new ArrayList<Integer>();
+	
 
+	
 	PFont fontG;
 	String highscoreFile = "highscore.txt";
 	final String GO = "Game Over";
 	PrintWriter output;
 	BufferedReader reader;
-	int highscoretop, highscoremid, highscorebottom, points;
+	int points;
 	Vibrator v;
 	Random gen = new Random();
 
@@ -58,7 +61,7 @@ public class PEW extends PApplet{
 	boolean alreadyStartedMusic = false;
 	boolean playerWantsbgSound = true, playerWantscuedSound = true, playerWantsvib= true;
 	public Menu menu;
-
+	boolean scoreCalled = false;
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedShipPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedShipFlashPics = new ArrayList<PImage>();
@@ -273,7 +276,10 @@ public class PEW extends PApplet{
 			canVibrate = true;
 		startUp = false;
 
-
+		for (int i = 0; i < 10; i++) {
+			  highscore.add(0);
+			}
+		
 		sound.setUp();
 
 		fontG = createFont("Constantia", ((int)((displayWidth/480.0)*48)));
@@ -496,14 +502,22 @@ public class PEW extends PApplet{
 	}
 
 	public void printHighScores() {
+		importHighscore();
+		
 		textAlign(CENTER);
 		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text("Your Highscore is:\n" + highscoretop, displayWidth / 2, displayHeight / 4);
-
-		text("\nAND YOU SHOULD FEEL BAD\nREALLY BAD\nGET OUT\n(0.0)",
-				displayWidth / 2, displayHeight / 3);
+		text("Your #1 Highscore is: " + highscore.get(0) + "\n"
+				+ "Your #2 Highscore is: " + highscore.get(1) + "\n"
+				+ "Your #3 Highscore is: " + highscore.get(2) + "\n"
+				+ "Your #4 Highscore is: " + highscore.get(3) + "\n"
+				+ "Your #5 Highscore is: " + highscore.get(4) + "\n"
+				+ "Your #6 Highscore is: " + highscore.get(5) + "\n"
+				+ "Your #7 Highscore is: " + highscore.get(6) + "\n"
+				+ "Your #8 Highscore is: " + highscore.get(7) + "\n"
+				+ "Your #9 Highscore is: " + highscore.get(8) + "\n"
+				+ "Your #10 Highscore is: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			textSize((int)(displayWidth/480.0)*24);
@@ -632,6 +646,12 @@ public class PEW extends PApplet{
 	}
 
 	public void printDeath() {
+		if(scoreCalled == false) {
+		updateHighscore();
+		println("UPDATED SCORE");
+
+		scoreCalled = true;
+		}
 		GameOverMessage(GO);
 	}
 
@@ -1039,7 +1059,7 @@ public class PEW extends PApplet{
 		textFont(fontG);
 		fill(110, 50, 255);
 		textAlign(CENTER);
-		text(msg + "\nScore: " + points + "\nHigh Score: " + highscoretop,
+		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore.get(0),
 				displayWidth / 2, displayHeight / 2);
 
 		if (mousePressed && mouseY < displayHeight / 6) {
@@ -1058,6 +1078,7 @@ public class PEW extends PApplet{
 			playGame = false;
 			points = 0;
 			tick = 0;
+			scoreCalled = false;
 			psychedelicMode = false;
 			player = new PlayerShip(displayWidth / 2, (4 * displayHeight) / 5);
 			
@@ -1106,41 +1127,40 @@ public class PEW extends PApplet{
 		}
 	}
 
-	public void importHighscore() {
-		// Open the file from the createWriter()
-		reader = createReader(highscoreFile);
-		if (reader == null) {
-			highscoretop = 0;
-			return;
-		}
-		String line;
-		try {
-			line = reader.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-			line = null;
-		}
-		if (line != null) {
-			highscoretop = PApplet.parseInt(line);
-			println(highscoretop);
-		}
-		try {
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
-	public void updateHighscore() {
-		if (highscoretop < points) {
-			highscoretop = points;
-			// Create a new file in the sketch directory
-			output = createWriter(highscoreFile);
-			output.println(highscoretop);
-			output.close(); // Writes the remaining data to the file & Finishes
-							// the file
+	void saveScore() {
+		  String[] scores = new String[10];
+		  
+		  for(int go = 0; go < 10; go++) {
+		  scores[go] = highscore.get(go)+"";
+		  }
+		  
+		  saveStrings("score.txt", scores);
 		}
-	}
+	
+		void importHighscore() {
+		  try {
+		  String[] scores = loadStrings("score.txt");
+		  
+		  	for(int go = 0; go < 10; go++){
+		  	highscore.set(go, Integer.parseInt(scores[go]));  	
+		  	}
+		  }
+		  catch (NullPointerException e){
+		    println("shabba");
+		  }
+		}
+
+		public void updateHighscore() {
+			for(int i = 0; i < 10; i++) {
+				if (points > highscore.get(i)) {
+					highscore.add(i, points);
+					saveScore();
+					break;
+				}
+			}
+		}
+
 
 	abstract class Item extends Actor {
 		int worth;
@@ -1177,16 +1197,6 @@ public class PEW extends PApplet{
 	public void keyPressed() {
 		if (key == ' ')
 			player.shoot();
-
-		if (key == 'c') // Clear highscore
-		{
-			highscoretop = 0;
-			// Create a new file in the sketch directory
-			output = createWriter(highscoreFile);
-			output.println(highscoretop);
-			output.close(); // Writes the remaining data to the file & Finishes
-							// the file
-		}
 
 		// this gets switched around when porting to android
 		// if(key == 'r')
@@ -1631,8 +1641,13 @@ public class PEW extends PApplet{
 			img = loadedShipFlashPics.get(0);
 			flashed = true;
 			scoreMultiplyer=1;
+<<<<<<< HEAD
 			if(playerWantsvib)
 			v.vibrate(300);
+=======
+//			if(canVibrate)
+//			v.vibrate(300);
+>>>>>>> origin/CaelansBranch
 		}
 		
 		public void incrementGunLev(int i)
@@ -1673,7 +1688,6 @@ public class PEW extends PApplet{
 			println("THE PLAYER HAS DIED");
 			PlayerExplosion ps = new PlayerExplosion(locX, locY);
 			animations.add(ps);
-			updateHighscore();
 		}
 
 		public void addMoney(int p) {
