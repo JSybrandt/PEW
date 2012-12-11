@@ -832,11 +832,11 @@ public class PEW extends PApplet{
 		{
 			int i = gen.nextInt(3);
 			if(i == 0)
-				loadNewImg("Background");
+				loadNewImg("Background.png");
 			if(i == 1)
-				loadNewImg("Background2");
+				loadNewImg("Background2.png");
 			if(i == 2)
-				loadNewImg("Background3");
+				loadNewImg("Background3.png");
 		}
 
 		public void loadNewImg(String img) {
