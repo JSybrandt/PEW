@@ -56,7 +56,7 @@ public class PEW extends PApplet{
 			showInstructions, showOptions;
 	boolean musicReady = false, startUp = true;
 	boolean alreadyStartedMusic = false;
-	boolean playerWantsbgSound = true;
+	boolean playerWantsbgSound = true, playerWantscuedSound = true, playerWantsvib= true;
 	public Menu menu;
 
 	ArrayList<PImage> loadedPics = new ArrayList<PImage>();
@@ -258,7 +258,16 @@ public class PEW extends PApplet{
 		//image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
 		super.onStart();
 	}
+	
+	
+	
 	public void setup() {
+		background(0xff000000);
+		textAlign(CENTER);
+		text("LOADING,\n" +
+				"sorry it takes a second.\n" +
+				"Hope it don't break!",
+				displayWidth / 2, displayHeight / 4);
 	//	Vibrator.hasVibrator();
 		if(true)
 			canVibrate = true;
@@ -507,7 +516,7 @@ public class PEW extends PApplet{
 	{
 		int locX, locY;
 		PImage onImage, offImage;
-		boolean on;
+		boolean on, currentlyPressed;
 		ToggleButton(PImage img,PImage img2 , int locX,int locY)
 		{
 			img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
@@ -516,7 +525,8 @@ public class PEW extends PApplet{
 			offImage = img2;
 			this.locX = locX;
 			this.locY = locY;
-			
+			currentlyPressed = false;
+			on = true;	
 		}
 		public void printSelf()
 		{
@@ -527,13 +537,16 @@ public class PEW extends PApplet{
 		}
 		public void checkClick()
 		{
-			if(mousePressed && mouseY>locY-(onImage.height/2.0)&&mouseY<locY+(onImage.height/2.0)
+			if(mousePressed)
+			{
+			if(!currentlyPressed&&mouseY>locY-(onImage.height/2.0)&&mouseY<locY+(onImage.height/2.0)
 					&&mouseX<locX+(onImage.width/2.0)&&mouseX>locX-(onImage.width/2.0))
 			{
-				
-				if(!mousePressed)
+				currentlyPressed = true;
 				this.doSomething();
 			}
+			}
+			else currentlyPressed = false;
 		}
 		public void doSomething()
 		{
@@ -549,13 +562,51 @@ public class PEW extends PApplet{
 		}
 		public void doSomething()
 		{
-			print("EXPLOSION!");
 			playerWantsbgSound = !playerWantsbgSound;
+			if(!playerWantsbgSound)
+			{
+				if(mediaPlayer.isPlaying())
+				mediaPlayer.pause();
+			}
+			else
+			{
+				if(!mediaPlayer.isPlaying())
+					mediaPlayer.start();
+			}
+			super.doSomething();
+		}
+	}
+	public class CuedSoundButton extends ToggleButton
+	{
+		CuedSoundButton()
+		{
+		super(loadImage("cuedmusicon.png"),loadImage("cuedmusicoff.png") ,
+				displayWidth / 2,(int)(displayHeight*(6 / 12.0)));
+		}
+		public void doSomething()
+		{
+			playerWantscuedSound = !playerWantscuedSound;
+			
+			super.doSomething();
+		}
+	}
+	public class VibrationButton extends ToggleButton
+	{
+		VibrationButton()
+		{
+		super(loadImage("vibrationon.png"),loadImage("vibrationoff.png") ,
+				displayWidth / 2,(int)(displayHeight*(8 / 12.0)));
+		}
+		public void doSomething()
+		{
+			playerWantsvib = !playerWantsvib;
 			super.doSomething();
 		}
 	}
 	
 	BackgroundSoundButton bgbutton = null;
+	CuedSoundButton qsoundbutt = null;
+	VibrationButton vibbutt = null;
 	public void printOptions() {
 			image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 						displayWidth, displayHeight / 6);
@@ -563,6 +614,14 @@ public class PEW extends PApplet{
 			bgbutton = new BackgroundSoundButton();
 		bgbutton.printSelf();
 		bgbutton.checkClick();
+		if(qsoundbutt == null)
+			qsoundbutt = new CuedSoundButton();
+		qsoundbutt.printSelf();
+		qsoundbutt.checkClick();
+		if(vibbutt == null)
+			vibbutt = new VibrationButton();
+		vibbutt.printSelf();
+		vibbutt.checkClick();
 		
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			
@@ -628,6 +687,7 @@ public class PEW extends PApplet{
 		sound.setUp();
 		if(mediaPlayer!=null)
 		{
+		if(playerWantsbgSound)
 		mediaPlayer.start();
 		print("THIS DIDNT MAKE ITSELF PROPERLY JERKWAD");
 		}
@@ -1319,11 +1379,20 @@ public class PEW extends PApplet{
 		public void showMenu() {
 			if(musicReady && !alreadyStartedMusic)
 			{
-			mediaPlayer.start();
 			alreadyStartedMusic = true;
+			mediaPlayer.start();
 			}
 			else
 				sound.buildPlayer();
+			
+			if(playerWantsbgSound)
+			{
+				if(mediaPlayer.isPlaying())
+				mediaPlayer.start();
+			}
+			else if(mediaPlayer.isPlaying())
+				mediaPlayer.pause();
+			
 
 			spawning = false;
 			playGame = false;
@@ -1562,7 +1631,7 @@ public class PEW extends PApplet{
 			img = loadedShipFlashPics.get(0);
 			flashed = true;
 			scoreMultiplyer=1;
-			if(canVibrate)
+			if(playerWantsvib)
 			v.vibrate(300);
 		}
 		
@@ -1898,6 +1967,7 @@ public class PEW extends PApplet{
 		}
 
 		public void play(int sound) {
+			if(playerWantscuedSound)
 			soundPool.play(sound, 1, 1, 0, 0, 1);// no idea why this is to be
 													// quite honest
 		}
