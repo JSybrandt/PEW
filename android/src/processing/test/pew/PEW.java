@@ -947,7 +947,7 @@ public class PEW extends PApplet{
 					super.shoot();
 				if (count > phasetime) {
 					shooting = false;
-					weapon = weapons.get(gen.nextInt(3));
+					getNewGun();
 					count = 0;
 				}
 			} else if (count > pausetime) {
