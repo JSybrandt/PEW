@@ -822,6 +822,7 @@ public class PEW extends PApplet{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX-img.width/2-i,locY+tempY, 50);
 			}
+			super.blowUp();
 			level.setBossFalse();
 		}
 		public void selectNewGun() {
