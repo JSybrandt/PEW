@@ -811,9 +811,9 @@ public class PEW extends PApplet{
 					shoot();
 				else if (guns.size() > 0)
 					selectNewGun();
+				else if (guns.size() == 0)
+					blowUp();
 			}
-			if (guns.size() == 0)
-				blowUp();
 		}
 		public void blowUp()
 		{
@@ -920,7 +920,6 @@ public class PEW extends PApplet{
 	}
 	
 	public class DeathLotus extends enemyShip {
-		Gun weapon;
 		int pausetime, phasetime;
 		boolean moving, shooting;
 		ArrayList<Gun> weapons = new ArrayList<Gun>();
@@ -929,6 +928,7 @@ public class PEW extends PApplet{
 			weapons.add(new StarGun());
 			weapons.add(new SpreadGunE());
 			weapons.add(new SpiralGun());
+			weapon = weapons.get(gen.nextInt(3));
 			count = 0;
 			pausetime = wait;
 			phasetime = phase;
@@ -937,6 +937,7 @@ public class PEW extends PApplet{
 		}
 		
 		public void act() {
+			super.display();
 			if (moving) {
 				move();
 				if (locY <= displayHeight/3)
@@ -944,7 +945,7 @@ public class PEW extends PApplet{
 					shooting = true;
 			} else if (shooting) {
 				if (count%freq == 0)
-					shoot();
+					super.shoot();
 				if (count > phasetime) {
 					shooting = false;
 					weapon = weapons.get(gen.nextInt(3));
@@ -960,7 +961,7 @@ public class PEW extends PApplet{
 		}
 		
 		public void move() {
-			locY -= speed;
+			locY += speed;
 		}
 	}
 
@@ -1167,12 +1168,10 @@ public class PEW extends PApplet{
 	}
 
 	public class Level {
-		int waveNum, count;
+		int waveNum, count, rando;
 		boolean flip, inWave;
 		int waveShipsSpawned, waveShipsEnd, waveType;
-		int path;
-		int spawnFreq, shipFreq, shipHP, shipSpeed, uniqueRarity, shipImage;
-		int rando;
+		int path, spawnFreq, shipFreq, shipHP, shipSpeed, uniqueRarity, shipImage;
 		
 		Level() {
 			count = 0;
@@ -1183,6 +1182,7 @@ public class PEW extends PApplet{
 			waveShipsEnd = 0;
 			waveType = 0;
 			path = 1;
+			newWave();
 		}
 		
 		void reset() {
@@ -1194,33 +1194,38 @@ public class PEW extends PApplet{
 			waveShipsEnd = 0;
 			waveType = 0;
 			path = 1;
+			newWave();
 		}
 		
 		void spawn() {
-			if (inWave) {
-				if (count%spawnFreq == 0) {
-					if (waveType == 0)
-						spawnScissor();
-					if (waveType == 1)
-						spawnSideToSide();
-					if (waveType == 2)
-						spawnSidewaysRight();
-					if (waveType == 3)
-						spawnSidewaysLeft();
-					if (waveType == 4)
-						spawnWildcard();
-				}
-				if (waveShipsSpawned >= waveShipsEnd)
-					inWave = false;
-			} else if (enemyShips.size() == 0) {
-				if (waveNum%8 == 7) 
-					spawnBoss();
-				else
-					newWave();
-			}
-			count++;
-			if (count == 10000)
-				count = 0;
+			
+			if (enemyShips.size()==0)
+				spawnLotus();
+			
+//			if (inWave) {
+//				if (count%spawnFreq == 0) {
+//					if (waveType == 0)
+//						spawnScissor();
+//					if (waveType == 1)
+//						spawnSideToSide();
+//					if (waveType == 2)
+//						spawnSidewaysRight();
+//					if (waveType == 3)
+//						spawnSidewaysLeft();
+//					if (waveType == 4)
+//						spawnWildcard();
+//				}
+//				if (waveShipsSpawned >= waveShipsEnd)
+//					inWave = false;
+//			} else if (enemyShips.size() == 0) {
+//				if (waveNum%8 == 7) 
+//					spawnBoss();
+//				else
+//					newWave();
+//			}
+//			count++;
+//			if (count == 10000)
+//				count = 0;
 		}
 		
 		void spawnScissor() {
@@ -1287,7 +1292,7 @@ public class PEW extends PApplet{
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
 				rando = gen.nextInt(3)+2;
-				Drone s = new Drone(rando, shipFreq, 2*shipHP, path, shipSpeed);
+				Drone s = new Drone(rando, shipFreq, 3*shipHP/2, path, shipSpeed);
 				s.setGun(getRandGun());
 				enemyShips.add(s);
 			} else {
@@ -1302,12 +1307,12 @@ public class PEW extends PApplet{
 			inWave = true;
 			waveType = gen.nextInt(5);
 			waveShipsSpawned = 0;
-			waveShipsEnd = waveNum * 2 + 10;
-			spawnFreq = 30 - waveNum / 2;
-			shipFreq = 25 - waveNum / 3;
-			shipHP = 2 + waveNum;
+			waveShipsEnd = waveNum * 2 + 8;
+			spawnFreq = 25 - waveNum / 2;
+			shipFreq = 25 - waveNum / 2;
+			shipHP = 2 + 2*waveNum / 3;
 			shipSpeed = (int)((displayWidth/480.0)*5 + waveNum / 2);
-			uniqueRarity =  5 + waveNum;
+			uniqueRarity =  5 + 2*waveNum;
 			shipImage = gen.nextInt(3)+2;
 		}
 	}
