@@ -90,7 +90,7 @@ public class PEW extends PApplet{
 		loadedPics.add(img);
 		
 		img = loadImage("Turret.png");// #4
-		img.resize((int)((displayWidth/480.0)*img.width)*2,(int)((displayHeight/800.0)*img.height)*2);
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
 		
 		img = loadImage("GunUpgrade.png");// #5
