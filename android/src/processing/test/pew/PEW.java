@@ -69,246 +69,341 @@ public class PEW extends PApplet{
 	ArrayList<PImage> loadedPlayerShipExpPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedBackgroundPics = new ArrayList<PImage>();
 	
+	static String t;
+	
+	  public static Bitmap decodeSampledBitmapFromFile(String path,
+		        int reqWidth, int reqHeight) { // BEST QUALITY MATCH
+
+		    // First decode with inJustDecodeBounds=true to check dimensions
+		    final BitmapFactory.Options options = new BitmapFactory.Options();
+		    options.inJustDecodeBounds = true;
+		    BitmapFactory.decodeFile(path);
+
+		    // Calculate inSampleSize
+		        // Raw height and width of image
+		        final int height = options.outHeight;
+		        final int width = options.outWidth;
+		        options.inPreferredConfig = Bitmap.Config.RGB_565;
+		        int inSampleSize = 1;
+
+		        if (height > reqHeight) {
+		            inSampleSize = Math.round((float)height / (float)reqHeight);
+		        }
+
+		        int expectedWidth = width / inSampleSize;
+
+		        if (expectedWidth > reqWidth) {
+		            //if(Math.round((float)width / (float)reqWidth) > inSampleSize) // If bigger SampSize..
+		            inSampleSize = Math.round((float)width / (float)reqWidth);
+		        }
+
+
+		    options.inSampleSize = inSampleSize;
+
+		    // Decode bitmap with inSampleSize set
+		    options.inJustDecodeBounds = false;
+		    
+		    	t = path;
+		        return BitmapFactory.decodeFile(path);
+		  }
+   
 	public void loadImages() {
 		 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		PImage img;
+		Bitmap img;
+		PImage newimg;
 		
-		img = loadImage("bullet.png");//#0
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("bullet.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+				newimg = loadImage(t);
+				loadedPics.add(newimg);
 		
-		img = loadImage("playerbullet.png");// #1
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("playerbullet.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("coin.png");// #2
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("coin.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("RocketE.png");// #3
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("RocketE.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("Turret.png");// #4
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("Turret.png",
+				(int)((displayWidth/480.0)*img.getWidth())*2, (int)((displayHeight/800.0)*img.getHeight())*2);
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("GunUpgrade.png");// #5
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("GunUpgrade.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("RocketE.png"); // #6
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("RocketE.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("MainMenu.png");// #7
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("MainMenu.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("PsychedelicPowerUp1.png");// #8
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("PsychedelicPowerUp.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
 		
 		//change for score multiplyers
-		img = loadImage("scorex1.png"); //9
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
-		img = loadImage("scorex2.png"); //10
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
-		img = loadImage("scorex3.png"); //11
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("scorex1.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
+		img = decodeSampledBitmapFromFile("scorex2.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
+		img = decodeSampledBitmapFromFile("scorex3.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
 		//going to be shield up
-		img = loadImage("ShieldUp.png"); //12
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("ShieldUp.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("Shield.png"); //13
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("Shield.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 			
-		img = loadImage("hpblip.png"); //14
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("hpblip.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("Turret flash.png"); //15
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("Turret flash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("TimeUp.png"); //16
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
+		img = decodeSampledBitmapFromFile("TimeUp.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
-		img = loadImage("TimeDown.png"); //17
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPics.add(img);
-		
-		img = loadImage("ScreenFlashWhite.png"); //18
-		img.resize((int)((displayWidth/480.0)*img.width*4),(int)((displayHeight/800.0)*img.height*4));
-		loadedPics.add(img);
-		
-		
-		img = loadImage("spaceship.png");// #0
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("Cruiser.png");// #1
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("Drone1.png");// #2
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("Drone2.png");// #3
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("Drone3.png");// #4
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("EnemyShipHelixGun.png");// #5
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("EnemyShipSpiralGun.png");// #6
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("EnemyShipSpreadGun.png");// #7
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("EnemyShipStarGun.png");// #8
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("EnemyShipMissile.png");// #9
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("DeathLotus.png");// #10
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipPics.add(img);
-		
-		img = loadImage("playerFlash.png"); // #0
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
-		
-		img = loadImage("bullet.png"); // #1 THIS IS A PLACEHOLDER
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
-		
-		img = loadImage("Drone1-hit.png"); // #2
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
-		
-		img = loadImage("Drone2-hit.png"); // #3
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
-		
-		img = loadImage("Drone3-hit.png"); // #4
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("TimeDown.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPics.add(newimg);
 		
 		
-		img = loadImage("EnemyShipHelixGunFlash.png");// #5
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("spaceship.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
 		
-		img = loadImage("EnemyShipSpiralGunFlash.png");// #6
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("Cruiser.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
 		
-		img = loadImage("EnemyShipSpreadGunFlash.png");// #7
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("Drone1.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
 		
-		img = loadImage("EnemyShipStarGunFlash.png");// #8
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("Drone2.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
 		
-		img = loadImage("EnemyShipMissileFlash.png");// #9
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("Drone3.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
 		
-		img = loadImage("DeathLotusFlash.png");// #10
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedShipFlashPics.add(img);
+		img = decodeSampledBitmapFromFile("EnemyShipHelixGun.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipSpiralGun.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipSpreadGun.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipStarGun.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipMissile.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("DeathLotus.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipPics.add(newimg);
 		
 		
+		img = decodeSampledBitmapFromFile("PlayerFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
-		img = loadImage("EnemyExplosion1.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("Bullet.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
-		img = loadImage("EnemyExplosion2.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("Drone1-hit.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
-		img = loadImage("EnemyExplosion3.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("Drone2-hit.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
-		img = loadImage("EnemyExplosion4.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("Drone3-hit.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
-		img = loadImage("EnemyExplosion5.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
 		
-		img = loadImage("EnemyExplosion6.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("EnemyShipHelixGunFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
-		img = loadImage("EnemyExplosion7.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedEnemyShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("EnemyShipSpiralGunFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipSpreadGunFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipStarGunFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyShipMissileFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("DeathLotusFlash.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedShipFlashPics.add(newimg);
 		
 		
 		
-		img = loadImage("PlayerExplosion1.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
-		;
-		img = loadImage("PlayerExplosion2.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("EnemyExplosion1.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyExplosion2.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyExplosion3.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyExplosion4.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyExplosion5.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyExplosion6.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("EnemyExplosion7.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedEnemyShipExpPics.add(newimg);
+		
+		
+		
+		img = decodeSampledBitmapFromFile("PlayerExplosion1.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
 
-		img = loadImage("PlayerExplosion3.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("PlayerExplosion2.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
+
+		img = decodeSampledBitmapFromFile("PlayerExplosion3.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
 		
-		img = loadImage("PlayerExplosion4.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("PlayerExplosion4.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
 		
-		img = loadImage("PlayerExplosion5.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("PlayerExplosion5.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
 		
-		img = loadImage("PlayerExplosion6.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("PlayerExplosion6.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
 		
-		img = loadImage("PlayerExplosion7.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
-		loadedPlayerShipExpPics.add(img);
+		img = decodeSampledBitmapFromFile("PlayerExplosion7.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedPlayerShipExpPics.add(newimg);
 		
-		img = loadImage("Background.png");
-		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
-		loadedBackgroundPics.add(img);
-		img = loadImage("Background2.png");
-		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
-		loadedBackgroundPics.add(img);
-		img = loadImage("Background3.png");
-		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
-		loadedBackgroundPics.add(img);
+		img = decodeSampledBitmapFromFile("Background.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedBackgroundPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("Background2.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedBackgroundPics.add(newimg);
+		
+		img = decodeSampledBitmapFromFile("Background3.png",
+				(int)((displayWidth/480.0)*img.getWidth()), (int)((displayHeight/800.0)*img.getHeight()));
+		newimg = loadImage(t);
+		loadedBackgroundPics.add(newimg);
 	}
 
 	BackgroundHandler bghandle = new BackgroundHandler();
