@@ -147,7 +147,7 @@ public class PEW extends PApplet{
 		loadedPics.add(img);
 		
 		img = loadImage("ScreenFlashWhite.png"); //18
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		img.resize((int)((displayWidth/480.0)*img.width*4),(int)((displayHeight/800.0)*img.height*4));
 		loadedPics.add(img);
 		
 		
@@ -301,13 +301,13 @@ public class PEW extends PApplet{
 		loadedPlayerShipExpPics.add(img);
 		
 		img = loadImage("Background.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
 		loadedBackgroundPics.add(img);
 		img = loadImage("Background2.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
 		loadedBackgroundPics.add(img);
 		img = loadImage("Background3.png");
-		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
 		loadedBackgroundPics.add(img);
 	}
 
@@ -1189,21 +1189,24 @@ public class PEW extends PApplet{
 		}
 		
 		public void blowUp() {
-			level.bossDeath();
-			removeSelf();
 			for (int i=locX-50; i<locX+50; i+=10) {
 				for (int j=locY-50; i<locY+50; i+=10) {
 					int r = gen.nextInt(200) - 100;
 					new Money(i, j+r, 8);
 				}
-				for(int b = 0; i < img.width; b+=75)
-				{
-					int r = gen.nextInt(200) - 100;
-				EnemyExplosion s = new EnemyExplosion(locX+img.width/2-b,locY+locY+r);		
-				animations.add(s);
-				}
-				bghandle.getNewBG();
 			}
+			for(int b = 0; b < img.width; b+=75)
+			{
+				int r = gen.nextInt(200) - 100;
+			EnemyExplosion s = new EnemyExplosion(locX+img.width/2-b,locY+locY+r);		
+			animations.add(s);
+			}
+			level.bossDeath();
+			removeSelf();
+			
+				
+				bghandle.getNewBG();
+			
 		}
 	}
 
