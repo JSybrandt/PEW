@@ -317,11 +317,7 @@ public class PEW extends PApplet{
 	public void onStart()
 	{
 		background(0xff000000);
-		textAlign(CENTER);
-		text("LOADING,\n" +
-				"sorry it takes a second.\n" +
-				"Hope it don't break!",
-				displayWidth / 2, displayHeight / 4);
+		
 		//image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
 		super.onStart();
 	}
@@ -329,7 +325,12 @@ public class PEW extends PApplet{
 	
 	
 	public void setup() {
-		
+		background(0xff000000);
+		textAlign(CENTER);
+		text("LOADING,\n" +
+				"sorry it takes a second.\n" +
+				"Hope it don't break!",
+				displayWidth / 2, displayHeight / 2);
 	//	Vibrator.hasVibrator();
 		if(true)
 			canVibrate = true;
@@ -777,7 +778,7 @@ public class PEW extends PApplet{
 		{
 		if(playerWantsbgSound)
 		mediaPlayer.start();
-		print("THIS DIDNT MAKE ITSELF PROPERLY JERKWAD");
+		//print("THIS DIDNT MAKE ITSELF PROPERLY JERKWAD");
 		}
 		}
 		showMenu = true;
@@ -853,7 +854,6 @@ public class PEW extends PApplet{
 
 		public void loadNewImg(int img) {
 			upcomingImg = loadedBackgroundPics.get(img);
-			upcomingScrolly = 0;
 		}
 
 		public void flip() {
@@ -905,11 +905,14 @@ public class PEW extends PApplet{
 	}
 
 	public class BombLauncher extends Gun {
+		boolean readyToLaunch = true;
 		BombLauncher() {
 		}
 
 		public void shoot(int locX, int locY) {
+			if(readyToLaunch)
 			new Bomb(locX, locY);
+			readyToLaunch = !readyToLaunch;
 		}
 	}
 
@@ -1005,7 +1008,7 @@ public class PEW extends PApplet{
 			// destinationY = activeTurret.getLocY();
 			activeGun = selection;
 			activeTurret = guns.get(selection);
-			print("" + selection + " at desintation " + destinationX + "\n");
+			//print("" + selection + " at desintation " + destinationX + "\n");
 			moving = true;
 		}
 
@@ -1034,13 +1037,13 @@ public class PEW extends PApplet{
 			}
 
 			moveTurrets(delX, delY);
-			print("%%" + (destinationX - locX));
+			//print("%%" + (destinationX - locX));
 
 			if (abs(destinationY - locY) < 10 && abs(destinationX) < 10) {
 				moving = false;
 				shooting = true;
 				count = 0;
-				print("From Moving to Shooting.");
+				//print("From Moving to Shooting.");
 			}
 		}
 
@@ -1563,7 +1566,7 @@ public class PEW extends PApplet{
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
 
-				rando = gen.nextInt(6)+1;
+				rando = gen.nextInt(7)+1;
 				Drone s = new Drone(rando+2, shipFreq, 3*shipHP/2, path, shipSpeed);
 				s.setGun(selectGun(rando));
 
@@ -2228,7 +2231,7 @@ public class PEW extends PApplet{
 																			// files
 				
 			} catch (IOException e) {
-				print("OOOOPPPPPPPPPPPPPPPPPPPSSSSSSSSSSSSSSSS");
+				//print("OOOOPPPPPPPPPPPPPPPPPPPSSSSSSSSSSSSSSSS");
 				e.printStackTrace(); // you can leave this empty...or use some
 										// other way to notify the
 										// user/developer something went wrong
