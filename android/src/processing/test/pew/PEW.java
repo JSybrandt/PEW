@@ -1540,14 +1540,14 @@ public class PEW extends PApplet{
 		}
 		
 		void spawnLotus() {
-			enemyShips.add(new DeathLotus(70*shipHP, shipFreq/4, 20, 300));
+			enemyShips.add(new DeathLotus(70*shipHP, shipFreq/2, 20, 200));
 		}
 		
 		void spawnShip() {
 			if (gen.nextInt(100) < uniqueRarity) {
 
 				rando = gen.nextInt(6)+1;
-				Drone s = new Drone(rando+2, shipFreq, 2*shipHP, path, shipSpeed);
+				Drone s = new Drone(rando+2, shipFreq, 3*shipHP/2, path, shipSpeed);
 				s.setGun(selectGun(rando));
 
 				enemyShips.add(s);
@@ -1563,11 +1563,11 @@ public class PEW extends PApplet{
 			inWave = true;
 			waveType = gen.nextInt(5);
 			waveShipsSpawned = 0;
-			waveShipsEnd = waveNum * 2 + 8;
-			spawnFreq = 25 - waveNum / 2;
-			shipFreq = 25 - waveNum / 2;
-			shipHP = 2 + 2*waveNum / 3;
-			shipSpeed = (int)((displayWidth/480.0)*5 + waveNum / 2);
+			waveShipsEnd = waveNum*2+8;
+			spawnFreq = 25 - waveNum/2;
+			shipFreq = 25 - waveNum/2;
+			shipHP = 2 + 2*waveNum/3;
+			shipSpeed = (int)((displayWidth/480.0)*(5+waveNum/5));
 			uniqueRarity =  5 + 2*waveNum;
 			shipImage = 2;
 		}
