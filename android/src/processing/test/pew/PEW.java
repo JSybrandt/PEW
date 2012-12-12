@@ -67,6 +67,7 @@ public class PEW extends PApplet{
 	ArrayList<PImage> loadedShipFlashPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedEnemyShipExpPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedPlayerShipExpPics = new ArrayList<PImage>();
+	ArrayList<PImage> loadedBackgroundPics = new ArrayList<PImage>();
 	
 	public void loadImages() {
 		 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -295,6 +296,16 @@ public class PEW extends PApplet{
 		img = loadImage("PlayerExplosion7.png");
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
+		
+		img = loadImage("Background.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedBackgroundPics.add(img);
+		img = loadImage("Background2.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedBackgroundPics.add(img);
+		img = loadImage("Background3.png");
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedBackgroundPics.add(img);
 	}
 
 	BackgroundHandler bghandle = new BackgroundHandler();
@@ -305,6 +316,12 @@ public class PEW extends PApplet{
 
 	public void onStart()
 	{
+		background(0xff000000);
+		textAlign(CENTER);
+		text("LOADING,\n" +
+				"sorry it takes a second.\n" +
+				"Hope it don't break!",
+				displayWidth / 2, displayHeight / 4);
 		//image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
 		super.onStart();
 	}
@@ -312,12 +329,7 @@ public class PEW extends PApplet{
 	
 	
 	public void setup() {
-		background(0xff000000);
-		textAlign(CENTER);
-		text("LOADING,\n" +
-				"sorry it takes a second.\n" +
-				"Hope it don't break!",
-				displayWidth / 2, displayHeight / 4);
+		
 	//	Vibrator.hasVibrator();
 		if(true)
 			canVibrate = true;
@@ -337,7 +349,7 @@ public class PEW extends PApplet{
 		menu = new Menu();
 		showMenu = true;
 		playGame = false;
-		bghandle.setBG("Background.png");
+		bghandle.setBG(0);
 
 		imageMode(CENTER);
 		smooth();
@@ -478,7 +490,8 @@ public class PEW extends PApplet{
 		for (int i = 0; i < enemyShips.size(); i++) {
 			Ship p = (Ship) enemyShips.get(i);
 			if (p.isTouching(player)) {
-				p.blowUp();
+				if(!(p instanceof Cruiser || p instanceof DeathLotus))
+					p.blowUp();
 				player.hit();
 			}
 		}
@@ -809,9 +822,8 @@ public class PEW extends PApplet{
 
 		}
 
-		public void setBG(String img) {
-			bgimg = loadImage(img);
-			bgimg.resize((int)((displayWidth/480.0)*bgimg.width), (int)((displayHeight/800.0)*bgimg.height));
+		public void setBG(int img) {
+			bgimg = loadedBackgroundPics.get(img);
 
 			upcomingImg = bgimg;
 			scrolly = displayHeight;
@@ -836,16 +848,11 @@ public class PEW extends PApplet{
 		public void getNewBG()
 		{
 			int i = gen.nextInt(3);
-			if(i == 0)
-				loadNewImg("Background.png");
-			if(i == 1)
-				loadNewImg("Background2.png");
-			if(i == 2)
-				loadNewImg("Background3.png");
+			loadNewImg(i);
 		}
 
-		public void loadNewImg(String img) {
-			upcomingImg = loadImage(img);
+		public void loadNewImg(int img) {
+			upcomingImg = loadedBackgroundPics.get(img);
 			upcomingScrolly = 0;
 		}
 
@@ -889,9 +896,9 @@ public class PEW extends PApplet{
 		}
 
 		public void detonate() {
-			for (float degree = 0; degree < 2 * PI; degree += PI / 12) {
-				int dispx = (int) (speed * sin(degree)*3);
-				int dispy = (int) (speed * cos(degree)*3);
+			for (float degree = 0; degree < 2 * PI; degree += PI / 6) {
+				int dispx = (int) (speed * sin(degree)*2);
+				int dispy = (int) (speed * cos(degree)*2);
 				new Bullet(locX, locY, dispx, dispy);
 			}
 		}
@@ -1064,7 +1071,10 @@ public class PEW extends PApplet{
 		}
 
 		public void checkTurrentHealths() {
+			boolean foundActiveGun =false;
 			for (int i = guns.size() - 1; i >= 0; i--) {
+				if(guns.get(i)==activeTurret)
+					foundActiveGun = true;
 				if (guns.get(i).getHealth() < 1) {
 					if (guns.get(i) == activeTurret)
 						shooting = false;
@@ -1076,6 +1086,8 @@ public class PEW extends PApplet{
 			if (guns.size() < 1) {
 				blowUp();
 			}
+			if(!foundActiveGun)
+				shooting = false;
 		}
 
 		public ArrayList<Turret> getTurretList() {
@@ -1879,8 +1891,8 @@ public class PEW extends PApplet{
 			img = loadedShipFlashPics.get(0);
 			flashed = true;
 			scoreMultiplyer=1;
-//			if(playerWantsvib)
-//			v.vibrate(300);
+			if(playerWantsvib)
+			v.vibrate(300);
 		}
 		
 		public void incrementGunLev(int i)
@@ -1985,20 +1997,27 @@ public class PEW extends PApplet{
 				if (p.isTouching(shield)) {
 					p.removeSelf();
 				}
-			}	
+			}
+			if(lifeSpan == 50)
+				shield.aboutToDissapate =true;
 		}
 		public void removeEffect() {
 			shield = null;
 		}
 		
 	}
+	
+	
 	public class Shield extends Actor
 	{
+		boolean aboutToDissapate = false;
 		public void move()
 		{
 			radius = (int)(100 * displayWidth/480.0);
 			locX = player.locX;
 			locY = player.locY;
+			image(loadedPics.get(13),player.locX,player.locY);
+			if(!aboutToDissapate)
 			image(loadedPics.get(13),player.locX,player.locY);
 		}
 	}
@@ -2277,7 +2296,7 @@ public class PEW extends PApplet{
 		}
 
 		public void shoot(int locX, int locY) {
-			degree += PI / 12;
+			degree += PI / 10;
 			dispx = (int) (speed * sin(degree));
 			dispy = (int) (speed * cos(degree));
 			new Bullet(locX, locY, dispx, dispy);
@@ -2325,9 +2344,9 @@ public class PEW extends PApplet{
 		}
 
 		public void shoot(int locX, int locY) {
-			for (degree = 0; degree < 2 * PI; degree += PI / 12) {
-				dispx = (int) (speed * sin(degree)*3);
-				dispy = (int) (speed * cos(degree)*3);
+			for (degree = 0; degree < 2 * PI; degree += PI / 6) {
+				dispx = (int) (speed * sin(degree)*2);
+				dispy = (int) (speed * cos(degree)*2);
 				new Bullet(locX, locY, dispx, dispy);
 				// print(""+dispx +","+ dispy);
 			}
