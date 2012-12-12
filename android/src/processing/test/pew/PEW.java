@@ -2692,7 +2692,8 @@ public class PEW extends PApplet{
 		public void animate() {
 			liveCount++;
 			image(currentImg, locX, locY);
-			if(liveCount %3 ==0)
+			if(liveCount %2 ==0)
+			{
 			current++;
 			if(current <= loadedPlayerShipExpPics.size()-1)
 			{
@@ -2702,6 +2703,7 @@ public class PEW extends PApplet{
 				player.removeSelf();
 				playGame = false;
 				showDeath = true;
+			}
 			}
 		}
 	}
