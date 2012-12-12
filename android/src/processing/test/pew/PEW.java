@@ -487,15 +487,16 @@ public class PEW extends PApplet{
 	public void printCredits() {
 		textAlign(CENTER);
 		textSize((int)((displayWidth/480.0)*25));
-		text("Lead Designer -- \nJustin \"Nalta\" Sybrandt\n\n" +
-				"Code Monkey -- \nCaelan \"Darkfire16\" Mayberry\n\n" +
-				"Code Alpaca -- \nMike \"reason\" Boom\n\n"+
-				"Art Master -- \nJosh \"Fa1seEcho\" Walton\n\n" +
+		text("Code Gorilla -- \nJustin \"Nalta\" Sybrandt\n" +
+				"Code Monkey -- \nCaelan \"Darkfire16\" Mayberry\n" +
+				"Code Chimp -- \nMike \"reason\" Boom\n" +
+				"Art Master -- \nJosh \"Fa1seEcho\" Walton\n" +
+				"Concept Art -- \n Ron \"poe_face\" Jenkins\n" +
 				"Test Phone -- \nGeorge's LG      ",
 				displayWidth / 2, displayHeight / 4 );
-		text("AND SPECIAL THANKS TO\n" +
+		text("And special thanks to\n" +
 				"8 BIT WEAPON\n" +
-				"(Click album for link)",
+				"(Click album for link!)",
 				(int)(displayWidth *(2/3.0)),(int)(displayHeight * (5/6.0)));
 		PImage art = loadImage("bandart.png");
 		art.resize((int)(displayWidth *(1/3.0)),(int)(displayHeight*(1/ 6.0)));
@@ -519,19 +520,23 @@ public class PEW extends PApplet{
 	public void printInstructions() {
 		textAlign(CENTER);
 		textSize((int)((displayWidth/480.0)*25));
-		text("Holding down on the touch screen\n" +
-				" both moves and shoots\n" +
+		text("Touch the screen to move\n" +
+				"  and shoot.\n" +
 				"\n" +
-				"Collect coins to increase your score and\n" +
-				"look out for score multipliers,\n" +
-				" they are important!\n" +
-				"Phycadelic Mode temporarily\n" +
-				"increases your multiplier by 10\n" +
-				"you will know it when you see it!" +
+				"Grab coins to increase your score.\n" +
+				"Score multipliers will let you gain\n" +
+				" huge amounts of points, but will\n" +
+				" be lost if you take a hit.\n" +
 				"\n" +
-				"Weapon Powerups are your friend!\n" +
-				"Your health is dependant\n" +
-				"on your gun's level.'\n" +
+				"Certain power-ups temporarily make\n" +
+				" the game much harder, but will\n" +
+				" also drastically increase your\n" +
+				" multiplier for the duration.\n" +
+				"\n" +
+				"Weapon power-ups are vital,\n" +
+				" but be careful!\n" +
+				"Taking damage will power down your\n" +
+				" weapon.\n" +
 				"\n" +
 				"\n" +
 				"DON'T DIE!\n" +
@@ -557,17 +562,17 @@ public class PEW extends PApplet{
 		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		text("Your Highscores are\n"
-				+ "#1: " + highscore.get(0) + "\n"
-				+ "#2: " + highscore.get(1) + "\n"
-				+ "#3: " + highscore.get(2) + "\n"
-				+ "#4: " + highscore.get(3) + "\n"
-				+ "#5: " + highscore.get(4) + "\n"
-				+ "#6: " + highscore.get(5) + "\n"
-				+ "#7: " + highscore.get(6) + "\n"
-				+ "#8: " + highscore.get(7) + "\n"
-				+ "#9: " + highscore.get(8) + "\n"
-				+ "#10: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
+		text("High Scores:\n"
+				+ "1: " + highscore.get(0) + "\n"
+				+ "2: " + highscore.get(1) + "\n"
+				+ "3: " + highscore.get(2) + "\n"
+				+ "4: " + highscore.get(3) + "\n"
+				+ "5: " + highscore.get(4) + "\n"
+				+ "6: " + highscore.get(5) + "\n"
+				+ "7: " + highscore.get(6) + "\n"
+				+ "8: " + highscore.get(7) + "\n"
+				+ "9: " + highscore.get(8) + "\n"
+				+ "10: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
 
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			textSize((int)(displayWidth/480.0)*24);
