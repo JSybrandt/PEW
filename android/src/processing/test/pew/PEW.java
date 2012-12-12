@@ -964,9 +964,6 @@ public class PEW extends PApplet{
 				turretsX[i]=(int)(turretsX[i]*ratiox);
 			for(int i = 0 ; i < 16; i++ )
 				turretsY[i]=(int)(turretsY[i]*ratioy);
-			double gunRange = 0;
-			if (guns.size() > 0)
-				gunRange = 800 / guns.size();
 			for (int i = 0; i < guns.size(); i++) {
 				guns.get(i).moveTo(locX + turretsX[i], locY + turretsY[i]);
 			}
@@ -995,6 +992,12 @@ public class PEW extends PApplet{
 			{
 				int tempY = gen.nextInt(50)-25;
 				new Money(locX+img.width/2-i,locY+tempY, 50);
+			}
+			for(int i = 0; i < img.width; i+=75)
+			{
+				int tempY = gen.nextInt(200)-100;
+			EnemyExplosion s = new EnemyExplosion(locX+img.width/2-i,locY+tempY);		
+			animations.add(s);
 			}
 			level.bossDeath();
 			bghandle.getNewBG();
@@ -1186,7 +1189,14 @@ public class PEW extends PApplet{
 			removeSelf();
 			for (int i=locX-50; i<locX+50; i+=10) {
 				for (int j=locY-50; i<locY+50; i+=10) {
-					new Money(i, j, 8);
+					int r = gen.nextInt(200) - 100;
+					new Money(i, j+r, 8);
+				}
+				for(int b = 0; i < img.width; b+=75)
+				{
+					int r = gen.nextInt(200) - 100;
+				EnemyExplosion s = new EnemyExplosion(locX+img.width/2-b,locY+locY+r);		
+				animations.add(s);
 				}
 				bghandle.getNewBG();
 			}
@@ -1716,7 +1726,7 @@ public class PEW extends PApplet{
 		public void act() {
 			this.removeSelf();
 			player.addMoney(worth);
-			println("+" + worth);
+		//	println("+" + worth);
 		}
 	}
 
@@ -2601,9 +2611,9 @@ public class PEW extends PApplet{
 			if (randomInt == 3) {
 				makeRandPowerUp(locX,locY);
 			}
-			EnemyExplosion s = new EnemyExplosion(locX, locY);
-			sound.play(sound.boom);
+			EnemyExplosion s = new EnemyExplosion(locX, locY);		
 			animations.add(s);
+			sound.play(sound.boom);
 			removeSelf();
 		}
 
