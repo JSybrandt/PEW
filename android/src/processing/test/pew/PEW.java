@@ -316,6 +316,7 @@ public class PEW extends PApplet{
 
 	public void onStart()
 	{
+		
 		background(0xff000000);
 		
 		//image(loadImage("loadingScreen.png"),displayWidth/2,displayHeight/2,displayWidth,displayHeight);
