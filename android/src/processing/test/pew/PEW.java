@@ -300,15 +300,15 @@ public class PEW extends PApplet{
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPlayerShipExpPics.add(img);
 		
-		img = loadImage("Background.png");
-		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
-		loadedBackgroundPics.add(img);
+//		img = loadImage("Background.png");
+//		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
+//		loadedBackgroundPics.add(img);
 		img = loadImage("Background2.png");
 		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
 		loadedBackgroundPics.add(img);
-		img = loadImage("Background3.png");
-		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
-		loadedBackgroundPics.add(img);
+//		img = loadImage("Background3.png");
+//		img.resize((int)((displayWidth/480.0)*img.width*2),(int)((displayHeight/800.0)*img.height*2));
+//		loadedBackgroundPics.add(img);
 	}
 
 	BackgroundHandler bghandle = new BackgroundHandler();
@@ -852,7 +852,7 @@ public class PEW extends PApplet{
 		}
 		public void getNewBG()
 		{
-			int i = gen.nextInt(3);
+			int i = 0;//gen.nextInt(3);
 			loadNewImg(i);
 		}
 
@@ -1335,7 +1335,7 @@ public class PEW extends PApplet{
 			super.act();
 		}
 		public void doEffect() {
-
+			image(loadedPics.get(18),displayWidth/2,displayHeight/2);
 		}
 		public void removeEffect() {
 			player.incrementScoreMultiplyer(-5);
@@ -2018,7 +2018,7 @@ public class PEW extends PApplet{
 					p.removeSelf();
 				}
 			}
-			if(lifeSpan < 100)
+			if(counter == 230)
 				shield.aboutToDissapate =true;
 		}
 		public void removeEffect() {

@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package forever.project.pew;
+package processing.test.pew;
 
 public final class R {
     public static final class attr {
