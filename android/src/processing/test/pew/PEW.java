@@ -145,7 +145,10 @@ public class PEW extends PApplet{
 		img = loadImage("TimeDown.png"); //17
 		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
 		loadedPics.add(img);
-
+		
+		img = loadImage("ScreenFlashWhite.png"); //18
+		img.resize((int)((displayWidth/480.0)*img.width),(int)((displayHeight/800.0)*img.height));
+		loadedPics.add(img);
 		
 		
 		img = loadImage("spaceship.png");// #0
@@ -1349,7 +1352,7 @@ public class PEW extends PApplet{
 			super.act();
 		}
 		public void doEffect(){
-			
+			image(loadedPics.get(18),displayWidth/2,displayHeight/2);
 		}
 		public void removeEffect() {
 			frameRate(30);
