@@ -17,6 +17,8 @@ import android.content.res.AssetFileDescriptor;
 import android.os.Vibrator;
 import android.content.Context;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -109,7 +111,7 @@ public class PEW extends PApplet{
    
 	public void loadImages() {
 		 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		Bitmap img;
+		Bitmap img = null;
 		PImage newimg;
 		
 		img = decodeSampledBitmapFromFile("bullet.png",
