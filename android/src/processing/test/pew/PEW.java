@@ -871,7 +871,7 @@ public class PEW extends PApplet{
 		int speed;
 
 		Bomb(int locX, int locY) {
-			super(locX, locY, 6, 0, 5);
+			super(locX, locY, 6, 0, 4);
 			count = 0;
 			lifeSpan = 75;
 			speed = (int)((displayWidth/480.0)*4);
@@ -896,7 +896,7 @@ public class PEW extends PApplet{
 		}
 
 		public void detonate() {
-			for (float degree = 0; degree < 2 * PI; degree += PI / 6) {
+			for (float degree = 0; degree < 2 * PI; degree += PI / 4) {
 				int dispx = (int) (speed * sin(degree)*2);
 				int dispy = (int) (speed * cos(degree)*2);
 				new Bullet(locX, locY, dispx, dispy);
@@ -2001,7 +2001,7 @@ public class PEW extends PApplet{
 					p.removeSelf();
 				}
 			}
-			if(lifeSpan == 50)
+			if(lifeSpan < 100)
 				shield.aboutToDissapate =true;
 		}
 		public void removeEffect() {
@@ -2682,6 +2682,7 @@ public class PEW extends PApplet{
 	}
 	
 	public class PlayerExplosion extends Animation {
+		int liveCount = 0;
 		PlayerExplosion(int x, int y) {
 			super(x,y);
 			current = 0;
@@ -2689,7 +2690,9 @@ public class PEW extends PApplet{
 		}
 		
 		public void animate() {
+			liveCount++;
 			image(currentImg, locX, locY);
+			if(liveCount %3 ==0)
 			current++;
 			if(current <= loadedPlayerShipExpPics.size()-1)
 			{
