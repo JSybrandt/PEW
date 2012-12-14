@@ -6,6 +6,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.swarmconnect.Swarm;
+import com.swarmconnect.SwarmActiveUser;
+import com.swarmconnect.SwarmLeaderboard;
+import com.swarmconnect.SwarmLeaderboard.GotLeaderboardCB;
+import com.swarmconnect.delegates.SwarmLoginListener;
+
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
@@ -14,6 +20,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.content.res.AssetFileDescriptor;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.content.Context;
 
@@ -22,6 +29,20 @@ import android.net.Uri;
 
 public class PEW extends PApplet{
 
+	
+    protected static SwarmLeaderboard leaderboard;
+
+
+	GotLeaderboardCB callback = new GotLeaderboardCB() {
+        public void gotLeaderboard(SwarmLeaderboard leaderboard) {
+
+    	if (leaderboard != null) {
+
+                // Save the leaderboard for later use
+               PEW.leaderboard = leaderboard;
+            }
+        }
+    };
 	
 	
 	boolean canVibrate = false;
@@ -316,7 +337,12 @@ public class PEW extends PApplet{
 	Sounds sound = new Sounds();
 	MediaPlayer mediaPlayer = null;
 	
-
+	
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	    Swarm.setActive(this);
+	    Swarm.init(this, 2501, "fb8006f9eb81ab4c35d18b17aea9b433",mySwarmLoginListener);
+	}
 	public void onStart()
 	{
 		
@@ -574,29 +600,33 @@ public class PEW extends PApplet{
 	}
 
 	public void printHighScores() {
-		importHighscore();
+//		importHighscore();
+//		
+//		textAlign(CENTER);
+//		textSize((int)((displayWidth/480.0)*25));
+//		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
+//				displayWidth, displayHeight / 6);
+//		text("High Scores:\n"
+//				+ "1: " + highscore.get(0) + "\n"
+//				+ "2: " + highscore.get(1) + "\n"
+//				+ "3: " + highscore.get(2) + "\n"
+//				+ "4: " + highscore.get(3) + "\n"
+//				+ "5: " + highscore.get(4) + "\n"
+//				+ "6: " + highscore.get(5) + "\n"
+//				+ "7: " + highscore.get(6) + "\n"
+//				+ "8: " + highscore.get(7) + "\n"
+//				+ "9: " + highscore.get(8) + "\n"
+//				+ "10: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
+//
+//		if (mousePressed && mouseY < displayHeight / 6.0f) {
+//			textSize((int)(displayWidth/480.0)*24);
+//			showMenu = true;
+//			showHighScore = false;
+//		}
 		
-		textAlign(CENTER);
-		textSize((int)((displayWidth/480.0)*25));
-		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
-				displayWidth, displayHeight / 6);
-		text("High Scores:\n"
-				+ "1: " + highscore.get(0) + "\n"
-				+ "2: " + highscore.get(1) + "\n"
-				+ "3: " + highscore.get(2) + "\n"
-				+ "4: " + highscore.get(3) + "\n"
-				+ "5: " + highscore.get(4) + "\n"
-				+ "6: " + highscore.get(5) + "\n"
-				+ "7: " + highscore.get(6) + "\n"
-				+ "8: " + highscore.get(7) + "\n"
-				+ "9: " + highscore.get(8) + "\n"
-				+ "10: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
-
-		if (mousePressed && mouseY < displayHeight / 6.0f) {
-			textSize((int)(displayWidth/480.0)*24);
-			showMenu = true;
-			showHighScore = false;
-		}
+		if (PEW.leaderboard != null) {
+		    PEW.leaderboard.showLeaderboard();
+		} 
 	}
 
 	public class ToggleButton
@@ -748,6 +778,7 @@ public class PEW extends PApplet{
 	}
 	
 	public void onPause() {
+		Swarm.setInactive(this);
 		showMenu = false;
 		if (soundPool != null) { // must be checked because or else crash when
 			// return from landscape mode
@@ -770,6 +801,7 @@ public class PEW extends PApplet{
 
 	public void onResume()
 	{
+		Swarm.setActive(this);
 		showCredits = false;
 		playGame = false;
 		showHighScore = false;
@@ -1241,6 +1273,7 @@ public class PEW extends PApplet{
 
 	}
 
+	boolean scoreSubmitted = false;
 	void GameOverMessage(String msg) {
 		for(int i = 0; i < activePowerUps.size(); i++)
 		{
@@ -1274,6 +1307,12 @@ public class PEW extends PApplet{
 		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore.get(0) + "\n" +
 		"Your Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 2);
 
+		if (PEW.leaderboard != null && !scoreSubmitted) {
+		    // Then submit the score
+		    PEW.leaderboard.submitScore(highscore.get(0));
+		    print("Boom goes the  dynamite");
+		    scoreSubmitted = true;
+		} 
 		if (mousePressed && mouseY < displayHeight / 6) {
 			level.reset();
 			enemyShips.clear();
@@ -1667,7 +1706,7 @@ public class PEW extends PApplet{
 			
 			if(playerWantsbgSound)
 			{
-				if(mediaPlayer.isPlaying())
+				if(!mediaPlayer.isPlaying())
 				mediaPlayer.start();
 			}
 			else if(mediaPlayer.isPlaying())
@@ -1685,6 +1724,7 @@ public class PEW extends PApplet{
 
 					showMenu = false;
 					playGame = true;
+					scoreSubmitted = false;
 					
 				}
 			}
@@ -2742,4 +2782,26 @@ public class PEW extends PApplet{
 		i.setData(Uri.parse(url));
 		startActivity(i);
 	}
+	
+	private SwarmLoginListener mySwarmLoginListener = new SwarmLoginListener() {
+
+		// This method is called when the login process has started
+		// (when a login dialog is displayed to the user).
+		public void loginStarted() {
+		}
+
+		// This method is called if the user cancels the login process.
+		public void loginCanceled() {
+		}
+
+		// This method is called when the user has successfully logged in.
+		public void userLoggedIn(SwarmActiveUser user) {
+			SwarmLeaderboard.getLeaderboardById(4343, callback);
+		}
+
+		// This method is called when the user logs out.
+		public void userLoggedOut() {
+		}
+
+	};
 }
