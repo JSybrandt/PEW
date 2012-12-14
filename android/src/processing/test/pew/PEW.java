@@ -15,6 +15,7 @@ import com.swarmconnect.delegates.SwarmLoginListener;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
+import android.widget.Button;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -22,6 +23,7 @@ import android.media.SoundPool;
 import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.View;
 import android.content.Context;
 
 import android.content.Intent;
@@ -341,8 +343,11 @@ public class PEW extends PApplet{
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    Swarm.setActive(this);
-	    Swarm.init(this, 2501, "fb8006f9eb81ab4c35d18b17aea9b433",mySwarmLoginListener);
-	}
+	 //   if ( Swarm.isEnabled() ) {
+	    	 Swarm.init(this, 2501, "fb8006f9eb81ab4c35d18b17aea9b433",mySwarmLoginListener);
+        }
+	    
+//	}
 	public void onStart()
 	{
 		
@@ -600,30 +605,34 @@ public class PEW extends PApplet{
 	}
 
 	public void printHighScores() {
-//		importHighscore();
-//		
-//		textAlign(CENTER);
-//		textSize((int)((displayWidth/480.0)*25));
-//		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
-//				displayWidth, displayHeight / 6);
-//		text("High Scores:\n"
-//				+ "1: " + highscore.get(0) + "\n"
-//				+ "2: " + highscore.get(1) + "\n"
-//				+ "3: " + highscore.get(2) + "\n"
-//				+ "4: " + highscore.get(3) + "\n"
-//				+ "5: " + highscore.get(4) + "\n"
-//				+ "6: " + highscore.get(5) + "\n"
-//				+ "7: " + highscore.get(6) + "\n"
-//				+ "8: " + highscore.get(7) + "\n"
-//				+ "9: " + highscore.get(8) + "\n"
-//				+ "10: " + highscore.get(9) + "\n", displayWidth / 2, displayHeight / 4);
-//
-//		if (mousePressed && mouseY < displayHeight / 6.0f) {
-//			textSize((int)(displayWidth/480.0)*24);
-//			showMenu = true;
-//			showHighScore = false;
-//		}
+		importHighscore();
+		String highscorePrinting = "";
+		for(int i = 0; i<10;i++)
+		{
+			if(highscore.get(i)>0)
+				highscorePrinting+= "#"+(i+1)+": "+highscore.get(i)+"\n";
+		}
+		textAlign(CENTER);
+		textSize((int)((displayWidth/480.0)*25));
+		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
+				displayWidth, displayHeight / 6);
+		if ( Swarm.isEnabled() ) 
+		image(loadImage("OnlineHighScores.png"), displayWidth / 2, (int)(displayHeight * (11/ 12.0)),
+				displayWidth, displayHeight / 6);
+		if(highscorePrinting.compareTo("")==0)
+			text("THERE ARE NO\nLOCAL HIGHSCORES YET\n" +
+					"YOU SHOULD PROBABLY\nPLAY THE GAME MORE!", displayWidth / 2, displayHeight / 4);
+		else	
+		text("Local High Scores:\n"
+				+ highscorePrinting, displayWidth / 2, displayHeight / 4);
+
+		if (mousePressed && mouseY < displayHeight / 6.0f) {
+			textSize((int)(displayWidth/480.0)*24);
+			showMenu = true;
+			showHighScore = false;
+		}
 		
+		if(mousePressed && mouseY > (displayHeight*5/6.0))
 		if (PEW.leaderboard != null) {
 		    PEW.leaderboard.showLeaderboard();
 		} 
@@ -1290,14 +1299,12 @@ public class PEW extends PApplet{
 				sign = "#";
 				break;
 			}
-			if(number == 9)
-			{
-				sign = "less than #";
-				break;
-			}
-			
 		}
-		
+		if(number == 10)
+		{
+			sign = "less than #";
+			number = 9;
+		}
 		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
@@ -1305,16 +1312,16 @@ public class PEW extends PApplet{
 		fill(110, 50, 255);
 		textAlign(CENTER);
 		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore.get(0) + "\n" +
-		"Your Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 2);
+		"Your Local Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 2);
 
-		if (PEW.leaderboard != null && !scoreSubmitted) {
+		if (PEW.leaderboard != null && !scoreSubmitted && number < 10) {
 		    // Then submit the score
-		    PEW.leaderboard.submitScore(highscore.get(0));
+		    PEW.leaderboard.submitScore(highscore.get(number));
 		    print("Boom goes the  dynamite");
 		    scoreSubmitted = true;
 		} 
 		if (mousePressed && mouseY < displayHeight / 6) {
-			level.reset();
+		level.reset();
 			enemyShips.clear();
 			enemyBullets.clear();
 			playerBullets.clear();
@@ -1379,7 +1386,7 @@ public class PEW extends PApplet{
 		public void removeEffect() {
 			player.incrementScoreMultiplyer(-5);
 			frameRate(30);
-			player.incrementScoreMultiplyer(-5);
+		
 		}
 	}
 	
