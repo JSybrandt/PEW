@@ -92,7 +92,11 @@ public class PEW extends PApplet{
 	ArrayList<PImage> loadedPlayerShipExpPics = new ArrayList<PImage>();
 	ArrayList<PImage> loadedBackgroundPics = new ArrayList<PImage>();
 	
+	
+	PImage swarmButton;
 	public void loadImages() {
+		swarmButton = loadImage("swarmbutton.png");
+		swarmButton.resize((int)((displayWidth/480.0)*swarmButton.width),(int)((displayHeight/800.0)*swarmButton.height));
 		 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		PImage img;
 		
@@ -1722,10 +1726,10 @@ public class PEW extends PApplet{
 
 			spawning = false;
 			playGame = false;
-
+			
 			image(MenuImage, displayWidth / 2, displayHeight / 2, displayWidth,
 					displayHeight);
-
+			image(swarmButton, swarmButton.width/2,swarmButton.height/2);
 			if (overBox(PlayX, PlayY, playSizeX, playSizeY)) {
 				if (mousePressed == true) {
 
