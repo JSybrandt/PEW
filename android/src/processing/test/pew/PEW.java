@@ -96,7 +96,7 @@ public class PEW extends PApplet{
 	PImage swarmButton;
 	public void loadImages() {
 		swarmButton = loadImage("swarmbutton.png");
-		swarmButton.resize((int)((displayWidth/480.0)*swarmButton.width),(int)((displayHeight/800.0)*swarmButton.height));
+		//swarmButton.resize((int)((displayWidth/480.0)*swarmButton.width),(int)((displayHeight/800.0)*swarmButton.height));
 		 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		PImage img;
 		
@@ -347,11 +347,9 @@ public class PEW extends PApplet{
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    Swarm.setActive(this);
-	 //   if ( Swarm.isEnabled() ) {
+	    	if ( Swarm.isEnabled() ) 
 	    	 Swarm.init(this, 2501, "fb8006f9eb81ab4c35d18b17aea9b433",mySwarmLoginListener);
-        }
-	    
-//	}
+	}
 	public void onStart()
 	{
 		
@@ -381,7 +379,7 @@ public class PEW extends PApplet{
 		
 		sound.setUp();
 
-		fontG = createFont("Constantia", ((int)((displayWidth/480.0)*48)));
+		fontG = createFont("Constantia", ((int)((displayWidth/480.0)*30)));
 
 		importHighscore();
 
@@ -620,9 +618,7 @@ public class PEW extends PApplet{
 		textSize((int)((displayWidth/480.0)*25));
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
-		if ( Swarm.isEnabled() ) 
-		image(loadImage("OnlineHighScores.png"), displayWidth / 2, (int)(displayHeight * (11/ 12.0)),
-				displayWidth, displayHeight / 6);
+		
 		if(highscorePrinting.compareTo("")==0)
 			text("THERE ARE NO\nLOCAL HIGHSCORES YET\n" +
 					"YOU SHOULD PROBABLY\nPLAY THE GAME MORE!", displayWidth / 2, displayHeight / 4);
@@ -635,11 +631,15 @@ public class PEW extends PApplet{
 			showMenu = true;
 			showHighScore = false;
 		}
-		
+		if ( Swarm.isEnabled() ) 
+		{
+			image(loadImage("OnlineHighScores.png"), displayWidth / 2, (int)(displayHeight * (11/ 12.0)),
+					displayWidth, displayHeight / 6);
 		if(mousePressed && mouseY > (displayHeight*5/6.0))
 		if (PEW.leaderboard != null) {
 		    PEW.leaderboard.showLeaderboard();
 		} 
+		}
 	}
 
 	public class ToggleButton
@@ -688,7 +688,7 @@ public class PEW extends PApplet{
 		BackgroundSoundButton()
 		{
 		super(loadImage("OptionsMusicOn.png"),loadImage("OptionsMusicOff.png") ,
-				displayWidth / 2,(int)(displayHeight*(4 / 12.0)));
+				displayWidth / 2,(int)(displayHeight*(3 / 12.0)));
 		}
 		public void doSomething()
 		{
@@ -711,7 +711,7 @@ public class PEW extends PApplet{
 		CuedSoundButton()
 		{
 		super(loadImage("OptionsSoundEffectsOn.png"),loadImage("OptionsSoundEffectsOff.png") ,
-				displayWidth / 2,(int)(displayHeight*(6 / 12.0)));
+				displayWidth / 2,(int)(displayHeight*(5 / 12.0)));
 		}
 		public void doSomething()
 		{
@@ -725,7 +725,7 @@ public class PEW extends PApplet{
 		VibrationButton()
 		{
 		super(loadImage("OptionsVibrationOn.png"),loadImage("OptionsVibrationOff.png") ,
-				displayWidth / 2,(int)(displayHeight*(8 / 12.0)));
+				displayWidth / 2,(int)(displayHeight*(7 / 12.0)));
 		}
 		public void doSomething()
 		{
@@ -733,10 +733,27 @@ public class PEW extends PApplet{
 			super.doSomething();
 		}
 	}
+	public class SwarmButton extends ToggleButton
+	{
+		SwarmButton()
+		{
+		super(swarmButton,swarmButton ,
+				displayWidth / 2,(int)(displayHeight*(9 / 12.0)));
+		}
+		public void doSomething()
+		{
+			 if (! Swarm.isInitialized() ) {
+				 Swarm.init(PEW.this, 2501, "fb8006f9eb81ab4c35d18b17aea9b433",mySwarmLoginListener);
+             }
+			 else
+				 Swarm.showDashboard();
+		}
+	}
 	
 	BackgroundSoundButton bgbutton = null;
 	CuedSoundButton qsoundbutt = null;
 	VibrationButton vibbutt = null;
+	SwarmButton swarmbutt = null;
 	public void printOptions() {
 			image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 						displayWidth, displayHeight / 6);
@@ -752,6 +769,10 @@ public class PEW extends PApplet{
 			vibbutt = new VibrationButton();
 		vibbutt.printSelf();
 		vibbutt.checkClick();
+		if(swarmbutt == null)
+			swarmbutt = new SwarmButton();
+		swarmbutt.printSelf();
+		swarmbutt.checkClick();
 		
 		if (mousePressed && mouseY < displayHeight / 6.0f) {
 			
@@ -1309,16 +1330,20 @@ public class PEW extends PApplet{
 			sign = "less than #";
 			number = 9;
 		}
-		
 		image(loadImage("Back.png"), displayWidth / 2, displayHeight / 12,
 				displayWidth, displayHeight / 6);
 		textFont(fontG);
 		fill(110, 50, 255);
 		textAlign(CENTER);
 		text(msg + "\nScore: " + points + "\nHigh Score: " + highscore.get(0) + "\n" +
-		"Your Local Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 2);
-
-		if (PEW.leaderboard != null && !scoreSubmitted && number < 10) {
+		"Your Local Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 3);
+		//if (! Swarm.isInitialized() )
+			//text("PROTIP:\nOnline Leaderboards are avalable!\nClick the swarn button\nin the options menu!",	displayWidth / 2, (int)(displayHeight * 2/3.-0));
+		text("Seconds Survived: "+(player.ticksSurvived/30.0)+"\n" +
+				"Bullets Fired: "+ player.bulletsFired+"\n"+
+				"Hits Taken: "+ player.hitsTaken+"\n" +
+				"Highest Multiplier: " + player.highestMultiplier,	displayWidth / 2, (int)(displayHeight * 2/3.0));
+		if (Swarm.isInitialized()&&PEW.leaderboard != null && !scoreSubmitted && number < 10) {
 		    // Then submit the score
 		    PEW.leaderboard.submitScore(highscore.get(number));
 		    print("Boom goes the  dynamite");
@@ -1729,7 +1754,7 @@ public class PEW extends PApplet{
 			
 			image(MenuImage, displayWidth / 2, displayHeight / 2, displayWidth,
 					displayHeight);
-			image(swarmButton, swarmButton.width/2,swarmButton.height/2);
+			
 			if (overBox(PlayX, PlayY, playSizeX, playSizeY)) {
 				if (mousePressed == true) {
 
@@ -1889,6 +1914,7 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
+		public int bulletsFired, ticksSurvived, hitsTaken,highestMultiplier;
 
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
@@ -1901,9 +1927,20 @@ public class PEW extends PApplet{
 			flashed = false;
 			gunLev = 1;
 			scoreMultiplyer = 1;
+			bulletsFired = 0;
+			ticksSurvived = 0;
+			hitsTaken = 0;
+			highestMultiplier=0;
+		}
+		public void resetStats()
+		{
+			bulletsFired = 0;
+			ticksSurvived = 0;
+			hitsTaken = 0;
 		}
 		public void act()
 		{
+			ticksSurvived++;
 			if (mousePressed) {
 				player.move();
 				if (tick % 3 == 0)
@@ -1958,6 +1995,7 @@ public class PEW extends PApplet{
 		boolean left = false;
 		public void hit()
 		{
+			hitsTaken++;
 			incrementGunLev(-1);
 			img = loadedShipFlashPics.get(0);
 			flashed = true;
@@ -1991,6 +2029,7 @@ public class PEW extends PApplet{
 				}
 		}
 		public void shoot() {	
+			bulletsFired+=gunLev;
 			weapon.shoot(locX, locY);
 		}
 		public void incrementScoreMultiplyer(int i)
@@ -1998,6 +2037,8 @@ public class PEW extends PApplet{
 			scoreMultiplyer+=i;
 			if(scoreMultiplyer<1)
 				scoreMultiplyer=1;
+			if(scoreMultiplyer > highestMultiplier)
+				highestMultiplier = scoreMultiplyer;
 		}
 
 		public void blowUp() {
@@ -2815,4 +2856,5 @@ public class PEW extends PApplet{
 		}
 
 	};
+	
 }
