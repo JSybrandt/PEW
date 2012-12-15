@@ -4,13 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 import com.swarmconnect.Swarm;
+import com.swarmconnect.SwarmAchievement.GotAchievementsMapCB;
 import com.swarmconnect.SwarmActiveUser;
 import com.swarmconnect.SwarmLeaderboard;
 import com.swarmconnect.SwarmLeaderboard.GotLeaderboardCB;
 import com.swarmconnect.delegates.SwarmLoginListener;
+import com.swarmconnect.SwarmAchievement;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -33,7 +36,7 @@ public class PEW extends PApplet{
 
 	
     protected static SwarmLeaderboard leaderboard;
-
+    protected static Map<Integer, SwarmAchievement> achievements;
 
 	GotLeaderboardCB callback = new GotLeaderboardCB() {
         public void gotLeaderboard(SwarmLeaderboard leaderboard) {
@@ -45,6 +48,14 @@ public class PEW extends PApplet{
             }
         }
     };
+    GotAchievementsMapCB acheivementCallback = new GotAchievementsMapCB() {
+
+        public void gotMap(Map<Integer, SwarmAchievement> achievements) {
+
+            // Store the map of achievements somewhere to be used later.
+            PEW.achievements = achievements;
+        }
+    }; 
 	
 	
 	boolean canVibrate = false;
@@ -786,13 +797,72 @@ public class PEW extends PApplet{
 		if(scoreCalled == false) {
 		updateHighscore();
 		println("UPDATED SCORE");
-
+		checkAcheivements();
 		scoreCalled = true;
 		}
 		GameOverMessage(GO);
 	}
 
-
+	public void checkAcheivements()
+	{
+		 // Make sure that we have our achievements map.
+	    if (PEW.achievements != null) {
+	    	if(player.highestMultiplier>=42){
+	    	 SwarmAchievement achievement = PEW.achievements.get(6763);//life the universe and everything
+	    	 if (achievement != null && achievement.unlocked == false) {
+	            achievement.unlock();
+	        }
+	    	}
+	    	if(points>=69661){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6765);//oh ginger snap
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(points>=154286){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6767);//i swear it wast a glitch
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(player.hitsTaken>=30){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6771);//never give up
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(player.ticksSurvived/30 <=5){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6775);//neversay die
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(points>=161966){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6781);//Oh my goodness
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(player.hitsAbsorbed>=200){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6783);//we'll fight in the shade
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(player.enemiesKilled>=1000){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6779);//you cant take the skies from me
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    	if(player.bulletsFired>=9000){
+		    	 SwarmAchievement achievement = PEW.achievements.get(6777);//over 9000
+		    	 if (achievement != null && achievement.unlocked == false) {
+		            achievement.unlock();
+		        }
+		    	}
+	    }
+	}
 	public void onStop() {
 		if (soundPool != null) { // must be checked because or else crash when
 			// return from landscape mode
@@ -1003,10 +1073,10 @@ public class PEW extends PApplet{
 
 	public class Cruiser extends enemyShip {
 		ArrayList<Turret> guns;
-		int[] turretsX = { -600, -530, -470, -420, -376, -340, -296, -150, -90,
-				-30, 30, 100, 220, 300, 370, 450 };
-		int[] turretsY = { 136, 136, 136, 90, 18, 90, 18, 162, 162, 162, 162,
-				166, 82, 82, 82, 82 };
+		int[] turretsX = { -590, -541, -483, -418, -375, -341, -299, -149, -92,
+				-35, 23, 104, 219, 295, 372, 449 };
+		int[] turretsY = {124,124,124, 64, -5, 64, -5, 149,149,149,149,
+				145, 65,65,65,65 };
 		int count;
 		boolean moving, shooting, flyingIn;
 		int activeGun;
@@ -1058,6 +1128,7 @@ public class PEW extends PApplet{
 		}
 		public void blowUp()
 		{
+			
 			for(int i = 0; i < img.width; i+=20)
 			{
 				int tempY = gen.nextInt(50)-25;
@@ -1342,6 +1413,8 @@ public class PEW extends PApplet{
 		text("Seconds Survived: "+(int)(player.ticksSurvived/30.0)+"\n" +
 				"Bullets Fired: "+ player.bulletsFired+"\n"+
 				"Hits Taken: "+ player.hitsTaken+"\n" +
+				"Enemies Killed: "+ player.enemiesKilled+"\n" +
+				"Hits Absorbed: " + player.hitsAbsorbed+"\n"+
 				"Highest Multiplier: " + player.highestMultiplier,	displayWidth / 2, (int)(displayHeight * 2/3.0));
 		if (Swarm.isInitialized()&&PEW.leaderboard != null && !scoreSubmitted && number < 10) {
 		    // Then submit the score
@@ -1914,7 +1987,7 @@ public class PEW extends PApplet{
 	class PlayerShip extends Ship {
 		int gunLev, scoreMultiplyer;
 		boolean flashed;
-		public int bulletsFired, ticksSurvived, hitsTaken,highestMultiplier;
+		public int bulletsFired, ticksSurvived, hitsTaken,highestMultiplier, hitsAbsorbed,enemiesKilled;
 
 		public PlayerShip(int xpos, int ypos) {
 			super(0);
@@ -1931,6 +2004,7 @@ public class PEW extends PApplet{
 			ticksSurvived = 0;
 			hitsTaken = 0;
 			highestMultiplier=0;
+			hitsAbsorbed = 0;
 		}
 		public void resetStats()
 		{
@@ -2108,6 +2182,7 @@ public class PEW extends PApplet{
 				Projectile p = (Projectile) enemyBullets.get(i);
 				if (p.isTouching(shield)) {
 					p.removeSelf();
+					player.hitsAbsorbed++;
 				}
 			}
 			if(counter == 230)
@@ -2703,7 +2778,7 @@ public class PEW extends PApplet{
 		}
 
 		public void blowUp() {
-			
+			player.enemiesKilled++;
 			int w = gen.nextInt(6) + 20;
 			new Money(locX, locY, w);
 			int randomInt = gen.nextInt(5);
@@ -2849,6 +2924,7 @@ public class PEW extends PApplet{
 		// This method is called when the user has successfully logged in.
 		public void userLoggedIn(SwarmActiveUser user) {
 			SwarmLeaderboard.getLeaderboardById(4343, callback);
+			SwarmAchievement.getAchievementsMap(acheivementCallback);
 		}
 
 		// This method is called when the user logs out.
