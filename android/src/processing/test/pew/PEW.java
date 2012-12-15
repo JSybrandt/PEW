@@ -1339,7 +1339,7 @@ public class PEW extends PApplet{
 		"Your Local Score is\n" + sign + (number+1) + " ",	displayWidth / 2, displayHeight / 3);
 		//if (! Swarm.isInitialized() )
 			//text("PROTIP:\nOnline Leaderboards are avalable!\nClick the swarn button\nin the options menu!",	displayWidth / 2, (int)(displayHeight * 2/3.-0));
-		text("Seconds Survived: "+(player.ticksSurvived/30.0)+"\n" +
+		text("Seconds Survived: "+(int)(player.ticksSurvived/30.0)+"\n" +
 				"Bullets Fired: "+ player.bulletsFired+"\n"+
 				"Hits Taken: "+ player.hitsTaken+"\n" +
 				"Highest Multiplier: " + player.highestMultiplier,	displayWidth / 2, (int)(displayHeight * 2/3.0));
